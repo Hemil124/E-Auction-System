@@ -6,13 +6,13 @@
         <?php
         session_start();
         ?>
-        <meta charset="UTF-8">
+        <!--<meta charset="UTF-8">-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        <link rel="stylesheet" href="+"
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Sbidu - Bid And Auction HTML Template</title>
+        <title>E-Auction</title>
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
@@ -77,7 +77,8 @@
                     <div class="header-wrapper">
                         <div class="logo">
                             <a href="index.php">
-                                <img src="assets/images/logo/logo.png" alt="logo">
+
+                                <img src="assets/images/logo/logo.png" alt="logo"/>
                             </a>
                         </div>
                         <ul class="menu ml-auto">
@@ -195,7 +196,7 @@
         <div class="cart-sidebar-area">
             <div class="top-content">
                 <a href="index.php" class="logo">
-                    <img src="assets/images/logo/logo2.png" alt="logo">
+                    <img src="assets/images/logo/logo2.png" alt="logo"/>
                 </a>
                 <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
             </div>
@@ -291,7 +292,7 @@
                             <p>We're happy you're here!</p>
                         </div>
                         <ul class="login-with">
-                            
+
                             <li>
                                 <a href="#0" id="login"><i class="fab fa-google-plus"></i>Log in with Google</a>
                             </li>
@@ -299,14 +300,14 @@
                         <div class="or">
                             <span>Or</span>
                         </div>
-                        <form class="login-form" method="post" action="#">
+                        <form class="login-form" method="post" action="">
                             <div class="form-group mb-30">
-                                <label for="signup-fname"><i class="fa-solid fa-user"></i></label>
+                                <label for="signup-fname"><i class="fa fa-user"></i></label>
                                 <input type="text" id="signup-fname" placeholder="First Name" name="txtfirstname"
                                        <?php if (isset($_POST['txtfirstname'])) echo 'value="' . htmlspecialchars($_POST['txtfirstname']) . '"'; ?> required>
                             </div>
                             <div class="form-group mb-30">
-                                <label for="signup-lname"><i class="fa-solid fa-user"></i></label>
+                                <label for="signup-lname"><i class="fa fa-user"></i></label>
                                 <input type="text" id="signup-lname" placeholder="Last Name" name="txtlastname"
                                        <?php if (isset($_POST['txtlastname'])) echo 'value="' . htmlspecialchars($_POST['txtlastname']) . '"'; ?> required>
                             </div>
@@ -315,7 +316,7 @@
                             <div class="form-group mb-30" id="a">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label for="signup-number"><i class="fa-solid fa-phone"></i></label>
+                                        <label for="signup-number"><i class="fa fa-phone"></i></label>
                                         <input type="tel" id="signup-number" placeholder="Mobile Number" name="txtMobileNo" pattern="[0-9]{10}" maxlength="10"
                                                <?php if (isset($_POST['txtMobileNo'])) echo 'value="' . htmlspecialchars($_POST['txtMobileNo']) . '"'; ?> required>
                                     </div>
@@ -323,7 +324,7 @@
 
                                     <div class="col-sm-6">
                                         <div class="form-group mb-0">
-                                            <label for="signup-dob"><i class="fa-solid fa-calendar"></i></label>
+                                            <label for="signup-dob"><i class="fa fa-calendar"></i></label>
                                             <input type="date" id="signup-dob" name="dob"
                                                    <?php if (isset($_POST['dob'])) echo 'value="' . htmlspecialchars($_POST['dob']) . '"'; ?>required>
                                         </div>
@@ -339,10 +340,11 @@
                                                <?php if (isset($_POST['txtemail'])) echo 'value="' . htmlspecialchars($_POST['txtemail']) . '"'; ?> required>
                                     </div>
                                     <div class="col-sm-6" id="a">
-                                        <div class="form-group mb-0">
+                                        <div class="form-group mb-0">   
                                             <button type="submit" class="custom-button"  name="btnsend">Send OTP</button>
                                         </div>
                                     </div>
+                                    
                                 </div>
 
 
@@ -352,14 +354,20 @@
 
                             <div class="form-group mb-30" id="a">
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <label for="signup-number"><i class="fa-solid fa-phone"></i></label>
+                                    <div class="col-sm-5">
+                                        <label for="signup-number"><i class="fa fa-key"></i></label>
                                         <input type="tel" id="txtotp" placeholder="Enter OTP" name="otp" pattern="[0-9]{6}" maxlength="6"
                                                <?php if (isset($_POST['otp'])) echo 'value="' . htmlspecialchars($_POST['otp']) . '"'; ?>>
+                                    </div>
+                                    <div class="col-sm-1" id="a">
+                                        <div class="form-group mb-0">   
+                                            <p class="timer"><span id="timer"></span></p>
+                                        </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group mb-0">
                                             <button type="submit" class="custom-button"  name="btnvarify" >Varify OTP</button>
+
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -420,9 +428,20 @@
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $otpexpire = 0;
+
+            //0= otp is not expire
+            //1= otp is  expire
             if (isset($_POST['btnsend'])) {
                 sendOTP();
-            } elseif (isset($_POST['btnvarify'])) {
+            }
+            $currentTime = time();
+            $endTime = $currentTime + 120;
+            $timestamp = $_SERVER["REQUEST_TIME"];
+            if (($timestamp - $_SESSION["TIME"]) > 120) {  // 300 refers to 300 seconds
+                echo '<script>alert("OTP expired. Pls. try again.");</script>';
+                $otpexpire = 1;
+            } elseif (isset($_POST['btnvarify']) and $otpexpire == 0) {
                 verifyOTP();
             } elseif (isset($_POST['btnResend'])) {
                 resendOTP();
@@ -434,7 +453,7 @@
         function sendOTP() {
             if (isset($_POST['txtemail'])) {
                 sendEmail($_POST['txtemail']);
-                $varifyemail=$_SESSION['vemail'];
+                $_SESSION['vemail'] = $_POST['txtemail'];
             }
         }
 
@@ -452,7 +471,10 @@
             require 'C:\xampp\htdocs\E-Auction\PHPMailer-master\src\SMTP.php';
 
             try {
-                $otp = mt_rand(100000, 999999);
+                // $otp = mt_rand(100000, 999999);
+                $otp = 111111;
+                $timestamp = $_SERVER["REQUEST_TIME"];
+                $_SESSION["TIME"] = $timestamp;
 
                 $mail = new PHPMailer(true);
 
@@ -492,9 +514,8 @@
                 $enteredOTP = $_POST['otp'];
                 $storedOTP = $_SESSION['otp'];
                 $email = $_SESSION['email'];
-                if($enteredOTP== null)
-                {
-                     echo '<script>alert("Enter OTP First");</script>';
+                if ($enteredOTP == null) {
+                    echo '<script>alert("Enter OTP First");</script>';
                 }
                 if ($enteredOTP == $storedOTP) {
                     echo '<script>alert("OTP verification successful for email: ' . $email . '");</script>';
@@ -536,15 +557,16 @@
                 }
 
                 if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
-                   
-                    if($_SESSION['vemail']==$_POST['txtemail'])
-                    {
-                        echo '<script>alert("Welcome to home page");</script>';
-                        //store_data();
+
+                    if ($_SESSION['vemail'] == $_POST['txtemail']) {
+
+                        //echo '<script>alert("Welcome to home page");</script>';
                         session_destroy();
-                    }
-                    else
-                    {
+                        //$email = '22bmiit142';
+                        // header("location:sign-in.php?email=$email");
+                        //exit();
+                        store_data();
+                    } else {
                         echo '<script>alert("Chnage the Email verify the email First");</script>';
                     }
                 } else if (isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 0) {
@@ -555,7 +577,23 @@
             }
         }
 
+        // Function to handle errors and output
+        function handle_errors($buffer) {
+            // Only output the buffer if there are no errors
+            if (headers_sent()) {
+                return $buffer;
+            } else {
+                ob_end_clean();
+                return false;
+            }
+        }
+
+// Flush the output buffer
+        ob_end_flush();
+
         function store_data() {
+            ob_start();
+
             $hostname = "localhost";
             $username = "root";
             $password = "";
@@ -563,28 +601,31 @@
 
             $c = mysqli_connect($hostname, $username, $password, $database);
             if (!$c) {
-                echo '<script>alert("Some Went Wrong While Connecting server.");</script>';
+                die("Connection failed: " . mysqli_connect_error());
             } else {
-                echo '<script>alert("Connection Succesfully");</script>';
+                //echo '<script>alert("Connection Succesfully");</script>';
                 $fname = $_POST['txtfirstname'];
                 $lname = $_POST['txtlastname'];
                 $mo = $_POST['txtMobileNo'];
-               
-                $d=$_POST['dob'];
-                $date= date("Y-d-m", strtotime($d));
+
+                $d = $_POST['dob'];
+                $date = date("Y-d-m", strtotime($d));
                 $email = $_POST['txtemail'];
                 $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-                $qu = "INSERT INTO tblUser (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
+                $qu = "INSERT INTO tblUsers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
 
                 $q = mysqli_query($c, $qu);
 
                 if (!$q) {
                     $e = mysqli_error($c);
-                    echo "<script>alert('error occur');</script>";
+                    die("Error: " . $e);
                 } else {
-                    echo "<script>alert('User data stored successfully.');</script>";
+                    //echo "<script>alert('User data stored successfully.');</script>";
+                    //header("location:sign-in.php?email=$email");
+                    // exit();
+                    echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
                 }
-
+                ob_end_flush();
                 mysqli_close($c);
             }
         }
@@ -655,6 +696,33 @@
     </html>';
         }
         ?>
+        <script>
+            // Get the end time from PHP
+           // var endTime = <?php echo $endTime; ?> * 1000; // Convert to milliseconds
+
+            function startCountdown() {
+                var now = new Date().getTime();
+
+                var x = setInterval(function () {
+                    now = new Date().getTime();
+                    var distance = endTime - now;
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    //document.getElementById("timer").innerHTML = seconds ;
+                    document.getElementById("timer").innerHTML = minutes + ":" + seconds.toString().padStart(2, '0') + " ";
+                    if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("timer").innerHTML = "OTP EXPIRED";
+                        document.getElementById("otp1").disabled = true;
+                        document.getElementById("btnverify").disabled = true;
+                    }
+                }, 1000);
+            }
+
+            window.onload = startCountdown;
+        </script>
+
         <!--============= Account Section Ends Here =============-->
 
 
@@ -852,49 +920,50 @@
         <script src="assets/js/main.js"></script>
     </body>
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-        import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+            import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyByKJ3hxiWHjKYaRJF-GDKPyBGQy8iKW6c",
-            authDomain: "e-auction-d55ef.firebaseapp.com",
-            projectId: "e-auction-d55ef",
-            storageBucket: "e-auction-d55ef.appspot.com",
-            messagingSenderId: "632262014249",
-            appId: "1:632262014249:web:b4a2b0884bfe6335603338"
-        };
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyByKJ3hxiWHjKYaRJF-GDKPyBGQy8iKW6c",
+                authDomain: "e-auction-d55ef.firebaseapp.com",
+                projectId: "e-auction-d55ef",
+                storageBucket: "e-auction-d55ef.appspot.com",
+                messagingSenderId: "632262014249",
+                appId: "1:632262014249:web:b4a2b0884bfe6335603338"
+            };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider(app);
-        login.addEventListener('click', (e) => {
-            signInWithRedirect(auth, provider);
-            getRedirectResult(auth)
-                    .then((result) => {
-                        // This gives you a Google Access Token. You can use it to access Google APIs.
-                        const credential = GoogleAuthProvider.credentialFromResult(result);
-                        const token = credential.accessToken;
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const provider = new GoogleAuthProvider(app);
+            login.addEventListener('click', (e) => {
+                signInWithRedirect(auth, provider);
+                getRedirectResult(auth)
+                        .then((result) => {
+                            // This gives you a Google Access Token. You can use it to access Google APIs.
+                            const credential = GoogleAuthProvider.credentialFromResult(result);
+                            const token = credential.accessToken;
 
-                        // The signed-in user info.
-                        const user = result.user;
-                        // IdP data available using getAdditionalUserInfo(result)
-                        // ...
-                    }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
+                            // The signed-in user info.
+                            const user = result.user;
+                            // IdP data available using getAdditionalUserInfo(result)
+                            // ...
+                        }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.customData.email;
+                    // The AuthCredential type that was used.
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    console.log(credential);
+                    // ...
+                });
             });
-        });
     </script>
 
 </html>
