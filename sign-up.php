@@ -356,7 +356,7 @@
                                 <div class="row">
                                     <div class="col-sm-5">
                                         <label for="signup-number"><i class="fa fa-key"></i></label>
-                                        <input type="tel" id="txtotp" placeholder="Enter OTP" name="otp" pattern="[0-9]{6}" maxlength="6"
+                                        <input type="tel" id="txtotp" autofocus placeholder="Enter OTP" name="otp" pattern="[0-9]{6}" maxlength="6"
                                                <?php if (isset($_POST['otp'])) echo 'value="' . htmlspecialchars($_POST['otp']) . '"'; ?>>
                                     </div>
                                     <div class="col-sm-1" id="a">
