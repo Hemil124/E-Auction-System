@@ -375,10 +375,12 @@
                     echo '<script>alert("Hashed Password: ' . $hashedPassword . '");</script>';
 
                     // Verify the password
-//                    if (password_verify($userPassword, $hashedPassword)) 
-                    if (password_verify ($userPassword, $hashedPassword)){
+                    //It's not work!!!!!!!!!!!!!!!!!!!!!
+                    if (password_verify($userPassword, $hashedPassword)) {
                         echo '<script>alert("Login Successfully");</script>';
+//                        echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
                     } else {
+                        echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
                         echo '<script>alert("Wrong Password");</script>';
                     }
                 }
