@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <title>Sbidu - Bid And Auction HTML Template</title>
+        <title>E-Auction - Bid And Auction </title>
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
@@ -283,7 +283,7 @@
                     <div class="left-side">
                         <div class="section-header" data-aos="zoom-out-down" data-aos-duration="1200">
                             <h2 class="title">HI, THERE</h2>
-                            <p>You can log in to your Sbidu account here.</p>
+                            <p>You can log in to your E-Auction account here.</p>
                         </div>
                         <ul class="login-with">
                             <li>
@@ -299,7 +299,7 @@
                         <form class="login-form" method="POST">
                             <div class="form-group mb-30">
                                 <label for="login-email"><i class="far fa-envelope"></i></label>
-                                <input type="text" id="login-email" placeholder="Email Address" name="txtemail">
+                                <input type="email" id="login-email" placeholder="Email Address" name="txtemail">
                             </div>
                             <div class="form-group">
                                 <label for="login-pass"><i class="fas fa-lock"></i></label>
@@ -324,6 +324,17 @@
                 </div>
             </div>
         </section>
+        <script>
+            window.onload = function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const email = urlParams.get('email');
+                if (email) {
+//                    document.getElementById('signinEmail').value = email;
+                    document.querySelector('input[name="txtemail"]').value = email;
+
+                }
+            };
+        </script>
         <?php
         if (isset($_POST['btnlogin'])) {
             $hostname = "localhost";
@@ -331,38 +342,53 @@
             $password = "";
             $database = "e-Auction";
 
+            // Establish database connection
             $c = mysqli_connect($hostname, $username, $password, $database);
             if (!$c) {
+//                echo '<script>alert("Connection Error: ' . mysqli_connect_error() . '");</script>';
                 echo '<script>alert("Some Went Wrong While Connecting server.");</script>';
             } else {
-                echo '<script>alert("Connection Succesfully");</script>';
-                $email = $_POST['txtemail'];
-                $pass = $_POST['txtpass'];
-                $qu = "select Password from tblUser where Email='$email'";
-                if (!$qu) {
-                    echo '<script>alert("User Name not Found");</script>';
-                }
-                while ($r = mysqli_fetch_row($qu)) {
-                    $dpassword = $r[0];
-                }
-                if (password_verify($password, $dpassword)) {
-                    echo '<script>alert("Login Succesfully");</script>';
-                } else {
-                    echo '<script>alert("Wromg Password");</script>';
-                }
+                echo '<script>alert("Connection Successful");</script>';
+
+                // Sanitize user input
+//                $email = $_POST['txtemail'];
+
+                $email = mysqli_real_escape_string($c, $_POST['txtemail']);
+                $userPassword = $_POST['txtpass'];
+                $qu = "SELECT Password FROM tbluser WHERE Email='$email'";
+
+                // Execute the query
 
                 $q = mysqli_query($c, $qu);
 
                 if (!$q) {
-                    $e = mysqli_error($c);
-                    echo "<script>alert('error occur');</script>";
+                    // Print error details if the query fails
+                    echo '<script>alert("Query Error: ' . mysqli_error($c) . '");</script>';
+                } elseif (mysqli_num_rows($q) == 0) {
+                    // Handle case where no results are found
+                    echo '<script>alert("User Name not Found");</script>';
                 } else {
-                    echo "<script>alert('User data stored successfully.');</script>";
+                    $r = mysqli_fetch_row($q);
+                    $hashedPassword = $r[0];
+
+                    echo '<script>alert("Entered Password: ' . $userPassword . '");</script>';
+                    echo '<script>alert("Hashed Password: ' . $hashedPassword . '");</script>';
+
+                    // Verify the password
+//                    if (password_verify($userPassword, $hashedPassword)) 
+                    if (password_verify ($userPassword, $hashedPassword)){
+                        echo '<script>alert("Login Successfully");</script>';
+                    } else {
+                        echo '<script>alert("Wrong Password");</script>';
+                    }
                 }
 
+                // Close the database connection
                 mysqli_close($c);
             }
         }
+        ?>
+
         ?>
         <!--============= Account Section Ends Here =============-->
 
