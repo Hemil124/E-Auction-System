@@ -344,7 +344,7 @@
                                             <button type="submit" class="custom-button"  name="btnsend">Send OTP</button>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
 
@@ -562,8 +562,9 @@
 
                         //echo '<script>alert("Welcome to home page");</script>';
                         session_destroy();
-                        //$email = '22bmiit142';
+//                        $email = '22bmiit142';
                         // header("location:sign-in.php?email=$email");
+//                        echo '<script>location.replace("sign-in.php")</script>';
                         //exit();
                         store_data();
                     } else {
@@ -612,7 +613,7 @@
                 $date = date("Y-d-m", strtotime($d));
                 $email = $_POST['txtemail'];
                 $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-                $qu = "INSERT INTO tblUsers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
+                $qu = "INSERT INTO tbluser (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
 
                 $q = mysqli_query($c, $qu);
 
@@ -698,7 +699,7 @@
         ?>
         <script>
             // Get the end time from PHP
-           // var endTime = <?php echo $endTime; ?> * 1000; // Convert to milliseconds
+            // var endTime = <?php echo $endTime; ?> * 1000; // Convert to milliseconds
 
             function startCountdown() {
                 var now = new Date().getTime();
