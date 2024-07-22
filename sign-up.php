@@ -9,7 +9,7 @@
         <!--<meta charset="UTF-8">-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="+"
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>E-Auction</title>
@@ -316,7 +316,7 @@
                             <div class="form-group mb-30" id="a">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label for="signup-number"><i class="fa fa-phone"></i></label>
+                                        <label for="signup-number"><i class="fa-solid fa-phone"></i></label>
                                         <input type="tel" id="signup-number" placeholder="Mobile Number" name="txtMobileNo" pattern="[0-9]{10}" maxlength="10"
                                                <?php if (isset($_POST['txtMobileNo'])) echo 'value="' . htmlspecialchars($_POST['txtMobileNo']) . '"'; ?> required>
                                     </div>
@@ -335,7 +335,7 @@
                             <div class="form-group mb-30">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label for="signup-number"><i class="far fa-envelope"></i></label>
+                                        <label for="signup-number"><i class="fa-solid fa-envelope"></i></label>
                                         <input type="email" id="signup-email" placeholder="Email Address" name="txtemail"
                                                <?php if (isset($_POST['txtemail'])) echo 'value="' . htmlspecialchars($_POST['txtemail']) . '"'; ?> required>
                                     </div>
@@ -356,7 +356,7 @@
                                 <div class="row">
                                     <div class="col-sm-5">
                                         <label for="signup-number"><i class="fa fa-key"></i></label>
-                                        <input type="tel" id="txtotp" autofocus placeholder="Enter OTP" name="otp" pattern="[0-9]{6}" maxlength="6"
+                                        <input type="tel" id="txtotp" placeholder="Enter OTP" name="otp" pattern="[0-9]{6}" maxlength="6"
                                                <?php if (isset($_POST['otp'])) echo 'value="' . htmlspecialchars($_POST['otp']) . '"'; ?>>
                                     </div>
                                     <div class="col-sm-1" id="a">
@@ -413,6 +413,7 @@
                 </div>
             </div>
         </section>
+        
         <?php
 
         use PHPMailer\PHPMailer\PHPMailer;

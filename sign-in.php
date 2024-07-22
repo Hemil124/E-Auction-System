@@ -347,12 +347,11 @@
             if (!$c) {
 //                echo '<script>alert("Connection Error: ' . mysqli_connect_error() . '");</script>';
                 echo '<script>alert("Some Went Wrong While Connecting server.");</script>';
+                exit();
             } else {
-                echo '<script>alert("Connection Successful");</script>';
+                //echo '<script>alert("Connection Successful");</script>';
 
-                // Sanitize user input
-//                $email = $_POST['txtemail'];
-
+            
                 $email = mysqli_real_escape_string($c, $_POST['txtemail']);
                 $userPassword = $_POST['txtpass'];
                 $qu = "SELECT Password FROM tbluser WHERE Email='$email'";
@@ -369,18 +368,13 @@
                     echo '<script>alert("User Name not Found");</script>';
                 } else {
                     $r = mysqli_fetch_row($q);
-                    $hashedPassword = $r[0];
+                    $datahashedPassword = $r[0];
 
-                    echo '<script>alert("Entered Password: ' . $userPassword . '");</script>';
-                    echo '<script>alert("Hashed Password: ' . $hashedPassword . '");</script>';
-
-                    // Verify the password
-                    //It's not work!!!!!!!!!!!!!!!!!!!!!
-                    if (password_verify($userPassword, $hashedPassword)) {
-                        echo '<script>alert("Login Successfully");</script>';
-//                        echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
+                    if (password_verify($userPassword, $datahashedPassword)) {
+                        //echo '<script>alert("Login Successfully");</script>';
+                        echo '<script>location.replace("index.php")</script>';
                     } else {
-                        echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
+                       // echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
                         echo '<script>alert("Wrong Password");</script>';
                     }
                 }
@@ -391,7 +385,7 @@
         }
         ?>
 
-        ?>
+       
         <!--============= Account Section Ends Here =============-->
 
 
@@ -420,25 +414,7 @@
                     <img src="assets/images/footer/c4.png" alt="footer">
                 </div>
             </div>
-            <div class="newslater-wrapper">
-                <div class="container">
-                    <div class="newslater-area">
-                        <div class="newslater-thumb">
-                            <img src="assets/images/footer/newslater.png" alt="footer">
-                        </div>
-                        <div class="newslater-content">
-                            <div class="section-header left-style mb-low" data-aos="fade-down" data-aos-duration="1100">
-                                <h5 class="cate">Subscribe to Sbidu</h5>
-                                <h3 class="title">To Get Exclusive Benefits</h3>
-                            </div>
-                            <form class="subscribe-form">
-                                <input type="text" placeholder="Enter Your Email" name="email">
-                                <button type="submit" class="custom-button">Subscribe</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="footer-top padding-bottom padding-top">
                 <div class="container">
                     <div class="row mb--60">
