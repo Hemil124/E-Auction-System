@@ -23,9 +23,10 @@
         <link rel="stylesheet" href="assets/css/flaticon.css">
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
-        <link rel="stylesheet" href="assets/css/main.css">
-
-        <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+        <!--<link rel="stylesheet" href="assets/css/main.css">-->
+        <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/css/nice-select.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">  
     </head>
 
     <body>
@@ -413,7 +414,7 @@
                 </div>
             </div>
         </section>
-        
+
         <?php
 
         use PHPMailer\PHPMailer\PHPMailer;
@@ -550,7 +551,7 @@
 
                 if ($age < 18) {
                     echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
-                } else if ($age > 100) {
+                } else if ($age > 65) {
                     echo '<script>alert("Age Not Allow.");</script>';
                     exit();
                 } else {
@@ -560,13 +561,7 @@
                 if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
 
                     if ($_SESSION['vemail'] == $_POST['txtemail']) {
-
-                        //echo '<script>alert("Welcome to home page");</script>';
                         session_destroy();
-//                        $email = '22bmiit142';
-                        // header("location:sign-in.php?email=$email");
-//                        echo '<script>location.replace("sign-in.php")</script>';
-                        //exit();
                         store_data();
                     } else {
                         echo '<script>alert("Chnage the Email verify the email First");</script>';
@@ -578,21 +573,7 @@
                 }
             }
         }
-
-        // Function to handle errors and output
-        function handle_errors($buffer) {
-            // Only output the buffer if there are no errors
-            if (headers_sent()) {
-                return $buffer;
-            } else {
-                ob_end_clean();
-                return false;
-            }
-        }
-
-// Flush the output buffer
-        ob_end_flush();
-
+        
         function store_data() {
             ob_start();
 
@@ -627,7 +608,7 @@
                     // exit();
                     echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
                 }
-                ob_end_flush();
+
                 mysqli_close($c);
             }
         }
@@ -700,7 +681,7 @@
         ?>
         <script>
             // Get the end time from PHP
-            // var endTime = <?php echo $endTime; ?> * 1000; // Convert to milliseconds
+            var endTime = <?php echo $endTime; ?> * 1000; // Convert to milliseconds
 
             function startCountdown() {
                 var now = new Date().getTime();

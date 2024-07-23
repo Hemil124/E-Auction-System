@@ -84,6 +84,8 @@ Text Domain:
 ---------------------------
 36. Auto Suggestion Search Bar CSS
 ---------------------------
+37. Our changes
+---------------------------
 */
 html {
     color: #222;
@@ -7503,5 +7505,10 @@ button.custom-button {
 }
 /* Auto Suggestion Search Bar CSS End Here*/
 
+/*37.our chabges*/
+.timer{
+    margin-top: 12px;
+    color: red;
+}
 
 /*All Animation Ends Here*//*# sourceMappingURL=main.css.map */
