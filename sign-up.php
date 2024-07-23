@@ -53,7 +53,7 @@
                             <li class="customer-cupport-lang">
                                 <i class="fas fa-globe"></i>
                                 <select name="language" class="select-bar">
-                                    <option value="en">En</option>
+                                    <option value="en">English</option>
                                     <option value="Bn">Bn</option>
                                     <option value="Rs">Rs</option>
                                     <option value="Us">Us</option>
