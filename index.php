@@ -1,8 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 
     <head>
+        <?php
+        session_start();
+//      withaout login can't open indexpage!!        
+//        if (!isset($_SESSION['txtemail']) ) {
+//            header("Location: sign-in.php");
+//            exit();
+//        }
+//        it's explod the emailid and show only name
+        $email = $_SESSION['txtemail'];
+        $susername = explode('@', $email)[0];
+//        whole emailid show
+//        $susername = $_SESSION['txtemail'];
+        ?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -57,6 +71,9 @@
                         </ul>
                         <ul class="cart-button-area">
                             <li>
+                                <button><a href="logout.php">Logout</a></button>
+                            </li>
+                            <li>
                                 <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
                             </li>                        
                             <li>
@@ -73,6 +90,14 @@
                             <a href="index.php">
                                 <img src="assets/images/logo/logo.png" alt="logo">
                             </a>
+                            <!--<lable>Welcome, <?php echo $susername; ?>!</lable>-->
+                            <?php
+                            if (isset($susername)) {
+                                echo "<p>Welcome, " . htmlspecialchars($susername) . "!</p>";
+                            } else {
+                                echo "<p>Welcome!</p>";
+                            }
+                            ?>
                         </div>
                         <ul class="menu ml-auto">
                             <li>

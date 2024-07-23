@@ -3,10 +3,13 @@
 
 
     <head>
+        <?PHP
+        session_start();
+        ?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -289,7 +292,7 @@
                             <p>You can log in to your E-Auction account here.</p>
                         </div>
                         <ul class="login-with">
-                            
+
                             <li>
                                 <a  href="#0" id="login"><i class="fab fa-google-plus"></i>Log in with Google</a>
                             </li>
@@ -337,6 +340,10 @@
             };
         </script>
         <?php
+        if (isset($_SESSION['txtemail'])) {
+            echo '<script>location.replace("index.php")</script>';
+        }
+
         if (isset($_POST['btnlogin'])) {
             $hostname = "localhost";
             $username = "root";
@@ -352,7 +359,7 @@
             } else {
                 //echo '<script>alert("Connection Successful");</script>';
 
-            
+
                 $email = mysqli_real_escape_string($c, $_POST['txtemail']);
                 $userPassword = $_POST['txtpass'];
                 $qu = "SELECT Password FROM tbluser WHERE Email='$email'";
@@ -372,10 +379,11 @@
                     $datahashedPassword = $r[0];
 
                     if (password_verify($userPassword, $datahashedPassword)) {
+                        $_SESSION['txtemail'] = $email;
                         //echo '<script>alert("Login Successfully");</script>';
                         echo '<script>location.replace("index.php")</script>';
                     } else {
-                       // echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
+                        // echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
                         echo '<script>alert("Wrong Password");</script>';
                     }
                 }
@@ -386,7 +394,7 @@
         }
         ?>
 
-       
+
         <!--============= Account Section Ends Here =============-->
 
 
@@ -415,7 +423,7 @@
                     <img src="assets/images/footer/c4.png" alt="footer">
                 </div>
             </div>
-            
+
             <div class="footer-top padding-bottom padding-top">
                 <div class="container">
                     <div class="row mb--60">
@@ -584,7 +592,7 @@
         <script src="assets/js/main.js"></script>
     </body>
 
-<script type="module">
+    <script type="module">
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
             import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
