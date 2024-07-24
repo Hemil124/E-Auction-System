@@ -31,11 +31,11 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <div class="overlayer" id="overlayer">
+<!--        <div class="overlayer" id="overlayer">
             <div class="loader">
                 <div class="loader-inner"></div>
             </div>
-        </div>
+        </div>-->
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -269,9 +269,7 @@
                     <li>
                         <a href="index.php">Home</a>
                     </li>
-                    <li>
-                        <a href="#0">Pages</a>
-                    </li>
+                   
                     <li>
                         <span>Sign In</span>
                     </li>
@@ -308,7 +306,7 @@
                             <div class="form-group">
                                 <label for="login-pass"><i class="fas fa-lock"></i></label>
                                 <input type="password" id="login-pass" placeholder="Password" name="txtpass">
-                                <span class="pass-type"><i class="fas fa-eye"></i></span>
+                                <!--<span class="pass-type"><i class="fas fa-eye"></i></span>-->
                             </div>
                             <div class="form-group mt-3 mb-3">
                                 <a href="forgot.php">Forgot Password?</a>
@@ -362,7 +360,7 @@
 
                 $email = mysqli_real_escape_string($c, $_POST['txtemail']);
                 $userPassword = $_POST['txtpass'];
-                $qu = "SELECT Password FROM tbluser WHERE Email='$email'";
+                $qu = "SELECT Password FROM tblusers WHERE Email='$email'";
 
                 // Execute the query
 
@@ -382,6 +380,7 @@
                         $_SESSION['txtemail'] = $email;
                         //echo '<script>alert("Login Successfully");</script>';
                         echo '<script>location.replace("index.php")</script>';
+                        exit();
                     } else {
                         // echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
                         echo '<script>alert("Wrong Password");</script>';

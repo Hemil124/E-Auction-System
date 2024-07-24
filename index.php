@@ -12,8 +12,9 @@
 //            exit();
 //        }
 //        it's explod the emailid and show only name
-        $email = $_SESSION['txtemail'];
-        $susername = explode('@', $email)[0];
+       // $email = $_SESSION['txtemail'];
+       // $susername = explode('@', $email)[0];
+      
 //        whole emailid show
 //        $susername = $_SESSION['txtemail'];
         ?>
@@ -70,9 +71,11 @@
                             </li>
                         </ul>
                         <ul class="cart-button-area">
+                            <?php if (isset($_SESSION['txtemail'])): ?>
                             <li>
-                                <button><a href="logout.php">Logout</a></button>
+                                <button class="custom-button"><a href="logout.php">Logout</a></button>
                             </li>
+                        <?php endif; ?>
                             <li>
                                 <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
                             </li>                        

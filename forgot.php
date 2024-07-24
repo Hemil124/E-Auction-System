@@ -31,11 +31,11 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <div class="overlayer" id="overlayer">
-            <div class="loader">
-                <div class="loader-inner"></div>
-            </div>
-        </div>
+        <!--        <div class="overlayer" id="overlayer">
+                    <div class="loader">
+                        <div class="loader-inner"></div>
+                    </div>
+                </div>-->
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -293,12 +293,12 @@
                             <!--<p>We're happy you're here!</p>-->
                         </div>
 
-                       
+
                         <form class="login-form" method="post" action="">
-                            
 
 
-                            
+
+
 
                             <div class="form-group mb-30">
                                 <div class="row">
@@ -322,16 +322,16 @@
 
                             <div class="form-group mb-30" id="a">
                                 <div class="row">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-6">
                                         <label for="signup-number"><i class="fa fa-key"></i></label>
                                         <input type="tel" id="txtotp" placeholder="Enter OTP" name="otp" pattern="[0-9]{6}" maxlength="6"
                                                <?php if (isset($_POST['otp'])) echo 'value="' . htmlspecialchars($_POST['otp']) . '"'; ?>>
                                     </div>
-                                    <div class="col-sm-1" id="a">
-                                        <div class="form-group mb-0">   
-                                            <p class="timer"><span id="timer"></span></p>
-                                        </div>
-                                    </div>
+                                    <!--                                    <div class="col-sm-1" id="a">
+                                                                            <div class="form-group mb-0">   
+                                                                                <p class="timer"><span id="timer"></span></p>
+                                                                            </div>
+                                                                        </div>-->
                                     <div class="col-sm-3">
                                         <div class="form-group mb-0">
                                             <button type="submit" class="custom-button"  name="btnvarify" >Varify OTP</button>
@@ -367,7 +367,7 @@
                             </div>
 
                             <div class="form-group mb-0">
-                                <button type="submit" class="custom-button"  name="btnsignup">Submit</button>
+                                <button type="submit" class="custom-button"  name="btnforgot">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -397,24 +397,15 @@
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $otpexpire = 0;
 
-            //0= otp is not expire
-            //1= otp is  expire
             if (isset($_POST['btnsend'])) {
                 sendOTP();
             }
-            $currentTime = time();
-            $endTime = $currentTime + 60;
-            $timestamp = $_SERVER["REQUEST_TIME"];
-            if (($timestamp - $_SESSION["TIME"]) > 60 and $otpexpire==0) {  // 300 refers to 300 seconds
-                echo '<script>alert("OTP expired. Pls. try again.");</script>';
-                $otpexpire = 1;
-            } elseif (isset($_POST['btnvarify']) and $otpexpire == 0) {
+            if (isset($_POST['btnvarify'])) {
                 verifyOTP();
             } elseif (isset($_POST['btnResend'])) {
                 resendOTP();
-            } elseif (isset($_POST['btnsignup'])) {
+            } elseif (isset($_POST['btnforgot'])) {
                 signup();
             }
         }
@@ -435,44 +426,66 @@
         }
 
         function sendEmail($recipient_email) {
-            require 'C:\xampp\htdocs\E-Auction\PHPMailer-master\src\PHPMailer.php';
-            require 'C:\xampp\htdocs\E-Auction\PHPMailer-master\src\Exception.php';
-            require 'C:\xampp\htdocs\E-Auction\PHPMailer-master\src\SMTP.php';
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\PHPMailer.php';
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\Exception.php';
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\SMTP.php';
 
             try {
-                // $otp = mt_rand(100000, 999999);
-                $otp = 111111;
-                $timestamp = $_SERVER["REQUEST_TIME"];
-                $_SESSION["TIME"] = $timestamp;
+                $hostname = "localhost";
+                $username = "root";
+                $password = "";
+                $database = "e-Auction";
 
-                $mail = new PHPMailer(true);
+                $c = mysqli_connect($hostname, $username, $password, $database);
+                if (!$c) {
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    $email = mysqli_real_escape_string($c, $_POST['txtemail']);
 
-                // SMTP settings
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'hemilghori@gmail.com';
-                $mail->Password = 'nkagldxfrrntpzuz';
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
+                    $qu = "SELECT Password FROM tblusers WHERE Email='$email'";
+                    $q = mysqli_query($c, $qu);
 
-                // Sender and recipient
-                $mail->setFrom('hemilghori@gmail.com', 'E-Auction');
-                $mail->addAddress($recipient_email);
+                    if (!$q) {
+                        // Print error details if the query fails
+                        echo '<script>alert("Query Error: ' . mysqli_error($c) . '");</script>';
+                    } elseif (mysqli_num_rows($q) == 1) {
+                        // Generate OTP and store timestamp
+                        $otp = 111111;
+                        $timestamp = $_SERVER["REQUEST_TIME"];
+                        $_SESSION["TIME"] = $timestamp;
 
-                // Email content
-                $mail->isHTML(true);
-                $mail->Subject = 'Email Verification OTP';
-                $mail->Body = getEmailTemplate($otp);
+                        $mail = new PHPMailer(true);
 
-                // Send email
-               // $mail->send();
+                        // SMTP settings
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'hemilghori@gmail.com';
+                        $mail->Password = 'nkagldxfrrntpzuz';
+                        $mail->SMTPSecure = 'tls';
+                        $mail->Port = 587;
 
-                // Store OTP in session for verification
-                $_SESSION['otp'] = $otp;
-                $_SESSION['email'] = $recipient_email;
+                        // Sender and recipient
+                        $mail->setFrom('hemilghori@gmail.com', 'E-Auction');
+                        $mail->addAddress($recipient_email);
 
-                echo '<script>alert("OTP sent successfully");</script>';
+                        // Email content
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Email Verification OTP';
+                        $mail->Body = getEmailTemplate($otp);
+
+                        // Send email
+                        //$mail->send();
+
+                        // Store OTP in session for verification
+                        $_SESSION['otp'] = $otp;
+                        $_SESSION['email'] = $recipient_email;
+
+                        echo '<script>alert("OTP sent successfully");</script>';
+                    } else {
+                        echo '<script>alert("You don\'t have an account");</script>';
+                    }
+                }
             } catch (Exception $e) {
                 echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
             }
@@ -500,9 +513,8 @@
             if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
                 $password = $_POST['txtpassword'];
                 $confirmPassword = $_POST['txtconfirm_password'];
-                $dob = $_POST['dob'];
+
                 $passstatus = 0;
-                $dobstatus = 0;
 
                 if ($password !== $confirmPassword) {
                     echo '<script>alert("Passwords do not match. Please try again.");</script>';
@@ -512,20 +524,11 @@
                     $passstatus = 1;
                 }
 
-                $dobDate = new DateTime($dob);
-                $now = new DateTime();
-                $age = $now->diff($dobDate)->y;
 
-                if ($age < 18) {
-                    echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
-                } else if ($age > 65) {
-                    echo '<script>alert("Age Not Allow.");</script>';
-                    exit();
-                } else {
-                    $dobstatus = 1;
-                }
 
-                if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
+
+
+                if ($passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
 
                     if ($_SESSION['vemail'] == $_POST['txtemail']) {
                         session_destroy();
@@ -540,10 +543,10 @@
                 }
             }
         }
-        
-        function store_data() {
-            ob_start();
 
+        function store_data() {
+            echo '<script>alert("inside store data");</script>';
+            
             $hostname = "localhost";
             $username = "root";
             $password = "";
@@ -554,26 +557,36 @@
                 die("Connection failed: " . mysqli_connect_error());
             } else {
                 //echo '<script>alert("Connection Succesfully");</script>';
-                $fname = $_POST['txtfirstname'];
-                $lname = $_POST['txtlastname'];
-                $mo = $_POST['txtMobileNo'];
-
-                $d = $_POST['dob'];
-                $date = date("Y-d-m", strtotime($d));
+                
                 $email = $_POST['txtemail'];
-                $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-                $qu = "INSERT INTO tbluser (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
+                $userPassword = $_POST['txtpassword'];
+                $qu = "SELECT Password FROM tblusers WHERE Email='$email'";
+
+                // Execute the query
 
                 $q = mysqli_query($c, $qu);
 
                 if (!$q) {
-                    $e = mysqli_error($c);
-                    die("Error: " . $e);
+                    // Print error details if the query fails
+                    echo '<script>alert("Query Error: ' . mysqli_error($c) . '");</script>';
+                } elseif (mysqli_num_rows($q) == 0) {
+                    // Handle case where no results are found
+                    echo '<script>alert("You dont\'t have Account");</script>';
                 } else {
-                    //echo "<script>alert('User data stored successfully.');</script>";
-                    //header("location:sign-in.php?email=$email");
-                    // exit();
-                    echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
+                    $r = mysqli_fetch_row($q);
+                    $datahashedPassword = $r[0];
+                   
+                    $result=password_verify($userPassword, $datahashedPassword);
+                    if (!$result) {
+                        $hash=password_hash($userPassword, PASSWORD_DEFAULT);
+                        $que = "UPDATE tblusers SET Password='$hash'  WHERE Email='$email'";
+                        $qu = mysqli_query($c, $que);
+                        echo '<script>alert("Forgot Password Succesfully");</script>';
+                        echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
+                    } else {
+                        // echo '<script>location.replace("index.php?email=' . urlencode($email) . '")</script>';
+                        echo '<script>alert("Create a new Password that isnt\'t your current password");</script>';
+                    }
                 }
 
                 mysqli_close($c);
@@ -646,32 +659,7 @@
     </html>';
         }
         ?>
-        <script>
-            // Get the end time from PHP
-            var endTime = <?php echo $endTime; ?> * 1000; // Convert to milliseconds
 
-            function startCountdown() {
-                var now = new Date().getTime();
-
-                var x = setInterval(function () {
-                    now = new Date().getTime();
-                    var distance = endTime - now;
-                    var minutes = Math.floor((distance % (1000 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    //document.getElementById("timer").innerHTML = seconds ;
-                    document.getElementById("timer").innerHTML = minutes + ":" + seconds.toString().padStart(2, '0') + " ";
-                    if (distance < 0) {
-                        clearInterval(x);
-                        document.getElementById("timer").innerHTML = "OTP EXPIRED";
-                        document.getElementById("otp1").disabled = true;
-                        document.getElementById("btnverify").disabled = true;
-                    }
-                }, 1000);
-            }
-
-            window.onload = startCountdown;
-        </script>
 
         <!--============= Account Section Ends Here =============-->
 
@@ -869,6 +857,6 @@
         <script src="assets/js/jquery-ui.min.js"></script>
         <script src="assets/js/main.js"></script>
     </body>
-    
+
 
 </html>

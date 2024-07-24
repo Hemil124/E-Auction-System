@@ -31,11 +31,11 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <div class="overlayer" id="overlayer">
-            <div class="loader">
-                <div class="loader-inner"></div>
-            </div>
-        </div>
+        <!--        <div class="overlayer" id="overlayer"> 
+                    <div class="loader">
+                        <div class="loader-inner"></div>
+                    </div>
+                </div>-->
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -58,7 +58,7 @@
                                     <option value="Rs">Rs</option>
                                     <option value="Us">Us</option>
                                     <option value="Pk">Pk</option>
-                                    <option value="Arg">Arg</option>
+                                    <option value="Arg">Arg</option>   
                                 </select>
                             </li>
                         </ul>
@@ -270,9 +270,7 @@
                     <li>
                         <a href="index.php">Home</a>
                     </li>
-                    <li>
-                        <a href="#0">Pages</a>
-                    </li>
+                    
                     <li>
                         <span>Sign Up</span>
                     </li>
@@ -347,8 +345,6 @@
                                     </div>
 
                                 </div>
-
-
                             </div>
 
 
@@ -430,20 +426,14 @@
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $otpexpire = 0;
+
 
             //0= otp is not expire
             //1= otp is  expire
             if (isset($_POST['btnsend'])) {
                 sendOTP();
             }
-            $currentTime = time();
-            $endTime = $currentTime + 120;
-            $timestamp = $_SERVER["REQUEST_TIME"];
-            if (($timestamp - $_SESSION["TIME"]) > 120) {  // 300 refers to 300 seconds
-                echo '<script>alert("OTP expired. Pls. try again.");</script>';
-                $otpexpire = 1;
-            } elseif (isset($_POST['btnvarify']) and $otpexpire == 0) {
+            if (isset($_POST['btnvarify'])) {
                 verifyOTP();
             } elseif (isset($_POST['btnResend'])) {
                 resendOTP();
@@ -468,153 +458,182 @@
         }
 
         function sendEmail($recipient_email) {
-            require 'C:\xampp\htdocs\E-Auction\PHPMailer-master\src\PHPMailer.php';
-            require 'C:\xampp\htdocs\E-Auction\PHPMailer-master\src\Exception.php';
-            require 'C:\xampp\htdocs\E-Auction\PHPMailer-master\src\SMTP.php';
-
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\PHPMailer.php';
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\Exception.php';
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\SMTP.php';
             try {
-                // $otp = mt_rand(100000, 999999);
-                $otp = 111111;
-                $timestamp = $_SERVER["REQUEST_TIME"];
-                $_SESSION["TIME"] = $timestamp;
+                $hostname = "localhost";
+                $username = "root";
+                $password = "";
+                $database = "e-Auction";
 
-                $mail = new PHPMailer(true);
+                $c = mysqli_connect($hostname, $username, $password, $database);
+                if (!$c) {
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    $email = mysqli_real_escape_string($c, $_POST['txtemail']);
 
-                // SMTP settings
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'hemilghori@gmail.com';
-                $mail->Password = 'nkagldxfrrntpzuz';
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
+                    $qu = "SELECT Password FROM tblusers WHERE Email='$email'";
 
-                // Sender and recipient
-                $mail->setFrom('hemilghori@gmail.com', 'E-Auction');
-                $mail->addAddress($recipient_email);
+                    $q = mysqli_query($c, $qu);
 
-                // Email content
-                $mail->isHTML(true);
-                $mail->Subject = 'Email Verification OTP';
-                $mail->Body = getEmailTemplate($otp);
+                    if (!$q) {
+                        // Print error details if the query fails
+                        echo '<script>alert("Query Error: ' . mysqli_error($c) . '");</script>';
+                    } elseif (mysqli_num_rows($q) == 1) {
+                        echo '<script>alert("You have Alredy Account");</script>';
+                        //exit();
+                        
+                    } else {
 
-                // Send email
-                $mail->send();
 
-                // Store OTP in session for verification
-                $_SESSION['otp'] = $otp;
-                $_SESSION['email'] = $recipient_email;
+                        // $otp = mt_rand(100000, 999999);
+                        $otp = 111111;
+                        $timestamp = $_SERVER["REQUEST_TIME"];
+                        $_SESSION["TIME"] = $timestamp;
 
-                echo '<script>alert("OTP sent successfully");</script>';
-            } catch (Exception $e) {
+                        $mail = new PHPMailer(true);
+
+                        // SMTP settings
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'hemilghori@gmail.com';
+                        $mail->Password = 'nkagldxfrrntpzuz';
+                        $mail->SMTPSecure = 'tls';
+                        $mail->Port = 587;
+
+                        // Sender and recipient
+                        $mail->setFrom('hemilghori@gmail.com', 'E-Auction');
+                        $mail->addAddress($recipient_email);
+
+                        // Email content
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Email Verification OTP';
+                        $mail->Body = getEmailTemplate($otp);
+
+                        // Send email
+                        $mail->send();
+
+                        // Store OTP in session for verification
+                        $_SESSION['otp'] = $otp;
+                        $_SESSION['email'] = $recipient_email;
+
+                        echo '<script>alert("OTP sent successfully");</script>';
+                    }
+                
+            } }catch (Exception $e) {
                 echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
             }
-        }
-
-        function verifyOTP() {
-            if (isset($_POST['otp'])) {
-                $enteredOTP = $_POST['otp'];
-                $storedOTP = $_SESSION['otp'];
-                $email = $_SESSION['email'];
-                if ($enteredOTP == null) {
-                    echo '<script>alert("Enter OTP First");</script>';
-                }
-                if ($enteredOTP == $storedOTP) {
-                    echo '<script>alert("OTP verification successful for email: ' . $email . '");</script>';
-                    $_SESSION['verifystatus'] = 1;
-                } else {
-                    echo '<script>alert("OTP verification failed. Please try again.");</script>';
-                    $_SESSION['verifystatus'] = 0;
-                }
             }
-        }
-
-        function signup() {
-            if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
-                $password = $_POST['txtpassword'];
-                $confirmPassword = $_POST['txtconfirm_password'];
-                $dob = $_POST['dob'];
-                $passstatus = 0;
-                $dobstatus = 0;
-
-                if ($password !== $confirmPassword) {
-                    echo '<script>alert("Passwords do not match. Please try again.");</script>';
-                } elseif (empty($password)) {
-                    echo '<script>alert("Password not valid.");</script>';
-                } else {
-                    $passstatus = 1;
-                }
-
-                $dobDate = new DateTime($dob);
-                $now = new DateTime();
-                $age = $now->diff($dobDate)->y;
-
-                if ($age < 18) {
-                    echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
-                } else if ($age > 65) {
-                    echo '<script>alert("Age Not Allow.");</script>';
-                    exit();
-                } else {
-                    $dobstatus = 1;
-                }
-
-                if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
-
-                    if ($_SESSION['vemail'] == $_POST['txtemail']) {
-                        session_destroy();
-                        store_data();
-                    } else {
-                        echo '<script>alert("Chnage the Email verify the email First");</script>';
-                    }
-                } else if (isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 0) {
-                    echo '<script>alert("First complete email verification.");</script>';
-                } else {
-                    echo '<script>alert("Some thing is missing.");</script>';
-                }
-            }
-        }
         
-        function store_data() {
-            ob_start();
-
-            $hostname = "localhost";
-            $username = "root";
-            $password = "";
-            $database = "e-Auction";
-
-            $c = mysqli_connect($hostname, $username, $password, $database);
-            if (!$c) {
-                die("Connection failed: " . mysqli_connect_error());
-            } else {
-                //echo '<script>alert("Connection Succesfully");</script>';
-                $fname = $_POST['txtfirstname'];
-                $lname = $_POST['txtlastname'];
-                $mo = $_POST['txtMobileNo'];
-
-                $d = $_POST['dob'];
-                $date = date("Y-d-m", strtotime($d));
-                $email = $_POST['txtemail'];
-                $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-                $qu = "INSERT INTO tbluser (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
-
-                $q = mysqli_query($c, $qu);
-
-                if (!$q) {
-                    $e = mysqli_error($c);
-                    die("Error: " . $e);
-                } else {
-                    //echo "<script>alert('User data stored successfully.');</script>";
-                    //header("location:sign-in.php?email=$email");
-                    // exit();
-                    echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
+            function verifyOTP() {
+                if (isset($_POST['otp'])) {
+                    $enteredOTP = $_POST['otp'];
+                    $storedOTP = $_SESSION['otp'];
+                    $email = $_SESSION['email'];
+                    if ($enteredOTP == null) {
+                        echo '<script>alert("Enter OTP First");</script>';
+                    }
+                    if ($enteredOTP == $storedOTP) {
+                        echo '<script>alert("OTP verification successful for email: ' . $email . '");</script>';
+                        $_SESSION['verifystatus'] = 1;
+                    } else {
+                        echo '<script>alert("OTP verification failed. Please try again.");</script>';
+                        $_SESSION['verifystatus'] = 0;
+                    }
                 }
+            }
+
+            function signup() {
+                if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
+                    $password = $_POST['txtpassword'];
+                    $confirmPassword = $_POST['txtconfirm_password'];
+                    $dob = $_POST['dob'];
+                    $passstatus = 0;
+                    $dobstatus = 0;
+
+                    if ($password !== $confirmPassword) {
+                        echo '<script>alert("Passwords do not match. Please try again.");</script>';
+                    } elseif (empty($password)) {
+                        echo '<script>alert("Password not valid.");</script>';
+                    } else {
+                        $passstatus = 1;
+                    }
+
+                    $dobDate = new DateTime($dob);
+                    $now = new DateTime();
+                    $age = $now->diff($dobDate)->y;
+
+                    if ($age < 18) {
+                        echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
+                    } else if ($age > 65) {
+                        echo '<script>alert("Age Not Allow.");</script>';
+                        exit();
+                    } else {
+                        $dobstatus = 1;
+                    }
+
+                    if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
+
+                        if ($_SESSION['vemail'] == $_POST['txtemail']) {
+                            session_destroy();
+                            store_data();
+                        } else {
+                            echo '<script>alert("Chnage the Email verify the email First");</script>';
+                        }
+                    } else if ($_SESSION['verifystatus'] == 0) {
+                        echo '<script>alert("First complete email verification.");</script>';
+                    } else {
+                        echo '<script>alert("Some thing is missing.");</script>';
+                    }
+                }
+            }
+
+            function store_data() {
+                ob_start();
+
+                $hostname = "localhost";
+                $username = "root";
+                $password = "";
+                $database = "e-Auction";
+
+                $c = mysqli_connect($hostname, $username, $password, $database);
+                if (!$c) {
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    //cheak email exists or not
+                    //echo '<script>alert("Connection Succesfully");</script>';
+                    //store data
+                    $fname = $_POST['txtfirstname'];
+                    $lname = $_POST['txtlastname'];
+                    $mo = $_POST['txtMobileNo'];
+
+                    $d = $_POST['dob'];
+                    $date = date("Y-d-m", strtotime($d));
+                    $email = $_POST['txtemail'];
+                    $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
+                    $qu = "INSERT INTO tblusers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
+
+                    $q = mysqli_query($c, $qu);
+
+                    if (!$q) {
+                        $e = mysqli_error($c);
+                        die("Error: " . $e);
+                    } else {
+                        //echo "<script>alert('User data stored successfully.');</script>";
+                        //header("location:sign-in.php?email=$email");
+                        // exit();
+                        echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
+                    }
+                }
+
 
                 mysqli_close($c);
             }
-        }
 
-        function getEmailTemplate($otp) {
-            return '
+            function getEmailTemplate($otp) {
+                return '
     <html>
     <head>
         <style>
@@ -677,34 +696,9 @@
         </div>
     </body>
     </html>';
-        }
-        ?>
-        <script>
-            // Get the end time from PHP
-            var endTime = <?php echo $endTime; ?> * 1000; // Convert to milliseconds
-
-            function startCountdown() {
-                var now = new Date().getTime();
-
-                var x = setInterval(function () {
-                    now = new Date().getTime();
-                    var distance = endTime - now;
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    //document.getElementById("timer").innerHTML = seconds ;
-                    document.getElementById("timer").innerHTML = minutes + ":" + seconds.toString().padStart(2, '0') + " ";
-                    if (distance < 0) {
-                        clearInterval(x);
-                        document.getElementById("timer").innerHTML = "OTP EXPIRED";
-                        document.getElementById("otp1").disabled = true;
-                        document.getElementById("btnverify").disabled = true;
-                    }
-                }, 1000);
             }
+            ?>
 
-            window.onload = startCountdown;
-        </script>
 
         <!--============= Account Section Ends Here =============-->
 
@@ -903,50 +897,50 @@
         <script src="assets/js/main.js"></script>
     </body>
     <script type="module">
-            // Import the functions you need from the SDKs you need
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-            import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-            // TODO: Add SDKs for Firebase products that you want to use
-            // https://firebase.google.com/docs/web/setup#available-libraries
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+        import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
 
-            // Your web app's Firebase configuration
-            const firebaseConfig = {
-                apiKey: "AIzaSyByKJ3hxiWHjKYaRJF-GDKPyBGQy8iKW6c",
-                authDomain: "e-auction-d55ef.firebaseapp.com",
-                projectId: "e-auction-d55ef",
-                storageBucket: "e-auction-d55ef.appspot.com",
-                messagingSenderId: "632262014249",
-                appId: "1:632262014249:web:b4a2b0884bfe6335603338"
-            };
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyByKJ3hxiWHjKYaRJF-GDKPyBGQy8iKW6c",
+            authDomain: "e-auction-d55ef.firebaseapp.com",
+            projectId: "e-auction-d55ef",
+            storageBucket: "e-auction-d55ef.appspot.com",
+            messagingSenderId: "632262014249",
+            appId: "1:632262014249:web:b4a2b0884bfe6335603338"
+        };
 
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const provider = new GoogleAuthProvider(app);
-            login.addEventListener('click', (e) => {
-                signInWithRedirect(auth, provider);
-                getRedirectResult(auth)
-                        .then((result) => {
-                            // This gives you a Google Access Token. You can use it to access Google APIs.
-                            const credential = GoogleAuthProvider.credentialFromResult(result);
-                            const token = credential.accessToken;
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider(app);
+        login.addEventListener('click', (e) => {
+            signInWithRedirect(auth, provider);
+            getRedirectResult(auth)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access Google APIs.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
 
-                            // The signed-in user info.
-                            const user = result.user;
-                            // IdP data available using getAdditionalUserInfo(result)
-                            // ...
-                        }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // The email of the user's account used.
-                    const email = error.customData.email;
-                    // The AuthCredential type that was used.
-                    const credential = GoogleAuthProvider.credentialFromError(error);
-                    console.log(credential);
-                    // ...
-                });
+                        // The signed-in user info.
+                        const user = result.user;
+                        // IdP data available using getAdditionalUserInfo(result)
+                        // ...
+                    }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                console.log(credential);
+                // ...
             });
+        });
     </script>
 
 </html>
