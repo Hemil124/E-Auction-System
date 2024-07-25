@@ -270,7 +270,6 @@
                     <li>
                         <a href="index.php">Home</a>
                     </li>
-                    
                     <li>
                         <span>Sign Up</span>
                     </li>
@@ -483,7 +482,6 @@
                     } elseif (mysqli_num_rows($q) == 1) {
                         echo '<script>alert("You have Alredy Account");</script>';
                         //exit();
-                        
                     } else {
 
 
@@ -513,127 +511,126 @@
                         $mail->Body = getEmailTemplate($otp);
 
                         // Send email
-                        $mail->send();
-
+                        //$mail->send();
                         // Store OTP in session for verification
                         $_SESSION['otp'] = $otp;
                         $_SESSION['email'] = $recipient_email;
 
                         echo '<script>alert("OTP sent successfully");</script>';
                     }
-                
-            } }catch (Exception $e) {
+                }
+            } catch (Exception $e) {
                 echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
             }
-            }
-        
-            function verifyOTP() {
-                if (isset($_POST['otp'])) {
-                    $enteredOTP = $_POST['otp'];
-                    $storedOTP = $_SESSION['otp'];
-                    $email = $_SESSION['email'];
-                    if ($enteredOTP == null) {
-                        echo '<script>alert("Enter OTP First");</script>';
-                    }
-                    if ($enteredOTP == $storedOTP) {
-                        echo '<script>alert("OTP verification successful for email: ' . $email . '");</script>';
-                        $_SESSION['verifystatus'] = 1;
-                    } else {
-                        echo '<script>alert("OTP verification failed. Please try again.");</script>';
-                        $_SESSION['verifystatus'] = 0;
-                    }
+        }
+
+        function verifyOTP() {
+            if (isset($_POST['otp'])) {
+                $enteredOTP = $_POST['otp'];
+                $storedOTP = $_SESSION['otp'];
+                $email = $_SESSION['email'];
+                if ($enteredOTP == null) {
+                    echo '<script>alert("Enter OTP First");</script>';
                 }
-            }
-
-            function signup() {
-                if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
-                    $password = $_POST['txtpassword'];
-                    $confirmPassword = $_POST['txtconfirm_password'];
-                    $dob = $_POST['dob'];
-                    $passstatus = 0;
-                    $dobstatus = 0;
-
-                    if ($password !== $confirmPassword) {
-                        echo '<script>alert("Passwords do not match. Please try again.");</script>';
-                    } elseif (empty($password)) {
-                        echo '<script>alert("Password not valid.");</script>';
-                    } else {
-                        $passstatus = 1;
-                    }
-
-                    $dobDate = new DateTime($dob);
-                    $now = new DateTime();
-                    $age = $now->diff($dobDate)->y;
-
-                    if ($age < 18) {
-                        echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
-                    } else if ($age > 65) {
-                        echo '<script>alert("Age Not Allow.");</script>';
-                        exit();
-                    } else {
-                        $dobstatus = 1;
-                    }
-
-                    if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
-
-                        if ($_SESSION['vemail'] == $_POST['txtemail']) {
-                            session_destroy();
-                            store_data();
-                        } else {
-                            echo '<script>alert("Chnage the Email verify the email First");</script>';
-                        }
-                    } else if ($_SESSION['verifystatus'] == 0) {
-                        echo '<script>alert("First complete email verification.");</script>';
-                    } else {
-                        echo '<script>alert("Some thing is missing.");</script>';
-                    }
-                }
-            }
-
-            function store_data() {
-                ob_start();
-
-                $hostname = "localhost";
-                $username = "root";
-                $password = "";
-                $database = "e-Auction";
-
-                $c = mysqli_connect($hostname, $username, $password, $database);
-                if (!$c) {
-                    die("Connection failed: " . mysqli_connect_error());
+                if ($enteredOTP == $storedOTP) {
+                    echo '<script>alert("OTP verification successful for email: ' . $email . '");</script>';
+                    $_SESSION['verifystatus'] = 1;
                 } else {
-                    //cheak email exists or not
-                    //echo '<script>alert("Connection Succesfully");</script>';
-                    //store data
-                    $fname = $_POST['txtfirstname'];
-                    $lname = $_POST['txtlastname'];
-                    $mo = $_POST['txtMobileNo'];
+                    echo '<script>alert("OTP verification failed. Please try again.");</script>';
+                    $_SESSION['verifystatus'] = 0;
+                }
+            }
+        }
 
-                    $d = $_POST['dob'];
-                    $date = date("Y-d-m", strtotime($d));
-                    $email = $_POST['txtemail'];
-                    $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-                    $qu = "INSERT INTO tblusers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
+        function signup() {
+            if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
+                $password = $_POST['txtpassword'];
+                $confirmPassword = $_POST['txtconfirm_password'];
+                $dob = $_POST['dob'];
+                $passstatus = 0;
+                $dobstatus = 0;
 
-                    $q = mysqli_query($c, $qu);
-
-                    if (!$q) {
-                        $e = mysqli_error($c);
-                        die("Error: " . $e);
-                    } else {
-                        //echo "<script>alert('User data stored successfully.');</script>";
-                        //header("location:sign-in.php?email=$email");
-                        // exit();
-                        echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
-                    }
+                if ($password !== $confirmPassword) {
+                    echo '<script>alert("Passwords do not match. Please try again.");</script>';
+                } elseif (empty($password)) {
+                    echo '<script>alert("Password not valid.");</script>';
+                } else {
+                    $passstatus = 1;
                 }
 
+                $dobDate = new DateTime($dob);
+                $now = new DateTime();
+                $age = $now->diff($dobDate)->y;
 
-                mysqli_close($c);
+                if ($age < 18) {
+                    echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
+                } else if ($age > 65) {
+                    echo '<script>alert("Age Not Allow.");</script>';
+                    exit();
+                } else {
+                    $dobstatus = 1;
+                }
+
+                if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
+
+                    if ($_SESSION['vemail'] == $_POST['txtemail']) {
+                        session_destroy();
+                        store_data();
+                    } else {
+                        echo '<script>alert("Chnage the Email verify the email First");</script>';
+                    }
+                } else if ($_SESSION['verifystatus'] == 0) {
+                    echo '<script>alert("First complete email verification.");</script>';
+                } else {
+                    echo '<script>alert("Some thing is missing.");</script>';
+                }
+            }
+        }
+
+        function store_data() {
+            ob_start();
+
+            $hostname = "localhost";
+            $username = "root";
+            $password = "";
+            $database = "e-Auction";
+
+            $c = mysqli_connect($hostname, $username, $password, $database);
+            if (!$c) {
+                die("Connection failed: " . mysqli_connect_error());
+            } else {
+                //cheak email exists or not
+                //echo '<script>alert("Connection Succesfully");</script>';
+                //store data
+                $fname = $_POST['txtfirstname'];
+                $lname = $_POST['txtlastname'];
+                $mo = $_POST['txtMobileNo'];
+
+                $d = $_POST['dob'];
+                $date = date("Y-d-m", strtotime($d));
+                $email = $_POST['txtemail'];
+                $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
+                $qu = "INSERT INTO tblusers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
+
+                $q = mysqli_query($c, $qu);
+
+                if (!$q) {
+                    $e = mysqli_error($c);
+                    die("Error: " . $e);
+                } else {
+                    //echo "<script>alert('User data stored successfully.');</script>";
+                    //header("location:sign-in.php?email=$email");
+                    // exit();
+                    echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
+                }
             }
 
-            function getEmailTemplate($otp) {
-                return '
+
+            mysqli_close($c);
+        }
+
+        function getEmailTemplate($otp) {
+            return '
     <html>
     <head>
         <style>
@@ -696,8 +693,8 @@
         </div>
     </body>
     </html>';
-            }
-            ?>
+        }
+        ?>
 
 
         <!--============= Account Section Ends Here =============-->
@@ -728,7 +725,22 @@
                     <img src="assets/images/footer/c4.png" alt="footer">
                 </div>
             </div>
+            <div class="newslater-wrapper">
+                <div class="container">
+                    <div class="newslater-area">
+                        <div class="newslater-thumb">
+                            <img src="assets/images/footer/newslater.png" alt="footer">
+                        </div>
+                        <div class="newslater-content">
+                            <div class="section-header left-style mb-low" data-aos="fade-down" data-aos-duration="1100">
+                                <h5 class="cate">Bid with confidence, win with pride</h5>
+                                <h3 class="title">From Bidders to Winners: Start Bidding Today</h3>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="footer-top padding-bottom padding-top">
                 <div class="container">
                     <div class="row mb--60">
@@ -736,9 +748,7 @@
                             <div class="footer-widget widget-links">
                                 <h5 class="title">Auction Categories</h5>
                                 <ul class="links-list">
-                                    <li>
-                                        <a href="#0">Ending Now</a>
-                                    </li>
+
                                     <li>
                                         <a href="#0">Vehicles</a>
                                     </li>
