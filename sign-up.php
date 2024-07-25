@@ -23,6 +23,7 @@
         <link rel="stylesheet" href="assets/css/flaticon.css">
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
+        <script src="./FirebaseAuth/firebaseConn.js" defer type="module"></script>
         <!--<link rel="stylesheet" href="assets/css/main.css">-->
         <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
         <link href="assets/css/nice-select.css" rel="stylesheet" type="text/css"/>
@@ -289,10 +290,15 @@
                             <h2 class="title">SIGN UP</h2>
                             <p>We're happy you're here!</p>
                         </div>
+                        
                         <ul class="login-with">
 
                             <li>
-                                <a href="#0" id="login"><i class="fab fa-google-plus"></i>Log in with Google</a>
+                            <div class="inputBox">
+                                <button id="google-login-btn" type="button">
+                                    <i class="fab fa-google-plus"></i>  Sign in with Google
+                                </button>
+                            </div>
                             </li>
                         </ul>
                         <div class="or">
@@ -328,7 +334,7 @@
                                                    pattern="\d{4}-\d{2}-\d{2}" required>
                                             <!-- min="1900-01-01" max="2100-12-31" -->
                                             <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
+                                                document.addEventListener('DOMContentLoaded', function (){
                                                     const dobInput = document.getElementById('signup-dob');
                                                     const today = new Date();
                                                     const currentYear = today.getFullYear();
@@ -927,7 +933,7 @@
         <script src="assets/js/jquery-ui.min.js"></script>
         <script src="assets/js/main.js"></script>
     </body>
-    <script type="module">
+<!--    <script type="module">
                                                 // Import the functions you need from the SDKs you need
                                                 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
                                                 import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
@@ -972,6 +978,6 @@
                                                         // ...
                                                     });
                                                 });
-    </script>
+    </script>-->
 
 </html>

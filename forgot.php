@@ -539,13 +539,13 @@
                 } else if (isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 0) {
                     echo '<script>alert("First complete email verification.");</script>';
                 } else {
-                    echo '<script>alert("Some thing is missing.");</script>';
+                    echo '<script>alert("First complete email verification.");</script>';
                 }
             }
         }
 
         function store_data() {
-            echo '<script>alert("inside store data");</script>';
+            //echo '<script>alert("inside store data");</script>';
             
             $hostname = "localhost";
             $username = "root";

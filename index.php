@@ -66,16 +66,15 @@
                         </ul>
                         <ul class="cart-button-area">
                             <?php if (isset($_SESSION['txtemail'])): ?>
-                                <li>
-                                    <button class="custom-button"><a href="logout.php">Logout</a></button>
-                                </li>
-                            <?php endif; ?>
+                                
+                                
                             <li>
                                 <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
                             </li>                        
                             <li>
-                                <a href="sign-in.php" class="user-button"><i class="flaticon-user"></i></a>
-                            </li>                        
+                                <a href="dashboard.php" class="user-button"><i class="flaticon-user"></i></a>
+                            </li>  
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -89,11 +88,11 @@
                             </a>
                             <!--<lable>Welcome, <?php echo $susername; ?>!</lable>-->
                             <?php
-                            if (isset($susername)) {
+                            /*if (isset($susername)) {
                                 echo "<p>Welcome, " . htmlspecialchars($susername) . "!</p>";
                             } else {
                                 echo "<p>Welcome!</p>";
-                            }
+                            }*/
                             ?>
                         </div>
                         <ul class="menu ml-auto">
