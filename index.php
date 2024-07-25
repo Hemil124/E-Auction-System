@@ -2083,13 +2083,10 @@
                         </div>
                         <div class="newslater-content">
                             <div class="section-header left-style mb-low" data-aos="fade-down" data-aos-duration="1100">
-                                <h5 class="cate">Subscribe to Sbidu</h5>
-                                <h3 class="title">To Get Exclusive Benefits</h3>
+                                <h5 class="cate">Bid with confidence, win with pride</h5>
+                                <h3 class="title">From Bidders to Winners: Start Bidding Today</h3>
                             </div>
-                            <form class="subscribe-form">
-                                <input type="text" placeholder="Enter Your Email" name="email">
-                                <button type="submit" class="custom-button">Subscribe</button>
-                            </form>
+
                         </div>
                     </div>
                 </div>
