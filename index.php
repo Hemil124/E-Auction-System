@@ -6,17 +6,11 @@
     <head>
         <?php
         session_start();
-//      withaout login can't open indexpage!!        
+//      without login can't open indexpage!!        
 //        if (!isset($_SESSION['txtemail']) ) {
 //            header("Location: sign-in.php");
 //            exit();
 //        }
-//        it's explod the emailid and show only name
-       // $email = $_SESSION['txtemail'];
-       // $susername = explode('@', $email)[0];
-      
-//        whole emailid show
-//        $susername = $_SESSION['txtemail'];
         ?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,10 +66,10 @@
                         </ul>
                         <ul class="cart-button-area">
                             <?php if (isset($_SESSION['txtemail'])): ?>
-                            <li>
-                                <button class="custom-button"><a href="logout.php">Logout</a></button>
-                            </li>
-                        <?php endif; ?>
+                                <li>
+                                    <button class="custom-button"><a href="logout.php">Logout</a></button>
+                                </li>
+                            <?php endif; ?>
                             <li>
                                 <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
                             </li>                        
@@ -265,6 +259,16 @@
                             <span></span>
                         </div>
                     </div>
+                    <?php
+//                    it's explod the emailid and show only name
+                    if (isset($susername)) {
+                        $email = $_SESSION['txtemail'];
+                        $susername = explode('@', $email)[0];
+                        echo "<h5>Welcome, " . htmlspecialchars($susername) . "!</h5>";
+                    } else {
+                        echo "<h5>Welcome!</h5>";
+                    }
+                    ?>
                 </div>
             </div>
         </header>
