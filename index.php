@@ -65,8 +65,7 @@
                             </li>
                         </ul>
                         <ul class="cart-button-area">
-                            <?php if (isset($_SESSION['txtemail'])): ?>
-                                
+                            <?php if (isset($_SESSION['txtemail'])): ?>    
                                 
                             <li>
                                 <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>

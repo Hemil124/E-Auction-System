@@ -322,7 +322,7 @@
                                     <a href="#0" class="active"><i class="flaticon-star"></i>My Favorites</a>
                                 </li>
                                 <button class="logout" onclick="window.location.href = 'logout.php'">
-                                    <i class="flaticon-logout"></i> Logout
+                                     Logout
                                 </button>
                             </ul>
                         </div>
