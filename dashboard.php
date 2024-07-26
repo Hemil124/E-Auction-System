@@ -321,11 +321,11 @@
                                 <li>
                                     <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
                                 </li>
-
+<li>
                                 <button class="logout" onclick="window.location.href = 'logout.php'">
                                     Logout
                                 </button>
-
+</li>
                             </ul>
                         </div>
                     </div>

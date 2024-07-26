@@ -291,7 +291,7 @@
                             <p>We're happy you're here!</p>
                         </div>
                         
-                        <ul class="login-with">
+<!--                        <ul class="login-with">
 
                             <li>
                             <div class="inputBox">
@@ -300,10 +300,10 @@
                                 </button>
                             </div>
                             </li>
-                        </ul>
-                        <div class="or">
+                        </ul>-->
+<!--                        <div class="or">
                             <span>Or</span>
-                        </div>
+                        </div>-->
                         <form class="login-form" method="post" action="">
                             <div class="form-group mb-30">
                                 <label for="signup-fname"><i class="fa fa-user"></i></label>

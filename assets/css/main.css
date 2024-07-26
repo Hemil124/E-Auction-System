@@ -7510,7 +7510,14 @@ button.custom-button {
 /* Auto Suggestion Search Bar CSS End Here*/
 
 /*37.sign-in log-in*/
+.sig-div{
+      /*position:absolute;*/
+            top:200px;
+}
 .sign-in{
+            margin-top: 100px;
+            position:absolute;
+            top:30px;
             -webkit-text-size-adjust: 100%;
             font-family: 'Source Sans Pro Topnav', sans-serif;
             box-sizing: inherit;
@@ -7528,10 +7535,11 @@ button.custom-button {
             border: none;
             display: block;
             outline: 0;
-            margin-bottom: 56px;
-            margin-right: 10px;
-            margin-left: 0;
-            position: relative;
+            margin-bottom: 1000px;
+            margin-right: 50px;
+            margin-left: 10px;
+            
+            /*position: relative;*/
             width: 112px;
             height: 40px;
             top: 50%;
@@ -7586,6 +7594,7 @@ button.custom-button {
         }
 /*38.Logout Css*/
 .logout{
+/*  color:;
   padding: 17px 40px;
   border-radius: 50px;
   cursor: pointer;
@@ -7597,7 +7606,17 @@ button.custom-button {
   font-size: 15px;
   font-weight: bold;
   font-family: "Open Sans", sans-serif;
-  transition: all 0.5s ease;
+  transition: all 0.5s ease;*/
+color: #ffffff;
+    border-radius: 30px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 12px 30px 10px;
+    font-size: 18px;
+    background: -webkit-linear-gradient(90deg, rgb(61, 169, 245) 0%, rgb(104, 61, 245) 100%);
+    box-shadow: -1.04px 4.891px 20px 0px rgba(69, 49, 183, 0.5);
+    font-family: "Roboto", sans-serif;
+    transition: all 0.4s;
 }
 
 .logout:hover {

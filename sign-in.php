@@ -289,7 +289,7 @@
                             <h2 class="title">HI, THERE</h2>
                             <p>You can log in to your E-Auction account here.</p>
                         </div>
-                        <ul class="login-with">
+<!--                        <ul class="login-with">
 
                             <li>
                                 <a  href="#0" id="login"><i class="fab fa-google-plus"></i>Log in with Google</a>
@@ -297,7 +297,7 @@
                         </ul>
                         <div class="or">
                             <span>Or</span>
-                        </div>
+                        </div>-->
                         <form class="login-form" method="POST">
                             <div class="form-group mb-30">
                                 <label for="login-email"><i class="fa-solid fa-envelope"></i></label>

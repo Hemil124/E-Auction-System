@@ -66,13 +66,24 @@
                         </ul>
                         <ul class="cart-button-area">
                             <?php if (isset($_SESSION['txtemail'])): ?>    
-                                
-                            <li>
-                                <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
-                            </li>                        
-                            <li>
-                                <a href="dashboard.php" class="user-button"><i class="flaticon-user"></i></a>
-                            </li>  
+
+                                <li>
+                                    <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
+                                </li>                        
+                                <li>
+                                    <a href="dashboard.php" class="user-button"><i class="flaticon-user"></i></a>
+                                </li>  
+                            <?php endif; ?>
+                            <?php if (!isset($_SESSION['txtemail'])): ?>
+                                <div class="sig-div">
+
+                                    <a href="" class="sign-in" title="Login to your account" aria-label="Login to your account">
+                                        Log in
+                                    </a>
+                                    <a href=" "class="sign-up" title="Sign Up to Improve Your Learning Experience" aria-label="Sign Up to Improve Your Learning Experience">
+                                        Sign Up
+                                    </a>
+                                </div>
                             <?php endif; ?>
                         </ul>
                     </div>
@@ -85,13 +96,13 @@
                             <a href="index.php">
                                 <img src="assets/images/logo/logo.png" alt="logo">
                             </a>
-                            
+
                             <?php
-                            /*if (isset($susername)) {
-                                echo "<p>Welcome, " . htmlspecialchars($susername) . "!</p>";
-                            } else {
-                                echo "<p>Welcome!</p>";
-                            }*/
+                            /* if (isset($susername)) {
+                              echo "<p>Welcome, " . htmlspecialchars($susername) . "!</p>";
+                              } else {
+                              echo "<p>Welcome!</p>";
+                              } */
                             ?>
                         </div>
                         <ul class="menu ml-auto">
