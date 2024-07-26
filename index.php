@@ -48,53 +48,9 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-top-wrapper">
-                        <ul class="customer-support">
-                            <li class="cmn-support-text">
-                                <a href="#0" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">Customer Support</span></a>
-                            </li>
-                            <li class="customer-cupport-lang">
-                                <i class="fas fa-globe"></i>
-                                <select name="language" class="select-bar">
-                                    <option value="en">En</option>
-                                    <option value="Bn">Bn</option>
-                                    <option value="Rs">Rs</option>
-                                    <option value="Us">Us</option>
-                                    <option value="Pk">Pk</option>
-                                    <option value="Arg">Arg</option>
-                                </select>
-                            </li>
-                        </ul>
-                        <ul class="cart-button-area">
-                            <?php if (isset($_SESSION['txtemail'])): ?>    
-
-                                <li>
-                                    <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
-                                </li>                        
-                                <li>
-                                    <a href="dashboard.php" class="user-button"><i class="flaticon-user"></i></a>
-                                </li>  
-                            <?php endif; ?>
-                            <?php if (!isset($_SESSION['txtemail'])): ?>
-                                <div class="sig-div">
-
-                                    <a href="" class="sign-in" title="Login to your account" aria-label="Login to your account">
-                                        Log in
-                                    </a>
-                                    <a href=" "class="sign-up" title="Sign Up to Improve Your Learning Experience" aria-label="Sign Up to Improve Your Learning Experience">
-                                        Sign Up
-                                    </a>
-                                </div>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="header-bottom">
-                <div class="container">
-                    <div class="header-wrapper">
                         <div class="logo">
                             <a href="index.php">
-                                <img src="assets/images/logo/logo.png" alt="logo">
+                                <img src="assets/images/logo/logo.png" alt="logo"  style="margin-top: 40px;">
                             </a>
 
                             <?php
@@ -199,7 +155,7 @@
                             </li>
                         </ul>
                         <form class="search-form">
-                            <input type="text" placeholder="Search for brand, model...." id="search-input" onkeyup=" showSuggestions(this.value)">
+                            <input type="text" placeholder="Search for brand, model...." id="search-input" onkeyup=" showSuggestions(this.value)" style="position: absolute;top:34px;">
                             <div id="suggestions"></div>
                             <script>
                                 const data = [
@@ -257,7 +213,7 @@
                                     document.getElementById('suggestions').classList.remove('active');
                                 }
                             </script>
-                            <button type="submit"><i class="fas fa-search"></i></button>
+                            <button type="submit"><i class="fas fa-search" style="position:absolute;top:48px;"></i></button>
                         </form>
                         <div class="search-bar d-md-none">
                             <a href="#0"><i class="fas fa-search"></i></a>
@@ -267,6 +223,35 @@
                             <span></span>
                             <span></span>
                         </div>
+                        <ul class="cart-button-area">
+                            <?php if (isset($_SESSION['txtemail'])): ?>    
+
+                                <li>
+                                    <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
+                                </li>                        
+                                <li>
+                                    <a href="dashboard.php" class="user-button"><i class="flaticon-user"></i></a>
+                                </li>  
+                            <?php endif; ?>
+                            <?php if (!isset($_SESSION['txtemail'])): ?>
+                                <div class="sig-div" style="margin-top: 57px;">
+
+                                    <a href="" class="sign-in" title="Login to your account" aria-label="Login to your account">
+                                        Log in
+                                    </a>
+                                    <a href=" "class="sign-up" title="Sign Up to Improve Your Learning Experience" aria-label="Sign Up to Improve Your Learning Experience">
+                                        Sign Up
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom">
+                <div class="container">
+                    <div class="header-wrapper">
+                        
                     </div>
                     <?php
 //                    it's explod the emailid and show only name
@@ -285,9 +270,9 @@
 
         <!--============= Cart Section Starts Here =============-->
         <div class="cart-sidebar-area">
-            <div class="top-content">
-                <a href="index.php" class="logo">
-                    <img src="assets/images/logo/logo2.png" alt="logo">
+            <div class="top-content" ">
+                <a href="index.php" class="logo" >
+                    <img src="assets/images/logo/logo2.png" alt="logo"  > 
                 </a>
                 <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
             </div>
