@@ -86,7 +86,7 @@
                             <a href="index.php">
                                 <img src="assets/images/logo/logo.png" alt="logo">
                             </a>
-                            <!--<lable>Welcome, <?php echo $susername; ?>!</lable>-->
+                            
                             <?php
                             /*if (isset($susername)) {
                                 echo "<p>Welcome, " . htmlspecialchars($susername) . "!</p>";
