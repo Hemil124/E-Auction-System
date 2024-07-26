@@ -7512,13 +7512,13 @@ button.custom-button {
 /*37.sign-in log-in*/
 .sig-div{
       /*position:absolute;*/
-            top:200px;
+            /*top:200px;*/
+            margin-top: 40px;
+           
 }
 .sign-in{
-            margin-top: 100px;
-            position:absolute;
-            top:30px;
-            -webkit-text-size-adjust: 100%;
+    padding: 10px;
+          -webkit-text-size-adjust: 100%;
             font-family: 'Source Sans Pro Topnav', sans-serif;
             box-sizing: inherit;
             vertical-align: middle;
@@ -7535,11 +7535,10 @@ button.custom-button {
             border: none;
             display: block;
             outline: 0;
-            margin-bottom: 1000px;
-            margin-right: 50px;
-            margin-left: 10px;
-            
-            /*position: relative;*/
+            margin-bottom: 56px;
+            margin-right: 10px;
+            margin-left: 0;
+            position: relative;
             width: 112px;
             height: 40px;
             top: 50%;
@@ -7550,15 +7549,16 @@ button.custom-button {
             line-height: 1.5;
             z-index: 4;
             transition: background-color 0.3s;
+            background-color: #4535C1 ;
         }
 
         .sign-in:hover {
-            background-color: #059862 !important;
+            background-color: #3559E0 !important;
             color: #ffffff !important;
         }
 
         .sign-up{
-            -webkit-text-size-adjust: 100%;
+             -webkit-text-size-adjust: 100%;
             font-family: 'Source Sans Pro Topnav', sans-serif;
             box-sizing: inherit;
             border: none;
@@ -7571,7 +7571,7 @@ button.custom-button {
             cursor: pointer;
             user-select: none;
             float: right!important;
-            background-color: #04AA6D!important;
+            background-color: #402E7A!important;
             color: white!important;
             white-space: normal;
             margin-bottom: 56px;
@@ -7587,11 +7587,10 @@ button.custom-button {
             line-height: 1.5;
             z-index: 5;
             transition: background-color 0.3s;
+            
         }
 
-        .sign-up:hover {
-            background-color: #038d62!important;
-        }
+       
 /*38.Logout Css*/
 .logout{
 /*  color:;
