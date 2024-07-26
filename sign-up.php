@@ -32,11 +32,11 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <!--        <div class="overlayer" id="overlayer"> 
+                <div class="overlayer" id="overlayer"> 
                     <div class="loader">
                         <div class="loader-inner"></div>
                     </div>
-                </div>-->
+                </div>
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -197,8 +197,8 @@
         <!--============= Cart Section Starts Here =============-->
         <div class="cart-sidebar-area">
             <div class="top-content">
-                <a href="index.php" class="logo">
-                    <img src="assets/images/logo/logo2.png" alt="logo"/>
+                <a href="index.php" class="logo" style="margin-top: 80px;">
+                    <img src="assets/images/logo/logo2.png" alt="logo">
                 </a>
                 <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
             </div>
