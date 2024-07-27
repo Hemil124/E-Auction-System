@@ -236,12 +236,13 @@
                             <?php if (!isset($_SESSION['txtemail'])): ?>
                                 <div class="sig-div" style="margin-top: 57px;">
 
-                                    <a href="" class="sign-in" title="Login to your account" aria-label="Login to your account">
-                                        Log in
-                                    </a>
-                                    <a href=" "class="sign-up" title="Sign Up to Improve Your Learning Experience" aria-label="Sign Up to Improve Your Learning Experience">
-                                        Sign Up
-                                    </a>
+                                    
+                                    <button class="sign-in" onclick="window.location.href = 'sign-in.php'">
+                                    Log in
+                                </button>
+                                    <button class="sign-up" onclick="window.location.href = 'sign-up.php'">
+                                    Sign Up
+                                </button>
                                 </div>
                             <?php endif; ?>
                         </ul>
