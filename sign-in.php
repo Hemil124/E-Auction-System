@@ -31,11 +31,11 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-<!--        <div class="overlayer" id="overlayer">
-            <div class="loader">
-                <div class="loader-inner"></div>
-            </div>
-        </div>-->
+        <!--        <div class="overlayer" id="overlayer">
+                    <div class="loader">
+                        <div class="loader-inner"></div>
+                    </div>
+                </div>-->
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -269,7 +269,7 @@
                     <li>
                         <a href="index.php">Home</a>
                     </li>
-                   
+
                     <li>
                         <span>Sign In</span>
                     </li>
@@ -289,15 +289,15 @@
                             <h2 class="title">HI, THERE</h2>
                             <p>You can log in to your E-Auction account here.</p>
                         </div>
-<!--                        <ul class="login-with">
-
-                            <li>
-                                <a  href="#0" id="login"><i class="fab fa-google-plus"></i>Log in with Google</a>
-                            </li>
-                        </ul>
-                        <div class="or">
-                            <span>Or</span>
-                        </div>-->
+                        <!--                        <ul class="login-with">
+                        
+                                                    <li>
+                                                        <a  href="#0" id="login"><i class="fab fa-google-plus"></i>Log in with Google</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="or">
+                                                    <span>Or</span>
+                                                </div>-->
                         <form class="login-form" method="POST">
                             <div class="form-group mb-30">
                                 <label for="login-email"><i class="fa-solid fa-envelope"></i></label>
@@ -306,7 +306,7 @@
                             <div class="form-group">
                                 <label for="login-pass"><i class="fas fa-lock"></i></label>
                                 <input type="password" id="login-pass" placeholder="Password" name="txtpass">
-                                <!--<span class="pass-type"><i class="fas fa-eye"></i></span>-->
+                                <span class="pass-type" id="toggle-password"><i class="fas fa-eye"></i></span>
                             </div>
                             <div class="form-group mt-3 mb-3">
                                 <a href="forgot.php">Forgot Password?</a>
@@ -320,23 +320,59 @@
                         <div class="section-header mb-0">
                             <h3 class="title mt-0">NEW HERE?</h3>
                             <p>Sign up and create your Account</p>
-                            <a href="sign-up.php" class="custom-button transparent">Sign Up</a>
+                            <!--<a href="sign-up.php" class="custom-button transparent">Sign Up</a>-->
+                            <button class="custom-button transparent" data-toggle="modal" data-target="#signUpModal">
+                                Sign Up
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <script>
-            window.onload = function () {
-                const urlParams = new URLSearchParams(window.location.search);
-                const email = urlParams.get('email');
-                if (email) {
-//                    document.getElementById('signinEmail').value = email;
-                    document.querySelector('input[name="txtemail"]').value = email;
 
-                }
-            };
-        </script>
+        <!-- Sign Up Modal -->
+        <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+                        <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>-->
+                    </div>
+                    <div class="modal-body">
+                        <form id="signUpForm" method="POST" action="" style="color:black;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="signupOption" id="customer"  value="customer">
+                                <label class="form-check-label" for="customer">
+                                    As a Bidder
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="signupOption" id="seller" value="seller">
+                                <label class="form-check-label" for="seller">
+                                    As a Seller 
+                                </label>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="custom-button" data-dismiss="modal" style="width: 150px;">Close</button>
+                        <button type="submit" class="custom-button" name="popupok"style="width: 150px; ">OK</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <?php
+        if (isset($_POST['popupok'])) {
+            if ($_POST['signupOption'] == 'customer') {
+                echo '<script>location.replace("sign-up-Bidder.php")</script>';
+            } elseif ($_POST['signupOption'] == 'seller') {
+                echo '<script>location.replace("sign-up-seller.php")</script>';
+            }
+        }
+        ?>
+        <!-- Sign Up Modal end -->
         <?php
         if (isset($_SESSION['txtemail'])) {
             echo '<script>location.replace("index.php")</script>';
@@ -422,7 +458,7 @@
                     <img src="assets/images/footer/c4.png" alt="footer">
                 </div>
             </div>
-             <div class="newslater-wrapper">
+            <div class="newslater-wrapper">
                 <div class="container">
                     <div class="newslater-area">
                         <div class="newslater-thumb">
@@ -607,49 +643,49 @@
     </body>
 
     <script type="module">
-            // Import the functions you need from the SDKs you need
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-            import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-            // TODO: Add SDKs for Firebase products that you want to use
-            // https://firebase.google.com/docs/web/setup#available-libraries
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+        import {getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
 
-            // Your web app's Firebase configuration
-            const firebaseConfig = {
-                apiKey: "AIzaSyByKJ3hxiWHjKYaRJF-GDKPyBGQy8iKW6c",
-                authDomain: "e-auction-d55ef.firebaseapp.com",
-                projectId: "e-auction-d55ef",
-                storageBucket: "e-auction-d55ef.appspot.com",
-                messagingSenderId: "632262014249",
-                appId: "1:632262014249:web:b4a2b0884bfe6335603338"
-            };
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyByKJ3hxiWHjKYaRJF-GDKPyBGQy8iKW6c",
+            authDomain: "e-auction-d55ef.firebaseapp.com",
+            projectId: "e-auction-d55ef",
+            storageBucket: "e-auction-d55ef.appspot.com",
+            messagingSenderId: "632262014249",
+            appId: "1:632262014249:web:b4a2b0884bfe6335603338"
+        };
 
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const provider = new GoogleAuthProvider(app);
-            login.addEventListener('click', (e) => {
-                signInWithRedirect(auth, provider);
-                getRedirectResult(auth)
-                        .then((result) => {
-                            // This gives you a Google Access Token. You can use it to access Google APIs.
-                            const credential = GoogleAuthProvider.credentialFromResult(result);
-                            const token = credential.accessToken;
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider(app);
+        login.addEventListener('click', (e) => {
+            signInWithRedirect(auth, provider);
+            getRedirectResult(auth)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access Google APIs.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
 
-                            // The signed-in user info.
-                            const user = result.user;
-                            // IdP data available using getAdditionalUserInfo(result)
-                            // ...
-                        }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // The email of the user's account used.
-                    const email = error.customData.email;
-                    // The AuthCredential type that was used.
-                    const credential = GoogleAuthProvider.credentialFromError(error);
-                    console.log(credential);
-                    // ...
-                });
+                        // The signed-in user info.
+                        const user = result.user;
+                        // IdP data available using getAdditionalUserInfo(result)
+                        // ...
+                    }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                console.log(credential);
+                // ...
             });
+        });
     </script>
 </html>

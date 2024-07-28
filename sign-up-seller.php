@@ -31,19 +31,9 @@
     </head>
 
     <body>
-        <!--============= ScrollToTop Section Starts Here =============-->
-<!--        <div class="overlayer" id="overlayer"> 
-            <div class="loader">
-                <div class="loader-inner"></div>
-            </div>
-        </div>-->
-        <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
-        <div class="overlay"></div>
-        <!--============= ScrollToTop Section Ends Here =============-->
-
-
-        <?php include_once 'Header.php';?>
-
+        <?php
+        include 'header.php';
+        ?>
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section">
             <div class="container">
@@ -51,12 +41,13 @@
                     <li>
                         <a href="index.php">Home</a>
                     </li>
+
                     <li>
-                        <span>Sign Up</span>
+                        <span>Sign Up as Seller</span>
                     </li>
                 </ul>
             </div>
-            <!--<div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png"></div>-->
+            <div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png"></div>
         </div>
         <!--============= Hero Section Ends Here =============-->
 
@@ -67,7 +58,7 @@
                 <div class="account-wrapper mt--100 mt-lg--440">
                     <div class="left-side">
                         <div class="section-header" data-aos="zoom-out-down" data-aos-duration="1200">
-                            <h2 class="title">SIGN UP</h2>
+                            <h2 class="title">SIGN UP FOR SELLER</h2>
                             <p>We're happy you're here!</p>
                         </div>
 
@@ -84,19 +75,17 @@
                         <!--                        <div class="or">
                                                     <span>Or</span>
                                                 </div>-->
-                        <form class="login-form" method="post" action="">
+                        <form class="login-form" method="post" enctype="multipart/form-data" id="registration-form">
                             <div class="form-group mb-30">
                                 <label for="signup-fname"><i class="fa fa-user"></i></label>
-                                <input type="text" id="signup-fname" placeholder="First Name" name="txtfirstname" onkeypress="cheak_valid()"
+                                <input type="text" id="signup-fname" placeholder="First Name" name="txtfirstname"
                                        <?php if (isset($_POST['txtfirstname'])) echo 'value="' . htmlspecialchars($_POST['txtfirstname']) . '"'; ?> required>
-                                <p><?php if (isset($fnameerr)) echo "$fnameerr"; ?></p>
                             </div>
                             <div class="form-group mb-30">
                                 <label for="signup-lname"><i class="fa fa-user"></i></label>
                                 <input type="text" id="signup-lname" placeholder="Last Name" name="txtlastname"
                                        <?php if (isset($_POST['txtlastname'])) echo 'value="' . htmlspecialchars($_POST['txtlastname']) . '"'; ?> required>
                             </div>
-
                             <div class="form-group mb-30" id="a">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -104,30 +93,21 @@
                                         <input type="tel" id="signup-number" placeholder="Mobile Number" name="txtMobileNo"
                                                pattern="\d{10}" maxlength="10"  <?php if (isset($_POST['txtMobileNo'])) echo 'value="' . htmlspecialchars($_POST['txtMobileNo']) . '"'; ?> required>
                                     </div>
-
-
                                     <div class="col-sm-6">
                                         <div class="form-group mb-0">
                                             <label for="signup-dob"><i class="fa fa-calendar"></i></label>
                                             <input type="date" id="signup-dob" name="dob"
                                             <?php if (isset($_POST['dob'])) echo 'value="' . htmlspecialchars($_POST['dob']) . '"'; ?> 
                                                    pattern="\d{4}-\d{2}-\d{2}" required>
-                                            <!-- min="1900-01-01" max="2100-12-31" -->
                                             <script>
                                                 document.addEventListener('DOMContentLoaded', function () {
                                                     const dobInput = document.getElementById('signup-dob');
                                                     const today = new Date();
                                                     const currentYear = today.getFullYear();
-
-                                                    // Calculate the minimum and maximum date based on age range 18 to 65
                                                     const minYear = currentYear - 65;
                                                     const maxYear = currentYear - 18;
-
-                                                    // Format dates as YYYY-MM-DD
                                                     const minDate = new Date(minYear, today.getMonth(), today.getDate()).toISOString().split('T')[0];
                                                     const maxDate = new Date(maxYear, today.getMonth(), today.getDate()).toISOString().split('T')[0];
-
-                                                    // Set the min and max attributes
                                                     dobInput.min = minDate;
                                                     dobInput.max = maxDate;
                                                 });
@@ -136,75 +116,62 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group mb-30">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label for="signup-number"><i class="fa-solid fa-envelope"></i></label>
+                                        <label for="signup-email"><i class="fa-solid fa-envelope"></i></label>
                                         <input type="email" id="signup-email" placeholder="Email Address" name="txtemail"
                                                <?php if (isset($_POST['txtemail'])) echo 'value="' . htmlspecialchars($_POST['txtemail']) . '"'; ?> required>
                                     </div>
-                                    <div class="col-sm-6" id="a">
-                                        <div class="form-group mb-0">   
-                                            <button type="submit" class="custom-button"  name="btnsend">Send OTP</button>
-                                        </div>
+                                    <div class="col-sm-6">
+                                        <input type="tel" id="signup-adhar" placeholder="Enter Adhar No" name="signup-adhar" pattern="\d{11}" maxlength="11" minlength="11"
+                                               <?php if (isset($_POST['signup-adhar'])) echo 'value="' . htmlspecialchars($_POST['signup-adhar']) . '"'; ?> required>
                                     </div>
-
                                 </div>
                             </div>
-
-
-
                             <div class="form-group mb-30" id="a">
                                 <div class="row">
-                                    <div class="col-sm-5">
-                                        <label for="signup-number"><i class="fa fa-key"></i></label>
-                                        <input type="tel" id="txtotp" placeholder="Enter OTP" name="otp" pattern="[0-9]{6}" maxlength="6"
-                                               <?php if (isset($_POST['otp'])) echo 'value="' . htmlspecialchars($_POST['otp']) . '"'; ?>>
+                                    <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; ">
+                                        <lable>Upload Your Adhar Card PDF, JPEG or JPG formats only
+                                            <input type="file" name="image" required style="border: 0px; margin: 0 auto;"/>
+                                        </lable>
                                     </div>
-                                    <div class="col-sm-1" id="a">
-                                        <div class="form-group mb-0">   
-                                            <p class="timer"><span id="timer"></span></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group mb-0">
-                                            <button type="submit" class="custom-button"  name="btnvarify" >Varify OTP</button>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group mb-0">
-                                            <button type="submit" class="custom-button"  name="btnResend">Resend OTP</button>
-                                        </div>
-                                    </div>
+                                    <div class="col-sm-4"></div>
+                                    <!--<div class="col-sm-3"></div>-->
                                 </div>
-
-
                             </div>
-
-
-
                             <div class="form-group mb-30">
                                 <label for="login-pass"><i class="fas fa-lock"></i></label>
                                 <input type="password" id="login-pass" placeholder="Password" name="txtpassword"
                                 <?php if (isset($_POST['txtpassword'])) echo 'value="' . htmlspecialchars($_POST['txtpassword']) . '"'; ?> 
-                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
-                                <!--<span class="pass-type"><i class="fas fa-eye"></i></span>-->
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                                <span class="pass-type" id="toggle-password"><i class="fas fa-eye"></i></span>
                             </div>
-
                             <div class="form-group mb-30">
-                                <label for="login-pass"><i class="fas fa-lock"></i></label>
-                                <input type="password" id="login-conpass" placeholder="Conforim Password" name="txtconfirm_password"
+                                <label for="login-conpass"><i class="fas fa-lock"></i></label>
+                                <input type="password" id="login-conpass" placeholder="Confirm Password" name="txtconfirm_password"
                                 <?php if (isset($_POST['txtconfirm_password'])) echo 'value="' . htmlspecialchars($_POST['txtconfirm_password']) . '"'; ?> 
-                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
-                                <!--<span class="pass-type"><i class="fas fa-eye"></i></span>-->
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                                <span class="pass-type" id="toggle-confirm-password"><i class="fas fa-eye"></i></span>
                             </div>
-
                             <div class="form-group mb-0">
                                 <button type="submit" class="custom-button"  name="btnsignup">Sign Up</button>
                             </div>
                         </form>
+
+                        <script>
+                            document.getElementById('signup-adhar').addEventListener('input', function (e) {
+                                // Remove non-numeric characters
+                                this.value = this.value.replace(/\D/g, '');
+                            });
+                            document.getElementById('signup-number').addEventListener('input', function (e) {
+                                // Remove non-numeric characters
+                                this.value = this.value.replace(/\D/g, '');
+                            });
+
+
+                        </script>
+
                     </div>
                     <div class="right-side cl-white">
                         <div class="section-header mb-0">
@@ -218,228 +185,78 @@
         </section>
 
         <?php
-        
-
-         use PHPMailer\PHPMailer\PHPMailer;
-        use PHPMailer\PHPMailer\Exception;
+        session_start();
 
         // Load environment variables
         //require 'vendor/autoload.php';
         //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
         //$dotenv->load();
 
-        if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-        }
+
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
-        //0= otp is not expire
-        //1= otp is  expire
-        if (isset($_POST['btnsend'])) {
-        sendOTP();
-        }
-        if (isset($_POST['btnvarify'])) {
-        verifyOTP();
-        } elseif (isset($_POST['btnResend'])) {
-        resendOTP();
-        } elseif (isset($_POST['btnsignup'])) {
-        signup();
-        }
+            //0= otp is not expire
+            //1= otp is  expire
+
+
+            if (isset($_POST['btnsignup'])) {
+                signup();
+            }
         }
 
-        function sendOTP() {
-        if (isset($_POST['txtemail'])) {
-        sendEmail($_POST['txtemail']);
-        $_SESSION['vemail'] = $_POST['txtemail'];
-        }
-        }
-
-        function resendOTP() {
-        if (isset($_SESSION['email'])) {
-        sendEmail($_SESSION['email']);
-        } else {
-        echo '<script>alert("No email address found in session.");</script>';
-        }
-        }
+        use PHPMailer\PHPMailer\PHPMailer;
+        use PHPMailer\PHPMailer\Exception;
 
         function sendEmail($recipient_email) {
-        require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\PHPMailer.php';
-        require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\Exception.php';
-        require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\SMTP.php';
-        try {
-        $hostname = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "e-Auction";
-
-        $c = mysqli_connect($hostname, $username, $password, $database);
-        if (!$c) {
-        die("Connection failed: " . mysqli_connect_error());
-        } else {
-        $email = mysqli_real_escape_string($c, $_POST['txtemail']);
-
-        $qu = "SELECT Password FROM tblusers WHERE Email='$email'";
-
-        $q = mysqli_query($c, $qu);
-
-        if (!$q) {
-        // Print error details if the query fails
-        echo '<script>alert("Query Error: ' . mysqli_error($c) . '");</script>';
-        } elseif (mysqli_num_rows($q) == 1) {
-        echo '<script>alert("You have Alredy Account");</script>';
-        //exit();
-        } else {
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\PHPMailer.php';
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\Exception.php';
+            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\SMTP.php';
+            try {
 
 
-        // $otp = mt_rand(100000, 999999);
-        $otp = 111111;
-        $timestamp = $_SERVER["REQUEST_TIME"];
-        $_SESSION["TIME"] = $timestamp;
+                // $otp = mt_rand(10000, 99999);
+                $otp = 11111;
+                $_SESSION["O"] = "a";
+                $timestamp = $_SERVER["REQUEST_TIME"];
+                $_SESSION["TIME"] = $timestamp;
 
-        $mail = new PHPMailer(true);
+                $mail = new PHPMailer(true);
 
-        // SMTP settings
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'hemilghori@gmail.com';
-        $mail->Password = 'nkagldxfrrntpzuz';
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
+                // SMTP settings
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'hemilghori@gmail.com';
+                $mail->Password = 'nkagldxfrrntpzuz';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
 
-        // Sender and recipient
-        $mail->setFrom('hemilghori@gmail.com', 'E-Auction');
-        $mail->addAddress($recipient_email);
+                // Sender and recipient
+                $mail->setFrom('hemilghori@gmail.com', 'E-Auction');
+                $mail->addAddress($recipient_email);
 
-        // Email content
-        $mail->isHTML(true);
-        $mail->Subject = 'Email Verification OTP';
-        $mail->Body = getEmailTemplate($otp);
+                // Email content
+                $mail->isHTML(true);
+                $mail->Subject = 'Email Verification OTP';
+                $mail->Body = getEmailTemplate($otp);
 
-        // Send email
-        //$mail->send();
-        // Store OTP in session for verification
-        $_SESSION['otp'] = $otp;
-        $_SESSION['email'] = $recipient_email;
+                // Send email
+                //$mail->send();
+                // Store OTP in session for verification
 
-        echo '<script>alert("OTP sent successfully");</script>';
-        }
-        }
-        } catch (Exception $e) {
-        echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
-        }
-        }
+                $_SESSION['email'] = $recipient_email;
 
-        function verifyOTP() {
-        if (isset($_POST['otp'])) {
-        $enteredOTP = $_POST['otp'];
-        $storedOTP = $_SESSION['otp'];
-        $email = $_SESSION['email'];
-        if ($enteredOTP == null) {
-        echo '<script>alert("Enter OTP First");</script>';
-        }
-        if ($enteredOTP == $storedOTP) {
-        echo '<script>alert("OTP verification successful for email: ' . $email . '");</script>';
-        $_SESSION['verifystatus'] = 1;
-        } else {
-        echo '<script>alert("OTP verification failed. Please try again.");</script>';
-        $_SESSION['verifystatus'] = 0;
-        }
-        }
-        }
-
-        function signup() {
-        if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
-        $password = $_POST['txtpassword'];
-        $confirmPassword = $_POST['txtconfirm_password'];
-        $dob = $_POST['dob'];
-        $passstatus = 0;
-        $dobstatus = 0;
-
-        if ($password !== $confirmPassword) {
-        echo '<script>alert("Passwords do not match. Please try again.");</script>';
-        } elseif (empty($password)) {
-        echo '<script>alert("Password not valid.");</script>';
-        } else {
-        $passstatus = 1;
-        }
-
-        $dobDate = new DateTime($dob);
-        $now = new DateTime();
-        $age = $now->diff($dobDate)->y;
-
-        if ($age < 18) {
-        echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
-        } else if ($age > 65) {
-        echo '<script>alert("Age Not Allow.");</script>';
-        exit();
-        } else {
-        $dobstatus = 1;
-        }
-
-        if ($dobstatus == 1 && $passstatus == 1 && isset($_SESSION['verifystatus']) && $_SESSION['verifystatus'] == 1) {
-
-        if ($_SESSION['vemail'] == $_POST['txtemail']) {
-        session_destroy();
-        store_data();
-        } else {
-        echo '<script>alert("Chnage the Email verify the email First");</script>';
-        }
-        } else if ($_SESSION['verifystatus'] == 0) {
-        echo '<script>alert("First complete email verification.");</script>';
-        } else {
-        echo '<script>alert("Some thing is missing.");</script>';
-        }
-        }
-        }
-
-        function store_data() {
-        ob_start();
-
-        $hostname = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "e-Auction";
-
-        $c = mysqli_connect($hostname, $username, $password, $database);
-        if (!$c) {
-        die("Connection failed: " . mysqli_connect_error());
-        } else {
-        //cheak email exists or not
-        //echo '<script>alert("Connection Succesfully");</script>';
-        //store data
-        $fname = $_POST['txtfirstname'];
-        $lname = $_POST['txtlastname'];
-        $mo = $_POST['txtMobileNo'];
-
-        $d = $_POST['dob'];
-        $date = date("Y-d-m", strtotime($d));
-        $email = $_POST['txtemail'];
-        $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-        $qu = "INSERT INTO tblusers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
-
-        $q = mysqli_query($c, $qu);
-
-        if (!$q) {
-        $e = mysqli_error($c);
-        die("Error: " . $e);
-        } else {
-        //echo "<script>alert('User data stored successfully.');</script>";
-        //header("location:sign-in.php?email=$email");
-        // exit();
-        echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
-        }
-        }
-
-
-        mysqli_close($c);
+                echo "<script>alert('{$_SESSION['O']}');</script>";
+            } catch (Exception $e) {
+                echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
+            }
         }
 
         function getEmailTemplate($otp) {
-        return '
-    <html>
+            return '
+        <html>
         <head>
             <style>
                 body {
@@ -500,18 +317,128 @@
                 </div>
             </div>
         </body>
-    </html>';
-    } 
-    ?>
+        </html>';
+        }
+
+        function signup() {
+            if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
+                $password = $_POST['txtpassword'];
+                $confirmPassword = $_POST['txtconfirm_password'];
+                $dob = $_POST['dob'];
+                $passstatus = 0;
+                $dobstatus = 0;
+
+                if ($password !== $confirmPassword) {
+                    //                    echo '<script>alert("Passwords do not match. Please try again.");</script>';
+                    $confirmPassword = "Passwords do not match. Please try again.";
+                } elseif (empty($password)) {
+                    echo '<script>alert("Password not valid.");</script>';
+                } else {
+                    $passstatus = 1;
+                }
+
+                $dobDate = new DateTime($dob);
+                $now = new DateTime();
+                $age = $now->diff($dobDate)->y;
+
+                if ($age < 18) {
+                    echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
+                } else if ($age > 65) {
+                    echo '<script>alert("Age Not Allow.");</script>';
+                    exit();
+                } else {
+                    $dobstatus = 1;
+                }
+
+                if ($dobstatus == 1 && $passstatus == 1) {
+                    $email = $_POST['txtemail'];
+                    include 'connection.php';
+                    $email_check_bidder = "select * from tblbidders where email='$email'";
+                    $result_bidder = mysqli_query($conn, $email_check_bidder);
+
+                    $email_check_seller = "select * from tblsellers where email='$email'";
+                    $result_seller = mysqli_query($conn, $email_check_seller);
+
+                    $email_check_admin = "select * from tbladmin where email='$email'";
+                    $result_admin = mysqli_query($conn, $email_check_admin);
+
+                    if (mysqli_num_rows($result_bidder) == 1 || mysqli_num_rows($result_seller) == 1 || mysqli_num_rows($result_admin) == 1) {
+                        echo '<script>alert("Email ID is already exist.")</script>';
+                        exit();
+                    } else {
+
+                        sendEmail($email);
+                        $_SESSION['email'] = $email;
+                        echo '<script>window.location.href="varification.php"</script>';
+                        exit();
+                    }
+                } else {
+                    echo '<script>alert("Cheak All Details Something Went Wrong")</script>';
+                }
+            }
+        }
+
+        function store_data() {
 
 
-    <!--============= Account Section Ends Here =============-->
+            $hostname = "localhost";
+            $username = "root";
+            $password = "";
+            $database = "e-Auction";
+
+            $c = mysqli_connect($hostname, $username, $password, $database);
+            if (!$c) {
+                die("Connection failed: " . mysqli_connect_error());
+            } else {
+                //cheak email exists or not
+                //echo '<script>alert("Connection Succesfully");</script>';
+                //store data
+                $fname = $_POST['txtfirstname'];
+                $lname = $_POST['txtlastname'];
+                $mo = $_POST['txtMobileNo'];
+
+                $d = $_POST['dob'];
+                $date = date("Y-d-m", strtotime($d));
+                $email = $_POST['txtemail'];
+                $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
+                $qu = "INSERT INTO tblusers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
+
+                $q = mysqli_query($c, $qu);
+
+                if (!$q) {
+                    $e = mysqli_error($c);
+                    die("Error: " . $e);
+                } else {
+                    //echo "<script>alert('User data stored successfully.');</script>";
+                    //header("location:sign-in.php?email=$email");
+                    // exit();
+                    echo '<script>location.replace("index.php")</script>';
+                }
+            }
 
 
-    <?php
-    include 'Footer.php';
-    ?>
-</body>
+            mysqli_close($c);
+        }
+        ?>
 
 
+        <!--============= Account Section Ends Here =============-->
+
+        <?php include 'Footer.php'; ?>
+    </body>
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/waypoints.js"></script>
+    <script src="assets/js/nice-select.js"></script>
+    <script src="assets/js/counterup.min.js"></script>
+    <script src="assets/js/owl.min.js"></script>
+    <script src="assets/js/magnific-popup.min.js"></script>
+    <script src="assets/js/yscountdown.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/main.js"></script>
 </html>

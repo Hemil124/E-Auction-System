@@ -271,7 +271,7 @@
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <a href="#0">Pages</a>
+                        <a href="sign-in.php">Login</a>
                     </li>
                     <li>
                         <span>Forgot Password</span>
@@ -352,18 +352,18 @@
 
                             <div class="form-group mb-30">
                                 <label for="login-pass"><i class="fas fa-lock"></i></label>
-                                <input type="password" id="login-pass" placeholder="New Password" name="txtpassword"
+                                <input type="password" id="login-pass" placeholder="Password" name="txtpassword"
                                 <?php if (isset($_POST['txtpassword'])) echo 'value="' . htmlspecialchars($_POST['txtpassword']) . '"'; ?> 
                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
-                                <!--<span class="pass-type"><i class="fas fa-eye"></i></span>-->
+                                <span class="pass-type" id="toggle-password"><i class="fas fa-eye"></i></span>
                             </div>
 
                             <div class="form-group mb-30">
-                                <label for="login-pass"><i class="fas fa-lock"></i></label>
-                                <input type="password" id="login-conpass" placeholder="Conforim Password" name="txtconfirm_password"
+                                <label for="login-conpass"><i class="fas fa-lock"></i></label>
+                                <input type="password" id="login-conpass" placeholder="Confirm Password" name="txtconfirm_password"
                                 <?php if (isset($_POST['txtconfirm_password'])) echo 'value="' . htmlspecialchars($_POST['txtconfirm_password']) . '"'; ?> 
                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
-                                <!--<span class="pass-type"><i class="fas fa-eye"></i></span>-->
+                                <span class="pass-type" id="toggle-confirm-password"><i class="fas fa-eye"></i></span>
                             </div>
 
                             <div class="form-group mb-0">

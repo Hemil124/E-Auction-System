@@ -1,22 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
-
     <head>
         <?php
         session_start();
-//      without login can't open indexpage!!        
-//        if (!isset($_SESSION['txtemail']) ) {
-//            header("Location: sign-in.php");
-//            exit();
-//        }
+        // without login can't open indexpage!!        
+        // if (!isset($_SESSION['txtemail']) ) {
+        //     header("Location: sign-in.php");
+        //     exit();
+        // }
         ?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <title>E-Auctiom</title>
+        <title>E-Auction</title>
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
         <link rel="stylesheet" href="assets/css/animate.css">
@@ -27,10 +24,16 @@
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
-
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-    </head>
 
+        <!--popup design-->
+        <!--popup design-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+       
+    </head>
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
         <div class="overlayer" id="overlayer">
@@ -42,26 +45,17 @@
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
 
-
         <!--============= Header Section Starts Here =============-->
         <header>
-            <div class="header-top">
+            <div class="header-bottom">
                 <div class="container">
-                    <div class="header-top-wrapper">
-                        <div class="logo">
+                    <div class="header-top-wrapper"  style='height: 40px;'>
+                        <div class="logo" >
                             <a href="index.php">
-                                <img src="assets/images/logo/logo.png" alt="logo"  style="margin-top: 40px;">
+                                <img src="assets/images/logo/logo.png" alt="logo"  >
                             </a>
-
-                            <?php
-                            /* if (isset($susername)) {
-                              echo "<p>Welcome, " . htmlspecialchars($susername) . "!</p>";
-                              } else {
-                              echo "<p>Welcome!</p>";
-                              } */
-                            ?>
                         </div>
-                        <ul class="menu ml-auto">
+                        <ul class="menu ml-auto" style="margin-bottom: 150px;">
                             <li>
                                 <a href="#0">Home</a>
                                 <ul class="submenu">
@@ -154,8 +148,8 @@
                                 <a href="contact.php">Contact</a>
                             </li>
                         </ul>
-                        <form class="search-form">
-                            <input type="text" placeholder="Search for brand, model...." id="search-input" onkeyup=" showSuggestions(this.value)" style="position: absolute;top:34px;">
+                        <form class="search-form" style="margin-bottom: 150px;">
+                            <input type="text" placeholder="Search for brand, model...." id="search-input" onkeyup="showSuggestions(this.value)" >
                             <div id="suggestions"></div>
                             <script>
                                 const data = [
@@ -213,7 +207,7 @@
                                     document.getElementById('suggestions').classList.remove('active');
                                 }
                             </script>
-                            <button type="submit"><i class="fas fa-search" style="position:absolute;top:48px;"></i></button>
+                            <button type="submit"><i class="fas fa-search" ></i></button>
                         </form>
                         <div class="search-bar d-md-none">
                             <a href="#0"><i class="fas fa-search"></i></a>
@@ -223,9 +217,8 @@
                             <span></span>
                             <span></span>
                         </div>
-                        <ul class="cart-button-area">
+                        <ul class="cart-button-area" >
                             <?php if (isset($_SESSION['txtemail'])): ?>    
-
                                 <li>
                                     <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
                                 </li>                        
@@ -233,40 +226,70 @@
                                     <a href="dashboard.php" class="user-button"><i class="flaticon-user"></i></a>
                                 </li>  
                             <?php endif; ?>
-                            <?php if (!isset($_SESSION['txtemail'])): ?>
-                                <div class="sig-div" style="margin-top: 57px;">
 
-                                    
-                                    <button class="sign-in" onclick="window.location.href = 'sign-in.php'">
-                                    Log in
-                                </button>
-                                    <button class="sign-up" onclick="window.location.href = 'sign-up.php'">
-                                    Sign Up
-                                </button>
+                            <?php if (!isset($_SESSION['txtemail'])): ?>
+                                <div class="sig-div" >
+                                    <button class="sign-in" onclick="window.location.href = 'sign-in.php'" >
+                                        Log in
+                                    </button>
+                                    <button class="sign-up" data-toggle="modal" data-target="#signUpModal">
+                                        Sign Up
+                                    </button>
                                 </div>
                             <?php endif; ?>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="header-bottom">
-                <div class="container">
-                    <div class="header-wrapper">
-                        
+        </header>
+
+        <!-- Sign Up Modal -->
+        <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+                        <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>-->
                     </div>
-                    <?php
-//                    it's explod the emailid and show only name
-                    if (isset($susername)) {
-                        $email = $_SESSION['txtemail'];
-                        $susername = explode('@', $email)[0];
-                        echo "<h5>Welcome, " . htmlspecialchars($susername) . "!</h5>";
-                    } else {
-                        echo "<h5>Welcome!</h5>";
-                    }
-                    ?>
+                    <div class="modal-body">
+                        <form id="signUpForm" method="POST" action="" style="color:black;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="signupOption" id="customer"  value="customer">
+                                <label class="form-check-label" for="customer">
+                                    As a Bidder
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="signupOption" id="seller" value="seller">
+                                <label class="form-check-label" for="seller">
+                                    As a Seller 
+                                </label>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="custom-button" data-dismiss="modal" style="width: 150px;">Close</button>
+                        <button type="submit" class="custom-button" name="popupok"style="width: 150px; ">OK</button>
+                    </div>
+                    </form>
                 </div>
             </div>
-        </header>
+        </div>
+        <?php
+            if(isset($_POST['popupok']))
+            {
+                if($_POST['signupOption']=='customer')
+                {
+                    echo '<script>location.replace("sign-up-Bidder.php")</script>';
+                }
+                elseif($_POST['signupOption']=='seller')
+                {
+                    echo '<script>location.replace("sign-up-seller.php")</script>';
+                }
+            }
+        ?>
+        <!-- Sign Up Modal end -->
         <!--============= Header Section Ends Here =============-->
 
         <!--============= Cart Section Starts Here =============-->
@@ -2050,193 +2073,9 @@
 
 
         <!--============= Footer Section Starts Here =============-->
-        <footer class="bg_img padding-top oh" data-background="assets/images/footer/footer-bg.jpg">
-            <div class="footer-top-shape">
-                <img src="assets/css/img/footer-top-shape.png" alt="css">
-            </div>
-            <div class="anime-wrapper">
-                <div class="anime-1 plus-anime">
-                    <img src="assets/images/footer/p1.png" alt="footer">
-                </div>
-                <div class="anime-2 plus-anime">
-                    <img src="assets/images/footer/p2.png" alt="footer">
-                </div>
-                <div class="anime-3 plus-anime">
-                    <img src="assets/images/footer/p3.png" alt="footer">
-                </div>
-                <div class="anime-5 zigzag">
-                    <img src="assets/images/footer/c2.png" alt="footer">
-                </div>
-                <div class="anime-6 zigzag">
-                    <img src="assets/images/footer/c3.png" alt="footer">
-                </div>
-                <div class="anime-7 zigzag">
-                    <img src="assets/images/footer/c4.png" alt="footer">
-                </div>
-            </div>
-            <div class="newslater-wrapper">
-                <div class="container">
-                    <div class="newslater-area">
-                        <div class="newslater-thumb">
-                            <img src="assets/images/footer/newslater.png" alt="footer">
-                        </div>
-                        <div class="newslater-content">
-                            <div class="section-header left-style mb-low" data-aos="fade-down" data-aos-duration="1100">
-                                <h5 class="cate">Bid with confidence, win with pride</h5>
-                                <h3 class="title">From Bidders to Winners: Start Bidding Today</h3>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-top padding-bottom padding-top">
-                <div class="container">
-                    <div class="row mb--60">
-                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1000">
-                            <div class="footer-widget widget-links">
-                                <h5 class="title">Auction Categories</h5>
-                                <ul class="links-list">
-                                    <li>
-                                        <a href="#0">Ending Now</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Vehicles</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Watches</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Electronics</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Real Estate</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Jewelry</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Art</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Sports & Outdoor</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1300">
-                            <div class="footer-widget widget-links">
-                                <h5 class="title">About Us</h5>
-                                <ul class="links-list">
-                                    <li>
-                                        <a href="#0">About Sbidu</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Help</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Affiliates</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Jobs</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Press</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Our blog</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Collectors' portal</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1600">
-                            <div class="footer-widget widget-links">
-                                <h5 class="title">We're Here to Help</h5>
-                                <ul class="links-list">
-                                    <li>
-                                        <a href="#0">Your Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Safe and Secure</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Shipping Information</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Contact Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Help & FAQ</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1800">
-                            <div class="footer-widget widget-follow">
-                                <h5 class="title">Follow Us</h5>
-                                <ul class="links-list">
-                                    <li>
-                                        <a href="#0"><i class="fas fa-phone-alt"></i>(646) 663-4575</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0"><i class="fas fa-blender-phone"></i>(646) 968-0608</a>
-                                    </li>
-                                    <li>
-                                        <a href="#0"><i class="fas fa-envelope-open-text"></i><span class="__cf_email__" data-cfemail="e48c818894a4818a838b908c818981ca878b89">[email&#160;protected]</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#0"><i class="fas fa-location-arrow"></i>1201 Broadway Suite</a>
-                                    </li>
-                                </ul>
-                                <ul class="social-icons">
-                                    <li>
-                                        <a href="#0" class="active"><i class="fab fa-facebook-f"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#0"><i class="fab fa-twitter"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#0"><i class="fab fa-instagram"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#0"><i class="fab fa-linkedin-in"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="container">
-                    <div class="copyright-area">
-                        <div class="footer-bottom-wrapper">
-                            <div class="logo">
-                                <a href="index.php"><img src="assets/images/logo/footer-logo.png" alt="logo"></a>
-                            </div>
-                            <ul class="gateway-area">
-                                <li>
-                                    <a href="#0"><img src="assets/images/footer/paypal.png" alt="footer"></a>
-                                </li>
-                                <li>
-                                    <a href="#0"><img src="assets/images/footer/visa.png" alt="footer"></a>
-                                </li>
-                                <li>
-                                    <a href="#0"><img src="assets/images/footer/discover.png" alt="footer"></a>
-                                </li>
-                                <li>
-                                    <a href="#0"><img src="assets/images/footer/mastercard.png" alt="footer"></a>
-                                </li>
-                            </ul>
-                            <div class="copyright"><p>&copy; Copyright 2024 | <a href="#0">Sbidu</a> By <a href="#0">Uiaxis</a></p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php
+        include 'Footer.php';
+        ?>
         <!--============= Footer Section Ends Here =============-->
 
 

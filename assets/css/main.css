@@ -88,6 +88,8 @@ Text Domain:
 ---------------------------
 38. logout css
 -------------------------
+39. Popup
+-------------------------
 */
 html {
     color: #222;
@@ -1373,7 +1375,7 @@ input[type=submit] {
     position: fixed;
     z-index: 999999;
     background: #3f22b3;
-/*    opacity: 0.5;*/
+    /*    opacity: 0.5;*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1434,7 +1436,7 @@ input[type=submit] {
 /*Footer Section Starts Here*/
 footer {
     position: relative;
-    
+
 }
 
 .footer-top-shape {
@@ -7511,102 +7513,105 @@ button.custom-button {
 
 /*37.sign-in log-in*/
 .sig-div{
-      /*position:absolute;*/
-            /*top:200px;*/
-            margin-top: 40px;
-           
+    /*    position:absolute;
+        top:200px;*/
+    margin-bottom: 80px;
+
 }
 .sign-in{
     padding: 10px;
-          -webkit-text-size-adjust: 100%;
-            font-family: 'Source Sans Pro Topnav', sans-serif;
-            box-sizing: inherit;
-            vertical-align: middle;
-            overflow: hidden;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            white-space: nowrap;
-            user-select: none;
-            float: right!important;
-            background-color: #D9EEE1!important;
-            color: black!important;
-            padding: 8px 16px;
-            border: none;
-            display: block;
-            outline: 0;
-            margin-bottom: 56px;
-            margin-right: 10px;
-            margin-left: 0;
-            position: relative;
-            width: 112px;
-            height: 40px;
-            top: 50%;
-            margin-top: -20px;
-            border-radius: 25px;
-            padding-left: 39px;
-            font-size: 16px;
-            line-height: 1.5;
-            z-index: 4;
-            transition: background-color 0.3s;
-            background-color: #4535C1 ;
-        }
+    -webkit-text-size-adjust: 100%;
+    font-family: 'Source Sans Pro Topnav', sans-serif;
+    box-sizing: inherit;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    float: right!important;
+    background-color: #D9EEE1!important;
+    color: black!important;
+    padding: 8px 16px;
+    border: none;
+    display: block;
+    outline: 0;
+    margin-bottom: 56px;
+    margin-right: 10px;
+    margin-left: 0;
+    position: relative;
+    width: 112px;
+    height: 40px;
+    top: 50%;
+    margin-top: -20px;
+    border-radius: 25px;
+    padding-left: 39px;
+    font-size: 16px;
+    line-height: 1.5;
+    z-index: 4;
+    transition: background-color 0.3s;
+    background-color: #4535C1 ;
+}
 
-        .sign-in:hover {
-            background-color: #3559E0 !important;
-            color: #ffffff !important;
-        }
+.sign-in:hover {
+    background-color: #3559E0 !important;
+    color: #ffffff !important;
+}
 
-        .sign-up{
-             -webkit-text-size-adjust: 100%;
-            font-family: 'Source Sans Pro Topnav', sans-serif;
-            box-sizing: inherit;
-            border: none;
-            display: inline-block;
-            padding: 8px 16px;
-            vertical-align: middle;
-            overflow: hidden;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            user-select: none;
-            float: right!important;
-            background-color: #402E7A!important;
-            color: white!important;
-            white-space: normal;
-            margin-bottom: 56px;
-            margin-left: 0;
-            position: relative;
-            width: 93px;
-            height: 40px;
-            top: 50%;
-            margin-top: -20px;
-            border-radius: 25px;
-            margin-right: -39px;
-            font-size: 16px;
-            line-height: 1.5;
-            z-index: 5;
-            transition: background-color 0.3s;
-            
-        }
+.sign-up{
+    -webkit-text-size-adjust: 100%;
+    font-family: 'Source Sans Pro Topnav', sans-serif;
+    box-sizing: inherit;
+    border: none;
+    display: inline-block;
+    padding: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    float: right!important;
+    background-color: #402E7A!important;
+    color: white!important;
+    white-space: normal;
+    margin-bottom: 56px;
+    margin-left: 0;
+    position: relative;
+    width: 93px;
+    height: 40px;
+    top: 50%;
+    margin-top: -20px;
+    border-radius: 25px;
+    margin-right: -39px;
+    font-size: 16px;
+    line-height: 1.5;
+    z-index: 5;
+    transition: background-color 0.3s;
 
-       
+}
+.sign-up:hover {
+    background-color: #3559E0 !important;
+    color: #ffffff !important;
+}
+
 /*38.Logout Css*/
 .logout{
-/*  color:;
-  padding: 17px 40px;
-  border-radius: 50px;
-  cursor: pointer;
-  border: 0;
-  background-color: white;
-  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-size: 15px;
-  font-weight: bold;
-  font-family: "Open Sans", sans-serif;
-  transition: all 0.5s ease;*/
-color: #ffffff;
+    /*  color:;
+      padding: 17px 40px;
+      border-radius: 50px;
+      cursor: pointer;
+      border: 0;
+      background-color: white;
+      box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-size: 15px;
+      font-weight: bold;
+      font-family: "Open Sans", sans-serif;
+      transition: all 0.5s ease;*/
+    color: #ffffff;
     border-radius: 30px;
     font-weight: 500;
     text-transform: uppercase;
@@ -7619,20 +7624,78 @@ color: #ffffff;
 }
 
 .logout:hover {
-  /*letter-spacing: 3px;*/
-  background-color: hsl(261deg 80% 48%);
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+    /*letter-spacing: 3px;*/
+    background-color: hsl(261deg 80% 48%);
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
 }
 
 .logout:active {
-  /*letter-spacing: 3px;*/
-  background-color: hsl(261deg 80% 48%);
-  color: hsl(0, 0%, 100%);
-  box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
-  transform: translateY(10px);
-  transition: 100ms;
+    /*letter-spacing: 3px;*/
+    background-color: hsl(261deg 80% 48%);
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+    transform: translateY(10px);
+    transition: 100ms;
 }
 
 
+/*39. Popup*/
+.modal-content {
+    /*background: white;*/
+    color: black; /* Text color for contrast */
+    border-radius: 10px;
+    width: 400px;
+}
+.modal-header {
+    border-bottom: none;
+    text-align: center;
+    color: black;
+    background-color: whitesmoke;
+}
+.modal-body {
+    padding: 20px;
+    background-color: whitesmoke;
+}
+.form-check-label {
+    border-radius: 10px;
+    padding: 15px; /* Increase padding for better touch area */
+    display: block;
+    color: black;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.25rem; /* Increase font size */
+    border-color: black;
+    font-color: black;
+}
+.form-check-input {
+    accent-color: #1E90FF; /* Blue color for radio button */
+    width: 20px;  /* Increase the width */
+    height: 20px; /* Increase the height */
+    margin-top: 18px;
+    border: 2px solid black; /* Add border to radio button */
+
+}
+.form-check-label:hover {
+    background-color: #1E90FF; /* Slightly lighter on hover */
+}
+.modal-footer {
+    align-items: center;
+    background-color: whitesmoke;
+}
+
+/*40.uplod file sectionn*/
+.upload-lable {
+    display: block;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #007bff;
+    cursor: pointer;
+}
+.upload-input {
+    display: none;
+}
 /*All Animation Ends Here*//*# sourceMappingURL=main.css.map */
