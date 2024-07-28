@@ -1,11 +1,11 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 
     <head>
-<?php
-session_start();
-?>
         <!--<meta charset="UTF-8">-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -389,7 +389,7 @@ session_start();
                 // Store OTP in session for verification
 
                 $_SESSION['email'] = $recipient_email;
-                session_destroy();
+//                session_destroy();
                 echo "<script>alert('{$_SESSION['otp']}');</script>";
             } catch (Exception $e) {
                 echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';

@@ -11,4 +11,5 @@ if (!$conn) {
    exit();
 
 }
+echo "OTP retrieved from session: " . $_SESSION['otp'];
 ?>
