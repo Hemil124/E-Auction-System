@@ -4,9 +4,6 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-class test {
-
-    public $totp;
 
 
 
@@ -19,10 +16,10 @@ function sendEmail($recipient_email) {
 
         // $otp = mt_rand(10000, 99999);
         $otp = 11111;
-//        $_SESSION["OTP"] = $otp;
+        $_SESSION["OTP"] = $otp;
         $timestamp = $_SERVER["REQUEST_TIME"];
         $_SESSION["TIME"] = $timestamp;
-        $this->totp=$otp;
+       
         $mail = new PHPMailer(true);
 
         // SMTP settings
@@ -49,7 +46,7 @@ function sendEmail($recipient_email) {
 
         $_SESSION['email'] = $recipient_email;
 
-        echo "<script>alert('{$_SESSION['otp']}');</script>";
+        echo "<script>alert('OTP Send Succesfully');</script>";
     } catch (Exception $e) {
         echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
     }
@@ -120,5 +117,5 @@ function getEmailTemplate($otp) {
     </body>
     </html>';
 }
-}
+
 ?>

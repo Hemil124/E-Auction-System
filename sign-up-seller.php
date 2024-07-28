@@ -14,7 +14,7 @@ session_start();
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>E-Auction</title>
-
+        <script src="assets/js/main2.js" type="text/javascript"></script>
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
         <link rel="stylesheet" href="assets/css/animate.css">
@@ -47,7 +47,7 @@ session_start();
                         <span>Sign Up as Seller</span>
                     </li>
                 </ul>
-            </div>
+            </div> 
             <div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png"></div>
         </div>
         <!--============= Hero Section Ends Here =============-->
@@ -125,7 +125,7 @@ session_start();
                                                <?php if (isset($_POST['txtemail'])) echo 'value="' . htmlspecialchars($_POST['txtemail']) . '"'; ?> required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="tel" id="signup-adhar" placeholder="Enter Adhar No" name="signup-adhar" pattern="\d{11}" maxlength="11" minlength="11"
+                                        <input type="tel" id="signup-adhar" placeholder="Enter Adhar No" name="signup-adhar" pattern="\d{11}" maxlength="12" minlength="12"
                                                <?php if (isset($_POST['signup-adhar'])) echo 'value="' . htmlspecialchars($_POST['signup-adhar']) . '"'; ?> required>
                                     </div>
                                 </div>
@@ -325,12 +325,9 @@ session_start();
             if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
                 $password = $_POST['txtpassword'];
                 $confirmPassword = $_POST['txtconfirm_password'];
-                $dob = $_POST['dob'];
                 $passstatus = 0;
-                $dobstatus = 0;
-
-                if ($password !== $confirmPassword) {
-                    //                    echo '<script>alert("Passwords do not match. Please try again.");</script>';
+               if ($password !== $confirmPassword) {
+                                        echo '<script>alert("Passwords do not match. Please try again.");</script>';
                     $confirmPassword = "Passwords do not match. Please try again.";
                 } elseif (empty($password)) {
                     echo '<script>alert("Password not valid.");</script>';
@@ -338,20 +335,7 @@ session_start();
                     $passstatus = 1;
                 }
 
-                $dobDate = new DateTime($dob);
-                $now = new DateTime();
-                $age = $now->diff($dobDate)->y;
-
-                if ($age < 18) {
-                    echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
-                } else if ($age > 65) {
-                    echo '<script>alert("Age Not Allow.");</script>';
-                    exit();
-                } else {
-                    $dobstatus = 1;
-                }
-
-                if ($dobstatus == 1 && $passstatus == 1) {
+                if ($passstatus == 1) {
                     $email = $_POST['txtemail'];
                     include 'connection.php';
                     $email_check_bidder = "select * from tblbidders where email='$email'";
