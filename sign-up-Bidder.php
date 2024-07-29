@@ -13,7 +13,7 @@ session_start();
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>E-Auction</title>
-        <script src="assets/js/main2.js" type="text/javascript"></script>
+
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
         <link rel="stylesheet" href="assets/css/animate.css">
@@ -31,7 +31,7 @@ session_start();
     </head>
 
     <body>
-        
+
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section">
             <div class="container">
@@ -328,7 +328,6 @@ session_start();
 
         <?php
 //        session_start();
-
         // Load environment variables
         //require 'vendor/autoload.php';
         //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -347,8 +346,6 @@ session_start();
                 signup();
             }
         }
-
-        
 
         function signup() {
             if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
@@ -382,23 +379,34 @@ session_start();
 
                 if ($dobstatus == 1 && $passstatus == 1) {
                     $email = $_POST['txtemail'];
+                    $cont = $_POST['txtMobileNo'];
                     include 'connection.php';
-                    $email_check_bidder = "select * from tblbidders where email='$email'";
+                    $email_check_bidder = "select * from tblbidders where email='$email' OR contact='$cont'";
                     $result_bidder = mysqli_query($conn, $email_check_bidder);
 
-                    $email_check_seller = "select * from tblsellers where email='$email'";
+                    $email_check_seller = "select * from tblsellers where email='$email' OR contact='$cont'";
                     $result_seller = mysqli_query($conn, $email_check_seller);
 
                     $email_check_admin = "select * from tbladmin where email='$email'";
                     $result_admin = mysqli_query($conn, $email_check_admin);
 
                     if (mysqli_num_rows($result_bidder) == 1 || mysqli_num_rows($result_seller) == 1 || mysqli_num_rows($result_admin) == 1) {
-                        echo '<script>alert("Email ID is already exist.")</script>';
+                        echo '<script>alert("Alredy Have a Account using this Mobile Number od Email Id")</script>';
+                       
                         exit();
                     } else {
+                        $_SESSION['fname'] = $_POST['txtfirstname'];
+                        $_SESSION['lname'] = $_POST['txtlastname'];
+                        $_SESSION['mobile'] = $_POST['txtMobileNo'];
+                        $_SESSION['dob'] = $_POST['dob'];
+                        $_SESSION['email'] = $_POST['txtemail'];
+                        $_SESSION['password'] = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
+                        $_SESSION['type'] = 'b';
+
                         include 'sendotp.php';
                         sendEmail($email);
-                        $_SESSION['email'] = $email;
+                 
+                        $_SESSION['txtemail'] = $email;
                         echo '<script>window.location.href="varification.php"</script>';
                         exit();
                     }
@@ -407,55 +415,13 @@ session_start();
                 }
             }
         }
-
-        function store_data() {
-
-
-            $hostname = "localhost";
-            $username = "root";
-            $password = "";
-            $database = "e-Auction";
-
-            $c = mysqli_connect($hostname, $username, $password, $database);
-            if (!$c) {
-                die("Connection failed: " . mysqli_connect_error());
-            } else {
-                //cheak email exists or not
-                //echo '<script>alert("Connection Succesfully");</script>';
-                //store data
-                $fname = $_POST['txtfirstname'];
-                $lname = $_POST['txtlastname'];
-                $mo = $_POST['txtMobileNo'];
-
-                $d = $_POST['dob'];
-                $date = date("Y-d-m", strtotime($d));
-                $email = $_POST['txtemail'];
-                $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-                $qu = "INSERT INTO tblusers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
-
-                $q = mysqli_query($c, $qu);
-
-                if (!$q) {
-                    $e = mysqli_error($c);
-                    die("Error: " . $e);
-                } else {
-                    //echo "<script>alert('User data stored successfully.');</script>";
-                    //header("location:sign-in.php?email=$email");
-                    // exit();
-                    echo '<script>location.replace("index.php")</script>';
-                }
-            }
-
-
-            mysqli_close($c);
-        }
         ?>
 
 
         <!--============= Account Section Ends Here =============-->
         <!--footer-->
-        
-       <footer class="bg_img padding-top oh" data-background="assets/images/footer/footer-bg.jpg">
+
+        <footer class="bg_img padding-top oh" data-background="assets/images/footer/footer-bg.jpg">
             <div class="footer-top-shape">
                 <img src="assets/css/img/footer-top-shape.png" alt="css">
             </div>

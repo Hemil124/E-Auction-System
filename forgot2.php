@@ -1,20 +1,18 @@
-<?PHP
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 
     <head>
-
-        <meta charset="UTF-8">
+        <?php
+        session_start();
+        ?>
+        <!--<meta charset="UTF-8">-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-        <title>E-Auction - Bid And Auction </title>
+        <title>E-Auction</title>
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
@@ -25,9 +23,10 @@ session_start();
         <link rel="stylesheet" href="assets/css/flaticon.css">
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
-        <link rel="stylesheet" href="assets/css/main.css">
-
-        <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+        <!--<link rel="stylesheet" href="assets/css/main.css">-->
+        <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/css/nice-select.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">  
     </head>
 
     <body>
@@ -54,7 +53,7 @@ session_start();
                             <li class="customer-cupport-lang">
                                 <i class="fas fa-globe"></i>
                                 <select name="language" class="select-bar">
-                                    <option value="en">En</option>
+                                    <option value="en">English</option>
                                     <option value="Bn">Bn</option>
                                     <option value="Rs">Rs</option>
                                     <option value="Us">Us</option>
@@ -79,7 +78,8 @@ session_start();
                     <div class="header-wrapper">
                         <div class="logo">
                             <a href="index.php">
-                                <img src="assets/images/logo/logo.png" alt="logo">
+
+                                <img src="assets/images/logo/logo.png" alt="logo"/>
                             </a>
                         </div>
                         <ul class="menu ml-auto">
@@ -197,7 +197,7 @@ session_start();
         <div class="cart-sidebar-area">
             <div class="top-content">
                 <a href="index.php" class="logo">
-                    <img src="assets/images/logo/logo2.png" alt="logo">
+                    <img src="assets/images/logo/logo2.png" alt="logo"/>
                 </a>
                 <span class="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
             </div>
@@ -270,9 +270,11 @@ session_start();
                     <li>
                         <a href="index.php">Home</a>
                     </li>
-
                     <li>
-                        <span>Sign In</span>
+                        <a href="sign-in.php">Login</a>
+                    </li>
+                    <li>
+                        <span>Forgot Password</span>
                     </li>
                 </ul>
             </div>
@@ -287,259 +289,248 @@ session_start();
                 <div class="account-wrapper mt--100 mt-lg--440">
                     <div class="left-side">
                         <div class="section-header" data-aos="zoom-out-down" data-aos-duration="1200">
-                            <h2 class="title">HI, THERE</h2>
-                            <p>You can log in to your E-Auction account here.</p>
+                            <h2 class="title">Forgot Password</h2>
+                            <!--<p>We're happy you're here!</p>-->
                         </div>
-                        <!--                        <ul class="login-with">
-                        
-                                                    <li>
-                                                        <a  href="#0" id="login"><i class="fab fa-google-plus"></i>Log in with Google</a>
-                                                    </li>
-                                                </ul>
-                                                <div class="or">
-                                                    <span>Or</span>
-                                                </div>-->
-                        <form class="login-form" method="POST">
+
+
+                        <form class="login-form" method="post" action="">
+
                             <div class="form-group mb-30">
-                                <label for="login-email"><i class="fa-solid fa-envelope"></i></label>
-                                <input type="email" id="login-email" placeholder="Email Address" name="txtemail" required>
-                            </div>
-                            <div class="form-group">
                                 <label for="login-pass"><i class="fas fa-lock"></i></label>
-                                <input type="password" id="login-pass" placeholder="Password" name="txtpass" required>
+                                <input type="password" id="login-pass" placeholder="New Password" name="txtpassword"
+                                <?php // if (isset($_POST['txtpassword'])) echo 'value="' . htmlspecialchars($_POST['txtpassword']) . '"'; ?> 
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
                                 <span class="pass-type" id="toggle-password"><i class="fas fa-eye"></i></span>
                             </div>
-                            <div class="form-group mt-3 mb-3">
-                                <a href="forgot.php">Forgot Password?</a>
+
+                            <div class="form-group mb-30">
+                                <label for="login-conpass"><i class="fas fa-lock"></i></label>
+                                <input type="password" id="login-conpass" placeholder="Confirm Password" name="txtconfirm_password"
+                                <?php // if (isset($_POST['txtconfirm_password'])) echo 'value="' . htmlspecialchars($_POST['txtconfirm_password']) . '"'; ?> 
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
+                                <span class="pass-type" id="toggle-confirm-password"><i class="fas fa-eye"></i></span>
                             </div>
+
                             <div class="form-group mb-0">
-                                <button type="submit" class="custom-button" name="btnlogin">LOG IN</button>
+                                <button type="submit" class="custom-button"  name="btnforgot">Submit</button>
                             </div>
                         </form>
                     </div>
                     <div class="right-side cl-white">
                         <div class="section-header mb-0">
-                            <h3 class="title mt-0">NEW HERE?</h3>
-                            <p>Sign up and create your Account</p>
-                            <!--<a href="sign-up.php" class="custom-button transparent">Sign Up</a>-->
-                            <button class="custom-button transparent" data-toggle="modal" data-target="#signUpModal">
-                                Sign Up
-                            </button>
+                            <!--<h3 class="title mt-0">ALREADY HAVE AN ACCOUNT?</h3>-->
+                            <!--<p>Log in and go to your Dashboard.</p>-->
+                            <!--<a href="sign-in.php" class="custom-button transparent">Login</a>-->
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sign Up Modal -->
-        <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
-                        <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>-->
-                    </div>
-                    <div class="modal-body">
-                        <form id="signUpForm" method="POST" action="" style="color:black;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="signupOption" id="customer"  value="customer">
-                                <label class="form-check-label" for="customer">
-                                    As a Bidder
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="signupOption" id="seller" value="seller">
-                                <label class="form-check-label" for="seller">
-                                    As a Seller 
-                                </label>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="custom-button" data-dismiss="modal" style="width: 150px;">Close</button>
-                        <button type="submit" class="custom-button" name="popupok"style="width: 150px; ">OK</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <?php
-        if (isset($_POST['popupok'])) {
-            if ($_POST['signupOption'] == 'customer') {
-                echo '<script>location.replace("sign-up-Bidder.php")</script>';
-            } elseif ($_POST['signupOption'] == 'seller') {
-                echo '<script>location.replace("sign-up-seller.php")</script>';
-            }
-        }
-        ?>
-        <!-- Sign Up Modal end -->
-        <?php
-if (isset($_SESSION['txtemail'])) {
-    echo '<script>location.replace("index.php")</script>';
-    exit();
+       <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 
-if (isset($_POST['btnlogin'])) {
-    $hostname = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "dbt_e-auction";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['btnforgot'])) {
+        forgot();
+    }
+}
 
-    $c = mysqli_connect($hostname, $username, $password, $database);
-    if (!$c) {
-        echo "<script>alert('Connection failed: " . mysqli_connect_error() . "');</script>";
-        exit();
-    } else {
-        $email = mysqli_real_escape_string($c, $_POST['txtemail']);
-        $userPassword = $_POST['txtpass'];
-        $datahashedPassword = '';
+function forgot() {
+    if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
+        $password = $_POST['txtpassword'];
+        $confirmPassword = $_POST['txtconfirm_password'];
+        $email = $_SESSION['email']; // Assuming email is stored in the session during the forgot password process
 
-        // Check in tblsellers
-        $qs = mysqli_query($c, "SELECT password FROM tblsellers WHERE email='$email'");
-        if (mysqli_num_rows($qs) == 1) {
-            $r = mysqli_fetch_row($qs);
-            $datahashedPassword = $r[0];
-        }
-
-        // Check in tblbidders if not found in tblsellers
-        if (empty($datahashedPassword)) {
-            $qb = mysqli_query($c, "SELECT password FROM tblbidders WHERE email='$email'");
-            if (mysqli_num_rows($qb) == 1) {
-                $r = mysqli_fetch_row($qb);
-                $datahashedPassword = $r[0];
-            }
-        }
-
-        // Check in tbladmin if not found in tblsellers and tblbidders
-        if (empty($datahashedPassword)) {
-            $qa = mysqli_query($c, "SELECT password FROM tbladmin WHERE email='$email'");
-            if (mysqli_num_rows($qa) == 1) {
-                $r = mysqli_fetch_row($qa);
-                $datahashedPassword = $r[0];
-            }
-        }
-
-        if (empty($datahashedPassword)) {
-            echo '<script>alert("User Name not Found");</script>';
+        if ($password !== $confirmPassword) {
+            echo '<script>alert("Passwords do not match. Please try again.");</script>';
+        } elseif (empty($password)) {
+            echo '<script>alert("Password not valid.");</script>';
         } else {
-            if (password_verify($userPassword, $datahashedPassword)) {
-                $_SESSION['txtemail'] = $email;
-                echo '<script>location.replace("index.php")</script>';
-                exit();
-            } else {
-                echo '<script>alert("Wrong Password");</script>';
-            }
-        }
+            include 'connection.php';
 
-        mysqli_close($c);
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $qs = $conn->prepare("SELECT password FROM tblbidders WHERE email = ?");
+            $qs->bind_param("s", $email);
+            $qs->execute();
+            $qs->store_result();
+
+            $qb = $conn->prepare("SELECT password FROM tblsellers WHERE email = ?");
+            $qb->bind_param("s", $email);
+            $qb->execute();
+            $qb->store_result();
+
+            $qa = $conn->prepare("SELECT password FROM tbladmin WHERE email = ?");
+            $qa->bind_param("s", $email);
+            $qa->execute();
+            $qa->store_result();
+
+            $passwordUpdated = false;
+
+            if ($qs->num_rows == 1) {
+                $qs->bind_result($currentPassword);
+                $qs->fetch();
+                if (password_verify($password, $currentPassword)) {
+                    echo '<script>alert("Create a new password that isn\'t your current password.");</script>';
+                } else {
+                    $us = $conn->prepare("UPDATE tblbidders SET password = ? WHERE email = ?");
+                    $us->bind_param("ss", $hashedPassword, $email);
+                    $us->execute();
+                    $passwordUpdated = true;
+                }
+            } elseif ($qb->num_rows == 1) {
+                $qb->bind_result($currentPassword);
+                $qb->fetch();
+                if (password_verify($password, $currentPassword)) {
+                    echo '<script>alert("Create a new password that isn\'t your current password.");</script>';
+                } else {
+                    $ub = $conn->prepare("UPDATE tblsellers SET password = ? WHERE email = ?");
+                    $ub->bind_param("ss", $hashedPassword, $email);
+                    $ub->execute();
+                    $passwordUpdated = true;
+                }
+            } elseif ($qa->num_rows == 1) {
+                $qa->bind_result($currentPassword);
+                $qa->fetch();
+                if (password_verify($password, $currentPassword)) {
+                    echo '<script>alert("Create a new password that isn\'t your current password.");</script>';
+                } else {
+                    $ua = $conn->prepare("UPDATE tbladmin SET password = ? WHERE email = ?");
+                    $ua->bind_param("ss", $hashedPassword, $email);
+                    $ua->execute();
+                    $passwordUpdated = true;
+                }
+            }
+
+            if (!$qs->num_rows && !$qb->num_rows && !$qa->num_rows) {
+                echo '<script>alert("You don\'t have an account.");</script>';
+            }
+
+            if ($passwordUpdated) {
+                echo '<script>alert("Password updated successfully.");</script>';
+                echo '<script>location.replace("sign-in.php")</script>';
+                exit();
+            }
+
+            $qs->close();
+            $qb->close();
+            $qa->close();
+            $conn->close();
+        }
     }
 }
 ?>
 
 
-        <!--============ = Account Section Ends Here ============ = -->
 
 
-        <!--============ = Footer Section Starts Here ============ = -->
-        <footer class = "bg_img padding-top oh" data-background = "assets/images/footer/footer-bg.jpg">
-            <div class = "footer-top-shape">
-                <img src = "assets/css/img/footer-top-shape.png" alt = "css">
+
+        <!--============= Account Section Ends Here =============-->
+
+
+        <!--============= Footer Section Starts Here =============-->
+        <footer class="bg_img padding-top oh" data-background="assets/images/footer/footer-bg.jpg">
+            <div class="footer-top-shape">
+                <img src="assets/css/img/footer-top-shape.png" alt="css">
             </div>
-            <div class = "anime-wrapper">
-                <div class = "anime-1 plus-anime">
-                    <img src = "assets/images/footer/p1.png" alt = "footer">
+            <div class="anime-wrapper">
+                <div class="anime-1 plus-anime">
+                    <img src="assets/images/footer/p1.png" alt="footer">
                 </div>
-                <div class = "anime-2 plus-anime">
-                    <img src = "assets/images/footer/p2.png" alt = "footer">
+                <div class="anime-2 plus-anime">
+                    <img src="assets/images/footer/p2.png" alt="footer">
                 </div>
-                <div class = "anime-3 plus-anime">
-                    <img src = "assets/images/footer/p3.png" alt = "footer">
+                <div class="anime-3 plus-anime">
+                    <img src="assets/images/footer/p3.png" alt="footer">
                 </div>
-                <div class = "anime-5 zigzag">
-                    <img src = "assets/images/footer/c2.png" alt = "footer">
+                <div class="anime-5 zigzag">
+                    <img src="assets/images/footer/c2.png" alt="footer">
                 </div>
-                <div class = "anime-6 zigzag">
-                    <img src = "assets/images/footer/c3.png" alt = "footer">
+                <div class="anime-6 zigzag">
+                    <img src="assets/images/footer/c3.png" alt="footer">
                 </div>
-                <div class = "anime-7 zigzag">
-                    <img src = "assets/images/footer/c4.png" alt = "footer">
+                <div class="anime-7 zigzag">
+                    <img src="assets/images/footer/c4.png" alt="footer">
                 </div>
             </div>
-            <div class = "newslater-wrapper">
-                <div class = "container">
-                    <div class = "newslater-area">
-                        <div class = "newslater-thumb">
-                            <img src = "assets/images/footer/newslater.png" alt = "footer">
+            <div class="newslater-wrapper">
+                <div class="container">
+                    <div class="newslater-area">
+                        <div class="newslater-thumb">
+                            <img src="assets/images/footer/newslater.png" alt="footer">
                         </div>
-                        <div class = "newslater-content">
-                            <div class = "section-header left-style mb-low" data-aos = "fade-down" data-aos-duration = "1100">
-                                <h5 class = "cate">Bid with confidence, win with pride</h5>
-                                <h3 class = "title">From Bidders to Winners: Start Bidding Today</h3>
+                        <div class="newslater-content">
+                            <div class="section-header left-style mb-low" data-aos="fade-down" data-aos-duration="1100">
+                                <h5 class="cate">Bid with confidence, win with pride</h5>
+                                <h3 class="title">From Bidders to Winners: Start Bidding Today</h3>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
-            <div class = "footer-top padding-bottom padding-top">
-                <div class = "container">
-                    <div class = "row mb--60">
-                        <div class = "col-sm-6 col-lg-3" data-aos = "fade-down" data-aos-duration = "1000">
-                            <div class = "footer-widget widget-links">
-                                <h5 class = "title">Auction Categories</h5>
-                                <ul class = "links-list">
+            <div class="footer-top padding-bottom padding-top">
+                <div class="container">
+                    <div class="row mb--60">
+                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1000">
+                            <div class="footer-widget widget-links">
+                                <h5 class="title">Auction Categories</h5>
+                                <ul class="links-list">
                                     <li>
-                                        <a href = "#0">Ending Now</a>
+                                        <a href="#0">Ending Now</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Vehicles</a>
+                                        <a href="#0">Vehicles</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Watches</a>
+                                        <a href="#0">Watches</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Electronics</a>
+                                        <a href="#0">Electronics</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Real Estate</a>
+                                        <a href="#0">Real Estate</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Jewelry</a>
+                                        <a href="#0">Jewelry</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Art</a>
+                                        <a href="#0">Art</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Sports & Outdoor</a>
+                                        <a href="#0">Sports & Outdoor</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class = "col-sm-6 col-lg-3" data-aos = "fade-down" data-aos-duration = "1300">
-                            <div class = "footer-widget widget-links">
-                                <h5 class = "title">About Us</h5>
-                                <ul class = "links-list">
+                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1300">
+                            <div class="footer-widget widget-links">
+                                <h5 class="title">About Us</h5>
+                                <ul class="links-list">
                                     <li>
-                                        <a href = "#0">About Sbidu</a>
+                                        <a href="#0">About Sbidu</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Help</a>
+                                        <a href="#0">Help</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Affiliates</a>
+                                        <a href="#0">Affiliates</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Jobs</a>
+                                        <a href="#0">Jobs</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Press</a>
+                                        <a href="#0">Press</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Our blog</a>
+                                        <a href="#0">Our blog</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Collectors' portal</a>
+                                        <a href="#0">Collectors' portal</a>
                                     </li>
                                 </ul>
                             </div>
@@ -547,54 +538,54 @@ if (isset($_POST['btnlogin'])) {
                         <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1600">
                             <div class="footer-widget widget-links">
                                 <h5 class="title">We're Here to Help</h5>
-                                <ul class = "links-list">
+                                <ul class="links-list">
                                     <li>
-                                        <a href = "#0">Your Account</a>
+                                        <a href="#0">Your Account</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Safe and Secure</a>
+                                        <a href="#0">Safe and Secure</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Shipping Information</a>
+                                        <a href="#0">Shipping Information</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Contact Us</a>
+                                        <a href="#0">Contact Us</a>
                                     </li>
                                     <li>
-                                        <a href = "#0">Help & FAQ</a>
+                                        <a href="#0">Help & FAQ</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class = "col-sm-6 col-lg-3" data-aos = "fade-down" data-aos-duration = "1800">
-                            <div class = "footer-widget widget-follow">
-                                <h5 class = "title">Follow Us</h5>
-                                <ul class = "links-list">
+                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1800">
+                            <div class="footer-widget widget-follow">
+                                <h5 class="title">Follow Us</h5>
+                                <ul class="links-list">
                                     <li>
-                                        <a href = "#0"><i class = "fas fa-phone-alt"></i>(646) 663-4575</a>
+                                        <a href="#0"><i class="fas fa-phone-alt"></i>(646) 663-4575</a>
                                     </li>
                                     <li>
-                                        <a href = "#0"><i class = "fas fa-blender-phone"></i>(646) 968-0608</a>
+                                        <a href="#0"><i class="fas fa-blender-phone"></i>(646) 968-0608</a>
                                     </li>
                                     <li>
-                                        <a href = "#0"><i class = "fas fa-envelope-open-text"></i><span class = "__cf_email__" data-cfemail = "80e8e5ecf0c0e5eee7eff4e8e5ede5aee3efed">[email&#160;protected]</span></a>
+                                        <a href="#0"><i class="fas fa-envelope-open-text"></i><span class="__cf_email__" data-cfemail="e38b868f93a3868d848c978b868e86cd808c8e">[email&#160;protected]</span></a>
                                     </li>
                                     <li>
-                                        <a href = "#0"><i class = "fas fa-location-arrow"></i>1201 Broadway Suite</a>
+                                        <a href="#0"><i class="fas fa-location-arrow"></i>1201 Broadway Suite</a>
                                     </li>
                                 </ul>
-                                <ul class = "social-icons">
+                                <ul class="social-icons">
                                     <li>
-                                        <a href = "#0" class = "active"><i class = "fab fa-facebook-f"></i></a>
+                                        <a href="#0" class="active"><i class="fab fa-facebook-f"></i></a>
                                     </li>
                                     <li>
-                                        <a href = "#0"><i class = "fab fa-twitter"></i></a>
+                                        <a href="#0"><i class="fab fa-twitter"></i></a>
                                     </li>
                                     <li>
-                                        <a href = "#0"><i class = "fab fa-instagram"></i></a>
+                                        <a href="#0"><i class="fab fa-instagram"></i></a>
                                     </li>
                                     <li>
-                                        <a href = "#0"><i class = "fab fa-linkedin-in"></i></a>
+                                        <a href="#0"><i class="fab fa-linkedin-in"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -602,39 +593,38 @@ if (isset($_POST['btnlogin'])) {
                     </div>
                 </div>
             </div>
-            <div class = "footer-bottom">
-                <div class = "container">
-                    <div class = "copyright-area">
-                        <div class = "footer-bottom-wrapper">
-                            <div class = "logo">
-                                <a href = "index.php"><img src = "assets/images/logo/footer-logo.png" alt = "logo"></a>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="copyright-area">
+                        <div class="footer-bottom-wrapper">
+                            <div class="logo">
+                                <a href="index.php"><img src="assets/images/logo/footer-logo.png" alt="logo"></a>
                             </div>
-                            <ul class = "gateway-area">
+                            <ul class="gateway-area">
                                 <li>
-                                    <a href = "#0"><img src = "assets/images/footer/paypal.png" alt = "footer"></a>
+                                    <a href="#0"><img src="assets/images/footer/paypal.png" alt="footer"></a>
                                 </li>
                                 <li>
-                                    <a href = "#0"><img src = "assets/images/footer/visa.png" alt = "footer"></a>
+                                    <a href="#0"><img src="assets/images/footer/visa.png" alt="footer"></a>
                                 </li>
                                 <li>
-                                    <a href = "#0"><img src = "assets/images/footer/discover.png" alt = "footer"></a>
+                                    <a href="#0"><img src="assets/images/footer/discover.png" alt="footer"></a>
                                 </li>
                                 <li>
-                                    <a href = "#0"><img src = "assets/images/footer/mastercard.png" alt = "footer"></a>
+                                    <a href="#0"><img src="assets/images/footer/mastercard.png" alt="footer"></a>
                                 </li>
                             </ul>
-                            <div class = "copyright"><p>&copy;
-                                    Copyright 2024 | <a href = "#0">Sbidu</a> By <a href = "#0">Uiaxis</a></p></div>
+                            <div class="copyright"><p>&copy; Copyright 2024 | <a href="#0">E Auction</a> By <a href="#0">Uiaxis</a></p></div>
                         </div>
                     </div>
                 </div>
             </div>
         </footer>
-        <!--============ = Footer Section Ends Here ============ = -->
+        <!--============= Footer Section Ends Here =============-->
 
 
 
-        <script data-cfasync = "false" src = "../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
+        <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="assets/js/modernizr-3.6.0.min.js"></script>
         <script src="assets/js/plugins.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>

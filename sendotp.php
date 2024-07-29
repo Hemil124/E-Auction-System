@@ -16,9 +16,9 @@ function sendEmail($recipient_email) {
 
         // $otp = mt_rand(10000, 99999);
         $otp = 11111;
-        $_SESSION["OTP"] = $otp;
+        $_SESSION["otp"] = $otp;
         $timestamp = $_SERVER["REQUEST_TIME"];
-        $_SESSION["TIME"] = $timestamp;
+        $_SESSION["otp_time"] = $timestamp;
        
         $mail = new PHPMailer(true);
 

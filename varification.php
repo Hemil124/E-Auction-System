@@ -126,6 +126,8 @@ session_start()
                 document.getElementById('resend-link').style.display = 'none'; // Hide resend link
             }
 
+
+
             window.onload = function () {
                 startTimer(); // Start the timer when the page loads
             };
@@ -135,6 +137,7 @@ session_start()
                 startTimer(); // Restart the timer
                 document.getElementById('resend-form').submit(); // Submit the form to resend OTP
             }
+
 
             history.pushState(null, null, location.href);
             window.onpopstate = function () {
@@ -151,9 +154,10 @@ session_start()
                             <p class="text-success" style="font-size: 4rem;">
                                 <i class="fa-solid fa-envelope-circle-check" style="color: rgb(104, 61, 245);"></i>
                             </p>
+                            <a href="sign-up-Bidder.php" target="target">back</a>
                             <p class="h4">Please check your Email</p>
-                            <p class="text-muted">We've sent a code to <?php echo htmlspecialchars($_SESSION['email'], ENT_QUOTES, 'UTF-8'); ?></p>
-
+                            <!--<p class="text-muted">We've sent a code to contact@curfcode.com</p>-->
+                            <p class="text-muted">We've sent a code to <?php if (isset($_SESSION['txtemail'])) echo htmlspecialchars($_SESSION['txtemail'], ENT_QUOTES, 'UTF-8'); ?></p>
                             <p class="text-muted timer" id="timer">Time remaining: 2:00</p>
                             <a id="resend-link" href="#" onclick="resendOtp()" style="display:none; color:black;">Click to resend.</a>
                             <form method="post" action="">
@@ -167,17 +171,213 @@ session_start()
                                     </div>
                                 </div>
                                 <div class="text-center pt-4">
-
-
-                                    <div class="col-12 col-md-12 mb-2">
-                                        <button type="submit" class="btn" name="verify">Verify OTP</button>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <button type="button" class="btn" onclick="resendOtp()" name="resend">Resend OTP</button>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <button type="submit" class="btn" name="verify">Verify OTP</button>
+                                        </div>
                                     </div>
-
                                 </div>
                             </form>
                             <form id="resend-form" method="post" action="">
                                 <input type="hidden" name="resend" value="1">
                             </form>
+
+
+                            <?php
+                            if(isset($_SESSION['txtemail']))
+                            {
+                                echo '<script>window.location.href="varification.php"</script>';
+                            }
+//echo "<script>alert('{$_SESSION['email']}');</script>";
+//include 'sendotp.php';
+//$t =new test();
+//$t->sendEmail($recipient_email)
+//if (isset($_POST['verify'])) {
+//    echo "<script>alert('in varify');</script>";
+//    $otp1 = isset($_POST['otp1']) ? trim($_POST['otp1']) : '';
+//    $otp2 = isset($_POST['otp2']) ? trim($_POST['otp2']) : '';
+//    $otp3 = isset($_POST['otp3']) ? trim($_POST['otp3']) : '';
+//    $otp4 = isset($_POST['otp4']) ? trim($_POST['otp4']) : '';
+//    $otp5 = isset($_POST['otp5']) ? trim($_POST['otp5']) : '';
+//
+//    $otp = $otp1 . $otp2 . $otp3 . $otp4 . $otp5;
+//    $otp_code = $_SESSION['otp'];
+//    
+//    echo "<script>alert('{$otp} {$_SESSION['otp']}');</script>";
+//    if (strlen($otp) === 5) {
+//        if ($otp_code == $otp) {
+//            if ($_SESSION["forgot"] == 1) {
+//                echo '<div class="alert alert-success">Verification successful!</div>';
+//                echo '<script>location.replace("forget2.php")</script>';
+//            } else {
+//                
+//                echo '<div class="alert alert-success">Verification successful!</div>';
+//                echo '<script>location.replace("Home.php")</script>';
+//            }
+//        } else {
+//            echo '<div class="alert alert-danger">Invalid OTP. Please try again.</div>';
+//        }
+//    } else {
+//        echo '<div class="alert alert-danger">Please enter a complete OTP.</div>';
+//    }
+////    session_unset();
+////    session_destroy();
+//}
+//
+//if (isset($_POST['resend'])) {
+//   
+//    echo '<div class="alert alert-success">OTP has been resent.</div>';
+//}
+                            ?>
+                            <?php
+// varification.php
+//session_start(); // Ensure the session is started
+
+
+
+                            $otp_validity_duration = 2 * 60; // 2 minutes in seconds
+
+                            if (isset($_POST['verify'])) {
+                                $otp1 = isset($_POST['otp1']) ? trim($_POST['otp1']) : '';
+                                $otp2 = isset($_POST['otp2']) ? trim($_POST['otp2']) : '';
+                                $otp3 = isset($_POST['otp3']) ? trim($_POST['otp3']) : '';
+                                $otp4 = isset($_POST['otp4']) ? trim($_POST['otp4']) : '';
+                                $otp5 = isset($_POST['otp5']) ? trim($_POST['otp5']) : '';
+
+                                $otp = $otp1 . $otp2 . $otp3 . $otp4 . $otp5;
+
+                                if (isset($_SESSION['otp'])) {
+                                    $otp_code = $_SESSION['otp'];
+                                    $otp_time = $_SESSION['otp_time'];
+                                    $current_time = time();
+
+                                    if ($current_time - $otp_time <= $otp_validity_duration) 
+                                    {
+                                        if (strlen($otp) === 5 && $otp_code == $otp) 
+                                        {
+                                            echo '<div class="alert alert-success">Verification successful!</div>';
+                                            if($_SESSION['type']=='f') 
+                                            {
+                                                
+                                                echo '<script>location.replace("forgot2.php")</script>';
+                                                exit();
+                                            } 
+                                            else 
+                                            {
+                                                insert_data();
+                                                echo '<script>location.replace("index.php")</script>';
+                                                exit();
+                                            }
+                                        } else {
+                                            echo '<div class="alert alert-danger">Invalid OTP. Please try again.</div>';
+                                        }
+                                    } else {
+                                        echo '<div class="alert alert-danger">OTP has expired. Please request a new OTP.</div>';
+                                    }
+                                } else {
+                                    echo '<div class="alert alert-danger">OTP not found in session. Please try resending the OTP.</div>';
+                                }
+                            }
+
+                            if (isset($_POST['resend'])) {
+                                // Resend OTP logic
+                                if (isset($_SESSION['txtemail'])) {
+                                    include 'sendotp.php';
+                                    sendEmail($_SESSION['txtemail']);
+                                    echo '<div class="alert alert-success">OTP has been resent.</div>';
+                                } else {
+                                    echo '<div class="alert alert-danger">Failed to resend OTP. cheak Email Address</div>';
+                                }
+                            }
+
+                            function insert_data() {
+                                include 'connection.php'; // Move this to the top so it applies to both conditions
+
+                                if ($_SESSION['type'] == 'b') {
+                                    $fname = $_SESSION['fname'];
+                                    $lname = $_SESSION['lname'];
+                                    $mobile = $_SESSION['mobile'];
+                                    $dob = $_SESSION['dob'];
+                                    $email = $_SESSION['email'];
+                                    $pass = $_SESSION['password'];
+
+                                    // Check for duplicate contact
+                                    $checkStmt = $conn->prepare("SELECT contact FROM tblbidders WHERE contact = ?");
+                                    $checkStmt->bind_param("s", $mobile);
+                                    $checkStmt->execute();
+                                    $checkStmt->store_result();
+
+                                    if ($checkStmt->num_rows > 0) {
+                                        echo "<div class='alert alert-danger'>Contact number already exists.</div>";
+                                        $checkStmt->close();
+                                        return;
+                                    }
+
+                                    $checkStmt->close();
+
+                                    // Insert data
+                                    $stmt = $conn->prepare("INSERT INTO tblbidders (firstname, lastname, contact, email, date_of_birth, password) VALUES (?, ?, ?, ?, ?, ?)");
+                                    $stmt->bind_param("ssssss", $fname, $lname, $mobile, $email, $dob, $pass);
+
+                                    if ($stmt->execute()) {
+                                        echo "Data stored successfully";
+                                    } else {
+                                        echo "Error storing data: " . $stmt->error;
+                                    }
+
+                                    $stmt->close();
+
+                                    // Clear session variables
+                                    unset($_SESSION['fname'], $_SESSION['lname'], $_SESSION['mobile'], $_SESSION['dob'], $_SESSION['email'], $_SESSION['password'], $_SESSION['type']);
+                                }
+
+                                if ($_SESSION['type'] == 's') {
+                                    $fname = $_SESSION['fname'];
+                                    $lname = $_SESSION['lname'];
+                                    $mobile = $_SESSION['mobile'];
+                                    $dob = $_SESSION['dob'];
+                                    $email = $_SESSION['email'];
+                                    $pass = $_SESSION['password'];
+                                    $adhar = $_SESSION['adhar'];
+                                    $imgContent = $_SESSION['adharimg'];
+
+                                    // Check for duplicate contact
+                                    $checkStmt = $conn->prepare("SELECT contact FROM tblsellers WHERE contact = ?");
+                                    $checkStmt->bind_param("s", $mobile);
+                                    $checkStmt->execute();
+                                    $checkStmt->store_result();
+
+                                    if ($checkStmt->num_rows > 0) {
+                                        echo "<div class='alert alert-danger'>Contact number already exists.</div>";
+                                        $checkStmt->close();
+                                        return;
+                                    }
+
+                                    $checkStmt->close();
+
+                                    // Insert data
+                                    $stmt = $conn->prepare("INSERT INTO tblsellers (firstname, lastname, contact, email, date_of_birth, password, adhar_number, adhar_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                                    $stmt->bind_param("ssssssss", $fname, $lname, $mobile, $email, $dob, $pass, $adhar, $imgContent);
+
+                                    if ($stmt->execute()) {
+                                        echo "Data inserted successfully.";
+                                    } else {
+                                        echo "Error: " . $stmt->error;
+                                    }
+
+                                    $stmt->close();
+
+                                    // Clear session variables
+                                    unset($_SESSION['fname'], $_SESSION['lname'], $_SESSION['mobile'], $_SESSION['dob'], $_SESSION['email'], $_SESSION['password'], $_SESSION['adhar'], $_SESSION['adharimg'], $_SESSION['type']);
+                                }
+
+                                // Close the database connection
+                                $conn->close();
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -185,60 +385,3 @@ session_start()
         </div>
     </body>
 </html>
-
-<?php
-//session_start(); // Start the session
-
-if (isset($_POST['verify'])) {
-    $otp1 = isset($_POST['otp1']) ? trim($_POST['otp1']) : '';
-    $otp2 = isset($_POST['otp2']) ? trim($_POST['otp2']) : '';
-    $otp3 = isset($_POST['otp3']) ? trim($_POST['otp3']) : '';
-    $otp4 = isset($_POST['otp4']) ? trim($_POST['otp4']) : '';
-    $otp5 = isset($_POST['otp5']) ? trim($_POST['otp5']) : '';
-
-    $otp = $otp1 . $otp2 . $otp3 . $otp4 . $otp5;
-
-    if (isset($_SESSION['otp']) && isset($_SESSION['otp_timestamp'])) {
-        $otp_code = $_SESSION['otp'];
-        $otp_timestamp = $_SESSION['otp_timestamp'];
-
-        // Define OTP validity period (e.g., 2 minutes)
-        $otp_validity_period = 2 * 60; // 2 minutes in seconds
-        $current_time = time();
-
-        if (($current_time - $otp_timestamp) > $otp_validity_period) {
-            // OTP has expired
-            echo '<div class="alert alert-danger">OTP has expired. Please request a new OTP.</div>';
-            // Optionally, you can also clear expired OTP
-            unset($_SESSION['otp']);
-            unset($_SESSION['otp_timestamp']);
-        } else {
-            // OTP is valid
-            if (strlen($otp) === 5) {
-                if ($otp_code == $otp) {
-                    if ($_SESSION["forgot"] == 1) {
-                        echo '<div class="alert alert-success">Verification successful!</div>';
-                        echo '<script>location.replace("forget2.php")</script>';
-                    } else {
-                        echo '<div class="alert alert-success">Verification successful!</div>';
-                        echo '<script>location.replace("index.php")</script>';
-                    }
-                } else {
-                    echo '<div class="alert alert-danger">Invalid OTP. Please try again.</div>';
-                }
-            } else {
-                echo '<div class="alert alert-danger">Please enter a complete OTP.</div>';
-            }
-        }
-    } else {
-        echo '<div class="alert alert-danger">OTP Expired.</div>';
-    }
-}
-
-if (isset($_POST['resend'])) {
-    // Add your OTP resend logic here
-    include 'sendotp.php';
-    sendEmail($_SESSION['email']);
-    echo '<div class="alert alert-success">OTP has been resent.</div>';
-}
-?>

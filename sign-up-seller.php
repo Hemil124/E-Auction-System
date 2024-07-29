@@ -14,7 +14,7 @@ session_start();
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>E-Auction</title>
-        <script src="assets/js/main2.js" type="text/javascript"></script>
+
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
         <link rel="stylesheet" href="assets/css/animate.css">
@@ -32,9 +32,7 @@ session_start();
     </head>
 
     <body>
-        <?php
-        include 'header.php';
-        ?>
+
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section">
             <div class="container">
@@ -47,12 +45,161 @@ session_start();
                         <span>Sign Up as Seller</span>
                     </li>
                 </ul>
-            </div> 
+            </div>
             <div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png"></div>
         </div>
         <!--============= Hero Section Ends Here =============-->
 
+        <!--header-->
+        <header>
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-top-wrapper">
+                        <ul class="customer-support">
+                            <li class="cmn-support-text">
+                                <a href="#0" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">Customer Support</span></a>
+                            </li>
+                            <li class="customer-cupport-lang">
+                                <i class="fas fa-globe"></i>
+                                <select name="language" class="select-bar">
+                                    <option value="en">English</option>
+                                    <option value="Bn">Bn</option>
+                                    <option value="Rs">Rs</option>
+                                    <option value="Us">Us</option>
+                                    <option value="Pk">Pk</option>
+                                    <option value="Arg">Arg</option>   
+                                </select>
+                            </li>
+                        </ul>
+                        <ul class="cart-button-area">
+                            <li>
+                                <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
+                            </li>                        
+                            <li>
+                                <a href="sign-in.php" class="user-button"><i class="flaticon-user"></i></a>
+                            </li>                        
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom">
+                <div class="container">
+                    <div class="header-wrapper">
+                        <div class="logo">
+                            <a href="index.php">
 
+                                <img src="assets/images/logo/logo.png" alt="logo"/>
+                            </a>
+                        </div>
+                        <ul class="menu ml-auto">
+                            <li>
+                                <a href="#0">Home</a>
+                                <ul class="submenu">
+                                    <li>
+                                        <a href="index.php">Home Page One</a>
+                                    </li>
+                                    <li>
+                                        <a href="index-2.php">Home Page Two</a>
+                                    </li>
+                                    <li>
+                                        <a href="index-3.php">Home Page Three</a>
+                                    </li>
+                                    <li>
+                                        <a href="index-4.php">Home Page Four</a>
+                                    </li>
+                                    <li>
+                                        <a href="index-5.php">Home Page Five</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="product.php">Auction</a>
+                            </li>
+                            <li>
+                                <a href="#0">Pages</a>
+                                <ul class="submenu">
+                                    <li>
+                                        <a href="#0">Product</a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="product.php">Product Page 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="product-2.php">Product Page 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="product-details.php">Product Details</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#0">My Account</a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="sign-up.php">Sign Up</a>
+                                            </li>
+                                            <li>
+                                                <a href="sign-in.php">Sign In</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#0">Dashboard</a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="dashboard.php">Dashboard</a>
+                                            </li>
+                                            <li>
+                                                <a href="profile.php">Personal Profile</a>
+                                            </li>
+                                            <li>
+                                                <a href="my-bid.php">My Bids</a>
+                                            </li>
+                                            <li>
+                                                <a href="winning-bids.php">Winning Bids</a>
+                                            </li>
+                                            <li>
+                                                <a href="notifications.php">My Alert</a>
+                                            </li>
+                                            <li>
+                                                <a href="my-favorites.php">My Favorites</a>
+                                            </li>
+                                            <li>
+                                                <a href="referral.php">Referrals</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="about.php">About Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="faqs.php">Faqs</a>
+                                    </li>
+                                    <li>
+                                        <a href="error.php">404 Error</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="contact.php">Contact</a>
+                            </li>
+                        </ul>
+                        <form class="search-form">
+                            <input type="text" placeholder="Search for brand, model....">
+                            <button type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                        <div class="search-bar d-md-none">
+                            <a href="#0"><i class="fas fa-search"></i></a>
+                        </div>
+                        <div class="header-bar d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
         <!--============= Account Section Starts Here =============-->
         <section class="account-section padding-bottom">
             <div class="container">
@@ -125,7 +272,7 @@ session_start();
                                                <?php if (isset($_POST['txtemail'])) echo 'value="' . htmlspecialchars($_POST['txtemail']) . '"'; ?> required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="tel" id="signup-adhar" placeholder="Enter Adhar No" name="signup-adhar" pattern="\d{11}" maxlength="12" minlength="12"
+                                        <input type="tel" id="signup-adhar" placeholder="Enter Adhar No" name="signup-adhar" pattern="\d{11}" maxlength="11" minlength="11"
                                                <?php if (isset($_POST['signup-adhar'])) echo 'value="' . htmlspecialchars($_POST['signup-adhar']) . '"'; ?> required>
                                     </div>
                                 </div>
@@ -134,7 +281,7 @@ session_start();
                                 <div class="row">
                                     <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; ">
                                         <lable>Upload Your Adhar Card PDF, JPEG or JPG formats only
-                                            <input type="file" name="image" required style="border: 0px; margin: 0 auto;"/>
+                                            <input type="file" name="image" id="image" required style="border: 0px; margin: 0 auto;"/>
                                         </lable>
                                     </div>
                                     <div class="col-sm-4"></div>
@@ -186,8 +333,6 @@ session_start();
         </section>
 
         <?php
-        
-
         // Load environment variables
         //require 'vendor/autoload.php';
         //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -207,127 +352,16 @@ session_start();
             }
         }
 
-        use PHPMailer\PHPMailer\PHPMailer;
-        use PHPMailer\PHPMailer\Exception;
-
-        function sendEmail($recipient_email) {
-            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\PHPMailer.php';
-            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\Exception.php';
-            require 'C:\xampp\htdocs\E-Auction-System\PHPMailer-master\src\SMTP.php';
-            try {
-
-
-                // $otp = mt_rand(10000, 99999);
-                $otp = 11111;
-                $_SESSION["O"] = "a";
-                $timestamp = $_SERVER["REQUEST_TIME"];
-                $_SESSION["TIME"] = $timestamp;
-
-                $mail = new PHPMailer(true);
-
-                // SMTP settings
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'hemilghori@gmail.com';
-                $mail->Password = 'nkagldxfrrntpzuz';
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
-
-                // Sender and recipient
-                $mail->setFrom('hemilghori@gmail.com', 'E-Auction');
-                $mail->addAddress($recipient_email);
-
-                // Email content
-                $mail->isHTML(true);
-                $mail->Subject = 'Email Verification OTP';
-                $mail->Body = getEmailTemplate($otp);
-
-                // Send email
-                //$mail->send();
-                // Store OTP in session for verification
-
-                $_SESSION['email'] = $recipient_email;
-
-                echo "<script>alert('{$_SESSION['O']}');</script>";
-            } catch (Exception $e) {
-                echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
-            }
-        }
-
-        function getEmailTemplate($otp) {
-            return '
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                    margin: 0;
-                    padding: 0;
-                }
-                .container {
-                    width: 100%;
-                    max-width: 600px;
-                    margin: 0 auto;
-                    background-color: #ffffff;
-                    padding: 20px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                }
-                .header {
-                    background-color: #004f9f;
-                    color: #ffffff;
-                    padding: 10px;
-                    text-align: center;
-                }
-                .content {
-                    margin-top: 20px;
-                    text-align: center;
-                }
-                .footer {
-                    background-color: #f4f4f4;
-                    color: #666666;
-                    padding: 10px;
-                    text-align: center;
-                    font-size: 12px;
-                    border-top: 1px solid #ddd;
-                }
-                .otp-code {
-                    font-size: 24px;
-                    font-weight: bold;
-                    margin: 20px 0;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>E-Auction System</h1>
-                </div>
-                <div class="content">
-                    <p>Dear User,</p>
-                    <p>Your One-Time Password (OTP) for email verification is:</p>
-                    <div class="otp-code">' . $otp . '</div>
-                    <p>Please use this OTP to verify your email address.</p>
-                    <p>If you did not request this OTP, please ignore this email.</p>
-                </div>
-                <div class="footer">
-                    <p>© 2024 E-Auction System. All rights reserved.</p>
-                    <p><a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a></p>
-                </div>
-            </div>
-        </body>
-        </html>';
-        }
-
         function signup() {
             if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
                 $password = $_POST['txtpassword'];
                 $confirmPassword = $_POST['txtconfirm_password'];
+                $dob = $_POST['dob'];
                 $passstatus = 0;
-               if ($password !== $confirmPassword) {
-                                        echo '<script>alert("Passwords do not match. Please try again.");</script>';
+                $dobstatus = 0;
+
+                if ($password !== $confirmPassword) {
+                    //                    echo '<script>alert("Passwords do not match. Please try again.");</script>';
                     $confirmPassword = "Passwords do not match. Please try again.";
                 } elseif (empty($password)) {
                     echo '<script>alert("Password not valid.");</script>';
@@ -335,7 +369,21 @@ session_start();
                     $passstatus = 1;
                 }
 
-                if ($passstatus == 1) {
+                $dobDate = new DateTime($dob);
+                $now = new DateTime();
+                $age = $now->diff($dobDate)->y;
+
+                if ($age < 18) {
+                    echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
+                } else if ($age > 65) {
+                    echo '<script>alert("Age Not Allow.");</script>';
+                    exit();
+                } else {
+                    $dobstatus = 1;
+                }
+
+
+                if ($dobstatus == 1 && $passstatus == 1) {
                     $email = $_POST['txtemail'];
                     include 'connection.php';
                     $email_check_bidder = "select * from tblbidders where email='$email'";
@@ -351,7 +399,20 @@ session_start();
                         echo '<script>alert("Email ID is already exist.")</script>';
                         exit();
                     } else {
+                        $_SESSION['fname'] = $_POST['txtfirstname'];
+                        $_SESSION['lname'] = $_POST['txtlastname'];
+                        $_SESSION['mobile'] = $_POST['txtMobileNo'];
+                        $_SESSION['dob'] = $_POST['dob'];
+                        $_SESSION['email'] = $_POST['txtemail'];
+                        $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
+                        $_SESSION['password'] = $pass;
+                        $_SESSION['adhar'] = $_POST['signup-adhar'];
+                         $imageData = file_get_contents($_FILES['image']['tmp_name']);
+                        $_SESSION['adharimg'] = $imageData;
+                        $_SESSION['type'] = 's';
 
+                        echo "<script>alert('$imageData')</script>";
+                        include 'sendotp.php';
                         sendEmail($email);
                         $_SESSION['email'] = $email;
                         echo '<script>window.location.href="varification.php"</script>';
@@ -361,48 +422,6 @@ session_start();
                     echo '<script>alert("Cheak All Details Something Went Wrong")</script>';
                 }
             }
-        }
-
-        function store_data() {
-
-
-            $hostname = "localhost";
-            $username = "root";
-            $password = "";
-            $database = "e-Auction";
-
-            $c = mysqli_connect($hostname, $username, $password, $database);
-            if (!$c) {
-                die("Connection failed: " . mysqli_connect_error());
-            } else {
-                //cheak email exists or not
-                //echo '<script>alert("Connection Succesfully");</script>';
-                //store data
-                $fname = $_POST['txtfirstname'];
-                $lname = $_POST['txtlastname'];
-                $mo = $_POST['txtMobileNo'];
-
-                $d = $_POST['dob'];
-                $date = date("Y-d-m", strtotime($d));
-                $email = $_POST['txtemail'];
-                $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-                $qu = "INSERT INTO tblusers (FirstName, LastName, MobileNo, Email, DateofBirth, Password, Role) VALUES ('$fname', '$lname', '$mo', '$email', '$date', '$pass', 'buyer')";
-
-                $q = mysqli_query($c, $qu);
-
-                if (!$q) {
-                    $e = mysqli_error($c);
-                    die("Error: " . $e);
-                } else {
-                    //echo "<script>alert('User data stored successfully.');</script>";
-                    //header("location:sign-in.php?email=$email");
-                    // exit();
-                    echo '<script>location.replace("index.php")</script>';
-                }
-            }
-
-
-            mysqli_close($c);
         }
         ?>
 
