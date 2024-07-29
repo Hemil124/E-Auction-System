@@ -4,7 +4,19 @@ session_start()
 <!DOCTYPE html>
 <html lang="en">
     <head>
-
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/all.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/nice-select.css">
+        <link rel="stylesheet" href="assets/css/owl.min.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="assets/css/flaticon.css">
+        <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+        <link rel="stylesheet" href="assets/css/aos.css">
+        <!--<link rel="stylesheet" href="assets/css/main.css">-->
+        <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/css/nice-select.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">  
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -157,7 +169,7 @@ session_start()
                             <a href="sign-up-Bidder.php" target="target">back</a>
                             <p class="h4">Please check your Email</p>
                             <!--<p class="text-muted">We've sent a code to contact@curfcode.com</p>-->
-                            <p class="text-muted">We've sent a code to <?php if (isset($_SESSION['txtemail'])) echo htmlspecialchars($_SESSION['txtemail'], ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p class="text-muted">We've sent a code to <?php if (isset($_SESSION['txtemail'])) echo htmlspecialchars($_SESSION['txtemail'], ENT_QUOTES, 'UTF-8'); ?><label for="profile-pic" class="profile-pic-edit"><i class="flaticon-pencil"></i></label></p>
                             <p class="text-muted timer" id="timer">Time remaining: 2:00</p>
                             <a id="resend-link" href="#" onclick="resendOtp()" style="display:none; color:black;">Click to resend.</a>
                             <form method="post" action="">
@@ -187,10 +199,10 @@ session_start()
 
 
                             <?php
-                            if(isset($_SESSION['txtemail']))
-                            {
-                                echo '<script>window.location.href="varification.php"</script>';
-                            }
+//                            if(isset($_SESSION['txtemail']))
+//                            {
+//                                echo '<script>window.location.href="varification.php"</script>';
+//                            }
 //echo "<script>alert('{$_SESSION['email']}');</script>";
 //include 'sendotp.php';
 //$t =new test();

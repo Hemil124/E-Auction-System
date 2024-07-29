@@ -328,6 +328,7 @@
             </div>
         </section>
 
+
        <?php
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -345,77 +346,56 @@ function forgot() {
         $password = $_POST['txtpassword'];
         $confirmPassword = $_POST['txtconfirm_password'];
         $email = $_SESSION['email']; // Assuming email is stored in the session during the forgot password process
-
+        
         if ($password !== $confirmPassword) {
             echo '<script>alert("Passwords do not match. Please try again.");</script>';
         } elseif (empty($password)) {
             echo '<script>alert("Password not valid.");</script>';
         } else {
             include 'connection.php';
-
+            
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $qs = $conn->prepare("SELECT password FROM tblbidders WHERE email = ?");
+
+            // Check if the email exists in any of the three tables
+            $qs = $conn->prepare("SELECT email FROM tblbidders WHERE email = ?");
             $qs->bind_param("s", $email);
             $qs->execute();
             $qs->store_result();
 
-            $qb = $conn->prepare("SELECT password FROM tblsellers WHERE email = ?");
+            $qb = $conn->prepare("SELECT email FROM tblsellers WHERE email = ?");
             $qb->bind_param("s", $email);
             $qb->execute();
             $qb->store_result();
 
-            $qa = $conn->prepare("SELECT password FROM tbladmin WHERE email = ?");
+            $qa = $conn->prepare("SELECT email FROM tbladmin WHERE email = ?");
             $qa->bind_param("s", $email);
             $qa->execute();
             $qa->store_result();
 
-            $passwordUpdated = false;
-
-            if ($qs->num_rows == 1) {
-                $qs->bind_result($currentPassword);
-                $qs->fetch();
-                if (password_verify($password, $currentPassword)) {
-                    echo '<script>alert("Create a new password that isn\'t your current password.");</script>';
-                } else {
+            if ($qs->num_rows == 0 && $qb->num_rows == 0 && $qa->num_rows == 0) {
+                echo '<script>alert("You don\'t have an account.");</script>';
+            } else {
+                // Update password in the appropriate table
+                if ($qs->num_rows == 1) {
                     $us = $conn->prepare("UPDATE tblbidders SET password = ? WHERE email = ?");
                     $us->bind_param("ss", $hashedPassword, $email);
                     $us->execute();
-                    $passwordUpdated = true;
-                }
-            } elseif ($qb->num_rows == 1) {
-                $qb->bind_result($currentPassword);
-                $qb->fetch();
-                if (password_verify($password, $currentPassword)) {
-                    echo '<script>alert("Create a new password that isn\'t your current password.");</script>';
-                } else {
+                } elseif ($qb->num_rows == 1) {
                     $ub = $conn->prepare("UPDATE tblsellers SET password = ? WHERE email = ?");
                     $ub->bind_param("ss", $hashedPassword, $email);
                     $ub->execute();
-                    $passwordUpdated = true;
-                }
-            } elseif ($qa->num_rows == 1) {
-                $qa->bind_result($currentPassword);
-                $qa->fetch();
-                if (password_verify($password, $currentPassword)) {
-                    echo '<script>alert("Create a new password that isn\'t your current password.");</script>';
-                } else {
+                } elseif ($qa->num_rows == 1) {
                     $ua = $conn->prepare("UPDATE tbladmin SET password = ? WHERE email = ?");
                     $ua->bind_param("ss", $hashedPassword, $email);
                     $ua->execute();
-                    $passwordUpdated = true;
                 }
-            }
 
-            if (!$qs->num_rows && !$qb->num_rows && !$qa->num_rows) {
-                echo '<script>alert("You don\'t have an account.");</script>';
-            }
-
-            if ($passwordUpdated) {
                 echo '<script>alert("Password updated successfully.");</script>';
                 echo '<script>location.replace("sign-in.php")</script>';
                 exit();
             }
 
+            // Close the prepared statements and the connection
             $qs->close();
             $qb->close();
             $qa->close();
@@ -424,6 +404,7 @@ function forgot() {
     }
 }
 ?>
+
 
 
 

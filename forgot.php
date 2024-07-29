@@ -358,7 +358,7 @@ session_start();
                 echo '<script>alert("You don\'t have an account.");</script>';
             }else{
             include 'sendotp.php';
-          
+          $_SESSION['txtemail']=$email;
             sendEmail($email);
             $_SESSION['type'] = 'f';
             echo '<script>window.location.href="varification.php"</script>';
