@@ -31,11 +31,11 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <!--        <div class="overlayer" id="overlayer">
+                <div class="overlayer" id="overlayer">
                     <div class="loader">
                         <div class="loader-inner"></div>
                     </div>
-                </div>-->
+                </div>
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -391,6 +391,7 @@ function forgot() {
                 }
 
                 echo '<script>alert("Password updated successfully.");</script>';
+                session_destroy();  
                 echo '<script>location.replace("sign-in.php")</script>';
                 exit();
             }

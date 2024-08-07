@@ -266,21 +266,25 @@ session_start()
                                     $otp_time = $_SESSION['otp_time'];
                                     $current_time = time();
 
-                                    if ($current_time - $otp_time <= $otp_validity_duration) 
-                                    {
-                                        if (strlen($otp) === 5 && $otp_code == $otp) 
-                                        {
+                                    if ($current_time - $otp_time <= $otp_validity_duration) {
+                                        if (strlen($otp) === 5 && $otp_code == $otp) {
                                             echo '<div class="alert alert-success">Verification successful!</div>';
-                                            if($_SESSION['type']=='f') 
-                                            {
-                                                
+                                            if ($_SESSION['type'] == 'f') {
+
+                                                $email = $_SESSION['email'];
+                                                session_destroy();
+                                                $_SESSION['email'] = $email;
                                                 echo '<script>location.replace("forgot2.php")</script>';
                                                 exit();
-                                            } 
-                                            else 
-                                            {
+                                            } else {
+                                                $email = $_SESSION['email'];
+                                                session_destroy();
+                                                $_SESSION['txtemail'] = $email;
+                                                $t=$_SESSION['txtemail'];
+//                                                echo "<script>alert('$t');</script>";
                                                 insert_data();
-                                                echo '<script>location.replace("index.php")</script>';
+//                                                echo '<script>location.replace("index.php")</script>';
+                                                echo '<script>location.replace("sign-in.php?email=' . urlencode($email) . '")</script>';
                                                 exit();
                                             }
                                         } else {

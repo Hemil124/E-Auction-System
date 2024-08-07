@@ -32,11 +32,11 @@ session_start();
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <!--        <div class="overlayer" id="overlayer">
+                <div class="overlayer" id="overlayer">
                     <div class="loader">
                         <div class="loader-inner"></div>
                     </div>
-                </div>-->
+                </div>
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -302,7 +302,7 @@ session_start();
                         <form class="login-form" method="POST">
                             <div class="form-group mb-30">
                                 <label for="login-email"><i class="fa-solid fa-envelope"></i></label>
-                                <input type="email" id="login-email" placeholder="Email Address" name="txtemail" required>
+                                <input type="email" id="login-email" placeholder="Email Address" name="txtemailadd" required>
                             </div>
                             <div class="form-group">
                                 <label for="login-pass"><i class="fas fa-lock"></i></label>
@@ -375,67 +375,106 @@ session_start();
         ?>
         <!-- Sign Up Modal end -->
         <?php
-if (isset($_SESSION['txtemail'])) {
-    echo '<script>location.replace("index.php")</script>';
-    exit();
-}
-
-if (isset($_POST['btnlogin'])) {
-    $hostname = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "dbt_e-auction";
-
-    $c = mysqli_connect($hostname, $username, $password, $database);
-    if (!$c) {
-        echo "<script>alert('Connection failed: " . mysqli_connect_error() . "');</script>";
-        exit();
-    } else {
-        $email = mysqli_real_escape_string($c, $_POST['txtemail']);
-        $userPassword = $_POST['txtpass'];
-        $datahashedPassword = '';
-
-        // Check in tblsellers
-        $qs = mysqli_query($c, "SELECT password FROM tblsellers WHERE email='$email'");
-        if (mysqli_num_rows($qs) == 1) {
-            $r = mysqli_fetch_row($qs);
-            $datahashedPassword = $r[0];
+        if (isset($_SESSION['txtemail'])) {
+            echo '<script>location.replace("index.php")</script>';
+            exit();
         }
 
-        // Check in tblbidders if not found in tblsellers
-        if (empty($datahashedPassword)) {
-            $qb = mysqli_query($c, "SELECT password FROM tblbidders WHERE email='$email'");
-            if (mysqli_num_rows($qb) == 1) {
-                $r = mysqli_fetch_row($qb);
-                $datahashedPassword = $r[0];
-            }
-        }
+        if (isset($_POST['btnlogin'])) {
+            $hostname = "localhost";
+            $username = "root";
+            $password = "";
+            $database = "dbt_e-auction";
 
-        // Check in tbladmin if not found in tblsellers and tblbidders
-        if (empty($datahashedPassword)) {
-            $qa = mysqli_query($c, "SELECT password FROM tbladmin WHERE email='$email'");
-            if (mysqli_num_rows($qa) == 1) {
-                $r = mysqli_fetch_row($qa);
-                $datahashedPassword = $r[0];
-            }
-        }
-
-        if (empty($datahashedPassword)) {
-            echo '<script>alert("User Name not Found");</script>';
-        } else {
-            if (password_verify($userPassword, $datahashedPassword)) {
-                $_SESSION['txtemail'] = $email;
-                echo '<script>location.replace("index.php")</script>';
+            $c = mysqli_connect($hostname, $username, $password, $database);
+            if (!$c) {
+                echo "<script>alert('Connection failed: " . mysqli_connect_error() . "');</script>";
                 exit();
             } else {
-                echo '<script>alert("Wrong Password");</script>';
+                $email = mysqli_real_escape_string($c, $_POST['txtemailadd']);
+                $userPassword = $_POST['txtpass'];
+                $datahashedPassword = '';
+
+                // Check in tblsellers
+                $qs = mysqli_query($c, "SELECT password FROM tblsellers WHERE email='$email'");
+                if (mysqli_num_rows($qs) == 1) {
+                    $r = mysqli_fetch_row($qs);
+                    $datahashedPassword = $r[0];
+                    if (empty($datahashedPassword)) {
+                        echo '<script>alert("User Name not Found");</script>';
+                        exit();
+                    } else {
+//                        echo "<script>alert('$datahashedPassword');</script>";
+//                        echo "<script>alert('$userPassword');</script>";
+//                        $t = password_verify($userPassword, $datahashedPassword);
+//                        echo "<script>alert('$t');</script>";
+
+                        if (password_verify($userPassword, $datahashedPassword)) {
+                            $_SESSION['txtemail'] = $email;
+                            echo '<script>location.replace("index.php")</script>';
+                            exit();
+                        } else {
+                            echo '<script>alert("Wrong Password");</script>';
+                            exit();
+                        }
+                    }
+                }
+
+                // Check in tblbidders if not found in tblsellers
+
+                $qb = mysqli_query($c, "SELECT password FROM tblbidders WHERE email='$email'");
+                if (mysqli_num_rows($qb) == 1) {
+                    $r = mysqli_fetch_row($qb);
+                    $datahashedPassword = $r[0];
+                    if (empty($datahashedPassword)) {
+                        echo '<script>alert("User Name not Found");</script>';
+                        exit();
+                    } else {
+                        if (password_verify($userPassword, $datahashedPassword)) {
+                            $_SESSION['txtemail'] = $email;
+                            echo '<script>location.replace("index.php")</script>';
+                            exit();
+                        } else {
+                            echo '<script>alert("Wrong Password");</script>';
+                            exit();
+                        }
+                    }
+                }
+
+
+
+                // Check in tbladmin if not found in tblsellers and tblbidders
+
+                $qa = mysqli_query($c, "SELECT password FROM tbladmin WHERE email='$email'");
+                if (mysqli_num_rows($qa) == 1) {
+                    $r = mysqli_fetch_row($qa);
+                    $datahashedPassword = $r[0];
+                    if (empty($datahashedPassword)) {
+                        echo '<script>alert("User Name not Found");</script>';
+                        exit();
+                    } else {
+//                        echo "<script>alert('$datahashedPassword');</script>";
+//                        echo "<script>alert('$userPassword');</script>";
+//                        echo "<script>alert('password_verify($userPassword, $datahashedPassword)');</script>";
+
+                        if ($password_verify($userPassword, $datahashedPassword)) {
+                            $_SESSION['txtemail'] = $email;
+                            echo '<script>location.replace("index.php")</script>';
+                            exit();
+                        } else {
+                            echo '<script>alert("Wrong Password");</script>';
+                            exit();
+                        }
+                    }
+                }
+
+
+
+
+                mysqli_close($c);
             }
         }
-
-        mysqli_close($c);
-    }
-}
-?>
+        ?>
 
 
         <!--============ = Account Section Ends Here ============ = -->

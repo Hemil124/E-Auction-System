@@ -1,14 +1,15 @@
+<?php
+session_start();
+// without login can't open indexpage!!        
+// if (!isset($_SESSION['txtemail']) ) {
+//     header("Location: sign-in.php");
+//     exit();
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php
-        session_start();
-        // without login can't open indexpage!!        
-        // if (!isset($_SESSION['txtemail']) ) {
-        //     header("Location: sign-in.php");
-        //     exit();
-        // }
-        ?>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -218,6 +219,10 @@
                             <span></span>
                         </div>
                         <ul class="cart-button-area">
+                            <?php
+                            $t = $_SESSION['txtemail'];
+                            echo "<script>alert('$t');</script>";
+                            ?>
                             <?php if (isset($_SESSION['txtemail'])): ?>    
                                 <li>
                                     <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>

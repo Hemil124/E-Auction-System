@@ -363,8 +363,10 @@ session_start();
                 if ($password !== $confirmPassword) {
                     //                    echo '<script>alert("Passwords do not match. Please try again.");</script>';
                     $confirmPassword = "Passwords do not match. Please try again.";
+                    exit();
                 } elseif (empty($password)) {
                     echo '<script>alert("Password not valid.");</script>';
+                    exit();
                 } else {
                     $passstatus = 1;
                 }
@@ -375,8 +377,10 @@ session_start();
 
                 if ($age < 18) {
                     echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
+                    exit();
                 } else if ($age > 65) {
                     echo '<script>alert("Age Not Allow.");</script>';
+                    
                     exit();
                 } else {
                     $dobstatus = 1;
@@ -411,7 +415,7 @@ session_start();
                         $_SESSION['adharimg'] = $imageData;
                         $_SESSION['type'] = 's';
 
-                        echo "<script>alert('$imageData')</script>";
+//                        echo "<script>alert('$imageData')</script>";
                         include 'sendotp.php';
                         sendEmail($email);
                         $_SESSION['email'] = $email;
@@ -420,6 +424,7 @@ session_start();
                     }
                 } else {
                     echo '<script>alert("Cheak All Details Something Went Wrong")</script>';
+                    exit();
                 }
             }
         }

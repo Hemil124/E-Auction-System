@@ -360,6 +360,7 @@ session_start();
                     $confirmPassword = "Passwords do not match. Please try again.";
                 } elseif (empty($password)) {
                     echo '<script>alert("Password not valid.");</script>';
+                    exit();
                 } else {
                     $passstatus = 1;
                 }
@@ -370,8 +371,10 @@ session_start();
 
                 if ($age < 18) {
                     echo '<script>alert("You must be at least 18 years old to sign up.");</script>';
+                    exit();
                 } else if ($age > 65) {
                     echo '<script>alert("Age Not Allow.");</script>';
+                    exit();
                     exit();
                 } else {
                     $dobstatus = 1;
@@ -392,6 +395,7 @@ session_start();
 
                     if (mysqli_num_rows($result_bidder) == 1 || mysqli_num_rows($result_seller) == 1 || mysqli_num_rows($result_admin) == 1) {
                         echo '<script>alert("Alredy Have a Account using this Mobile Number od Email Id")</script>';
+                        exit();
                        
                         exit();
                     } else {
@@ -412,6 +416,7 @@ session_start();
                     }
                 } else {
                     echo '<script>alert("Cheak All Details Something Went Wrong")</script>';
+                    exit();
                 }
             }
         }
