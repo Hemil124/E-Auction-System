@@ -1670,6 +1670,16 @@ footer {
 }
 
 /*Header Sectionn Starts Here*/
+.textMerchant a 
+{
+    margin-bottom: 50px;
+    color: white;
+}
+.textMerchant a:hover 
+{
+    
+    color: whitesmoke;
+}
 .header-top-wrapper {
     justify-content: space-between;
 }
@@ -1681,6 +1691,7 @@ footer {
 }
 .header-top-wrapper .customer-support .cmn-support-text {
     padding-right: 19px;
+   
 }
 .header-top-wrapper .customer-support .cmn-support-text a i {
     padding-right: 10px;
@@ -1756,6 +1767,7 @@ footer {
 
 .header-top {
     border: 1px solid rgba(136, 124, 225, 0.502);
+    height: 60px;
 }
 
 header {
@@ -7515,8 +7527,8 @@ button.custom-button {
 .sig-div{
     /*    position:absolute;
         top:200px;*/
-    margin-bottom: 80px;
-
+    /*margin-bottom: 80px;*/
+    margin-top: 30px;
 }
 .sign-in{
     padding: 10px;

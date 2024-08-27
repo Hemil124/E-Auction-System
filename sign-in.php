@@ -43,154 +43,9 @@ session_start();
 
 
         <!--============= Header Section Starts Here =============-->
-        <header>
-            <div class="header-top">
-                <div class="container">
-                    <div class="header-top-wrapper">
-                        <ul class="customer-support">
-                            <li class="cmn-support-text">
-                                <a href="#0" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">Customer Support</span></a>
-                            </li>
-                            <li class="customer-cupport-lang">
-                                <i class="fas fa-globe"></i>
-                                <select name="language" class="select-bar">
-                                    <option value="en">En</option>
-                                    <option value="Bn">Bn</option>
-                                    <option value="Rs">Rs</option>
-                                    <option value="Us">Us</option>
-                                    <option value="Pk">Pk</option>
-                                    <option value="Arg">Arg</option>
-                                </select>
-                            </li>
-                        </ul>
-                        <ul class="cart-button-area">
-                            <li>
-                                <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
-                            </li>                        
-                            <li>
-                                <a href="sign-in.php" class="user-button"><i class="flaticon-user"></i></a>
-                            </li>                        
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="header-bottom">
-                <div class="container">
-                    <div class="header-wrapper">
-                        <div class="logo">
-                            <a href="index.php">
-                                <img src="assets/images/logo/logo.png" alt="logo">
-                            </a>
-                        </div>
-                        <ul class="menu ml-auto">
-                            <li>
-                                <a href="#0">Home</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="index.php">Home Page One</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-2.php">Home Page Two</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-3.php">Home Page Three</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-4.php">Home Page Four</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-5.php">Home Page Five</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="product.php">Auction</a>
-                            </li>
-                            <li>
-                                <a href="#0">Pages</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="#0">Product</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="product.php">Product Page 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="product-2.php">Product Page 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="product-details.php">Product Details</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#0">My Account</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="sign-up.php">Sign Up</a>
-                                            </li>
-                                            <li>
-                                                <a href="sign-in.php">Sign In</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Dashboard</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="dashboard.php">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="profile.php">Personal Profile</a>
-                                            </li>
-                                            <li>
-                                                <a href="my-bid.php">My Bids</a>
-                                            </li>
-                                            <li>
-                                                <a href="winning-bids.php">Winning Bids</a>
-                                            </li>
-                                            <li>
-                                                <a href="notifications.php">My Alert</a>
-                                            </li>
-                                            <li>
-                                                <a href="my-favorites.php">My Favorites</a>
-                                            </li>
-                                            <li>
-                                                <a href="referral.php">Referrals</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="about.php">About Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="faqs.php">Faqs</a>
-                                    </li>
-                                    <li>
-                                        <a href="error.php">404 Error</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="contact.php">Contact</a>
-                            </li>
-                        </ul>
-                        <form class="search-form">
-                            <input type="text" placeholder="Search for brand, model....">
-                            <button type="submit"><i class="fas fa-search"></i></button>
-                        </form>
-                        <div class="search-bar d-md-none">
-                            <a href="#0"><i class="fas fa-search"></i></a>
-                        </div>
-                        <div class="header-bar d-lg-none">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <?php
+        include 'Header.php';
+        ?>
         <!--============= Header Section Ends Here =============-->
 
         <!--============= Cart Section Starts Here =============-->
@@ -351,8 +206,8 @@ session_start();
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="signupOption" id="seller" value="seller">
-                                <label class="form-check-label" for="seller">
-                                    As a Seller 
+                                <label class="form-check-label" for="Merchant">
+                                   As a Merchant
                                 </label>
                             </div>
                     </div>
@@ -368,8 +223,8 @@ session_start();
         if (isset($_POST['popupok'])) {
             if ($_POST['signupOption'] == 'customer') {
                 echo '<script>location.replace("sign-up-Bidder.php")</script>';
-            } elseif ($_POST['signupOption'] == 'seller') {
-                echo '<script>location.replace("sign-up-seller.php")</script>';
+            } elseif ($_POST['signupOption'] == 'Merchant') {
+                echo '<script>location.replace("sign-up-Merchant.php")</script>';
             }
         }
         ?>
@@ -468,9 +323,6 @@ session_start();
                     }
                 }
 
-
-
-
                 mysqli_close($c);
             }
         }
@@ -481,194 +333,10 @@ session_start();
 
 
         <!--============ = Footer Section Starts Here ============ = -->
-        <footer class = "bg_img padding-top oh" data-background = "assets/images/footer/footer-bg.jpg">
-            <div class = "footer-top-shape">
-                <img src = "assets/css/img/footer-top-shape.png" alt = "css">
-            </div>
-            <div class = "anime-wrapper">
-                <div class = "anime-1 plus-anime">
-                    <img src = "assets/images/footer/p1.png" alt = "footer">
-                </div>
-                <div class = "anime-2 plus-anime">
-                    <img src = "assets/images/footer/p2.png" alt = "footer">
-                </div>
-                <div class = "anime-3 plus-anime">
-                    <img src = "assets/images/footer/p3.png" alt = "footer">
-                </div>
-                <div class = "anime-5 zigzag">
-                    <img src = "assets/images/footer/c2.png" alt = "footer">
-                </div>
-                <div class = "anime-6 zigzag">
-                    <img src = "assets/images/footer/c3.png" alt = "footer">
-                </div>
-                <div class = "anime-7 zigzag">
-                    <img src = "assets/images/footer/c4.png" alt = "footer">
-                </div>
-            </div>
-            <div class = "newslater-wrapper">
-                <div class = "container">
-                    <div class = "newslater-area">
-                        <div class = "newslater-thumb">
-                            <img src = "assets/images/footer/newslater.png" alt = "footer">
-                        </div>
-                        <div class = "newslater-content">
-                            <div class = "section-header left-style mb-low" data-aos = "fade-down" data-aos-duration = "1100">
-                                <h5 class = "cate">Bid with confidence, win with pride</h5>
-                                <h3 class = "title">From Bidders to Winners: Start Bidding Today</h3>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class = "footer-top padding-bottom padding-top">
-                <div class = "container">
-                    <div class = "row mb--60">
-                        <div class = "col-sm-6 col-lg-3" data-aos = "fade-down" data-aos-duration = "1000">
-                            <div class = "footer-widget widget-links">
-                                <h5 class = "title">Auction Categories</h5>
-                                <ul class = "links-list">
-                                    <li>
-                                        <a href = "#0">Ending Now</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Vehicles</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Watches</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Electronics</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Real Estate</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Jewelry</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Art</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Sports & Outdoor</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class = "col-sm-6 col-lg-3" data-aos = "fade-down" data-aos-duration = "1300">
-                            <div class = "footer-widget widget-links">
-                                <h5 class = "title">About Us</h5>
-                                <ul class = "links-list">
-                                    <li>
-                                        <a href = "#0">About Sbidu</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Help</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Affiliates</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Jobs</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Press</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Our blog</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Collectors' portal</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3" data-aos="fade-down" data-aos-duration="1600">
-                            <div class="footer-widget widget-links">
-                                <h5 class="title">We're Here to Help</h5>
-                                <ul class = "links-list">
-                                    <li>
-                                        <a href = "#0">Your Account</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Safe and Secure</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Shipping Information</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Contact Us</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0">Help & FAQ</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class = "col-sm-6 col-lg-3" data-aos = "fade-down" data-aos-duration = "1800">
-                            <div class = "footer-widget widget-follow">
-                                <h5 class = "title">Follow Us</h5>
-                                <ul class = "links-list">
-                                    <li>
-                                        <a href = "#0"><i class = "fas fa-phone-alt"></i>(646) 663-4575</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0"><i class = "fas fa-blender-phone"></i>(646) 968-0608</a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0"><i class = "fas fa-envelope-open-text"></i><span class = "__cf_email__" data-cfemail = "80e8e5ecf0c0e5eee7eff4e8e5ede5aee3efed">[email&#160;protected]</span></a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0"><i class = "fas fa-location-arrow"></i>1201 Broadway Suite</a>
-                                    </li>
-                                </ul>
-                                <ul class = "social-icons">
-                                    <li>
-                                        <a href = "#0" class = "active"><i class = "fab fa-facebook-f"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0"><i class = "fab fa-twitter"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0"><i class = "fab fa-instagram"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href = "#0"><i class = "fab fa-linkedin-in"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class = "footer-bottom">
-                <div class = "container">
-                    <div class = "copyright-area">
-                        <div class = "footer-bottom-wrapper">
-                            <div class = "logo">
-                                <a href = "index.php"><img src = "assets/images/logo/footer-logo.png" alt = "logo"></a>
-                            </div>
-                            <ul class = "gateway-area">
-                                <li>
-                                    <a href = "#0"><img src = "assets/images/footer/paypal.png" alt = "footer"></a>
-                                </li>
-                                <li>
-                                    <a href = "#0"><img src = "assets/images/footer/visa.png" alt = "footer"></a>
-                                </li>
-                                <li>
-                                    <a href = "#0"><img src = "assets/images/footer/discover.png" alt = "footer"></a>
-                                </li>
-                                <li>
-                                    <a href = "#0"><img src = "assets/images/footer/mastercard.png" alt = "footer"></a>
-                                </li>
-                            </ul>
-                            <div class = "copyright"><p>&copy;
-                                    Copyright 2024 | <a href = "#0">Sbidu</a> By <a href = "#0">Uiaxis</a></p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php
+        include 'Footer.php';
+        ?>
+       
         <!--============ = Footer Section Ends Here ============ = -->
 
 

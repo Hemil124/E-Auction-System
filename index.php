@@ -48,6 +48,44 @@ session_start();
 
         <!--============= Header Section Starts Here =============-->
         <header>
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-top-wrapper">
+                        <ul class="customer-support" style=" margin-bottom:  60px;">
+                            <li class="cmn-support-text">
+                                <a href="#0" class="mr-2"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">Customer Support</span></a>
+                            </li>
+
+                        </ul>
+                        <ul class="cart-button-area">
+                            <?php if (isset($_SESSION['txtemail'])): ?>    
+
+                                <li>
+                                    <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
+                                </li>                        
+                                <li>
+                                    <a href="sign-in.php" class="user-button"><i class="flaticon-user"></i></a>
+                                </li>                        
+
+                            <?php endif; ?>
+                            <?php if (!isset($_SESSION['txtemail'])): ?>
+                                <li class="textMerchant">
+                                    <a href="sign-up-merchant.php" class="mr-2"><i class="fas fa-user"></i><span class="ml-2 d-none d-sm-inline-block">Become a Merchant</span></a>
+                                </li>
+                                <div class="sig-div" >
+                                    <button class="sign-in" onclick="window.location.href = 'sign-in.php'" >
+                                        Log in
+                                    </button>
+                                    <button class="sign-up" onclick="window.location.href = 'sign-up-Bidder.php'" >
+                                        Sign Up
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="header-bottom">
                 <div class="container">
                     <div class="header-top-wrapper"  style='height: 40px;'>
@@ -220,77 +258,18 @@ session_start();
                         </div>
                         <ul class="cart-button-area">
                             <?php
-                            $t = $_SESSION['txtemail'];
-                            echo "<script>alert('$t');</script>";
+//                            $t = $_SESSION['txtemail'];
+//                            echo "<script>alert('$t');</script>";
                             ?>
-                            <?php if (isset($_SESSION['txtemail'])): ?>    
-                                <li>
-                                    <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
-                                </li>                        
-                                <li>
-                                    <a href="dashboard.php" class="user-button"><i class="flaticon-user"></i></a>
-                                </li>  
-                            <?php endif; ?>
 
-                            <?php if (!isset($_SESSION['txtemail'])): ?>
-                                <div class="sig-div" >
-                                    <button class="sign-in" onclick="window.location.href = 'sign-in.php'" >
-                                        Log in
-                                    </button>
-                                    <button class="sign-up" data-toggle="modal" data-target="#signUpModal">
-                                        Sign Up
-                                    </button>
-                                </div>
-                            <?php endif; ?>
+
+
                         </ul>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Sign Up Modal -->
-        <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
-                        <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>-->
-                    </div>
-                    <div class="modal-body">
-                        <form id="signUpForm" method="POST" action="" style="color:black;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="signupOption" id="customer"  value="customer">
-                                <label class="form-check-label" for="customer">
-                                    As a Bidder
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="signupOption" id="seller" value="seller">
-                                <label class="form-check-label" for="seller">
-                                    As a Seller 
-                                </label>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="custom-button" data-dismiss="modal" style="width: 150px;">Close</button>
-                        <button type="submit" class="custom-button" name="popupok"style="width: 150px; ">OK</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <?php
-        if (isset($_POST['popupok'])) {
-            if ($_POST['signupOption'] == 'customer') {
-                echo '<script>location.replace("sign-up-Bidder.php")</script>';
-            } elseif ($_POST['signupOption'] == 'seller') {
-                echo '<script>location.replace("sign-up-seller.php")</script>';
-            }
-        }
-        ?>
-        <!-- Sign Up Modal end -->
         <!--============= Header Section Ends Here =============-->
 
         <!--============= Cart Section Starts Here =============-->

@@ -32,7 +32,7 @@
 
     <body>
         <?php
-        include 'header.php';
+        include 'Header.php';
         ?>
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section">
