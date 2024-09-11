@@ -19,3 +19,5 @@ document.getElementById('signup-lname').addEventListener('input', function (e) {
 document.getElementById('signup-adhar').addEventListener('input', function (e) {
     this.value = this.value.replace(/\D/g, '');
 });
+
+
