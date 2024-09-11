@@ -97,23 +97,17 @@ session_start();
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group mb-0">
+                                            <?php
+                                            $maxDate = date('Y-m-d', strtotime('-18 years'));
+                                            $minDate = date('Y-m-d', strtotime('-65 years'));
+                                            ?>
                                             <label for="signup-dob"><i class="fa fa-calendar"></i></label>
                                             <input type="date" id="signup-dob" name="dob"
                                             <?php if (isset($_POST['dob'])) echo 'value="' . htmlspecialchars($_POST['dob']) . '"'; ?> 
-                                                   pattern="\d{4}-\d{2}-\d{2}" required>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    const dobInput = document.getElementById('signup-dob');
-                                                    const today = new Date();
-                                                    const currentYear = today.getFullYear();
-                                                    const minYear = currentYear - 65;
-                                                    const maxYear = currentYear - 18;
-                                                    const minDate = new Date(minYear, today.getMonth(), today.getDate()).toISOString().split('T')[0];
-                                                    const maxDate = new Date(maxYear, today.getMonth(), today.getDate()).toISOString().split('T')[0];
-                                                    dobInput.min = minDate;
-                                                    dobInput.max = maxDate;
-                                                });
-                                            </script>
+                                                   pattern="\d{4}-\d{2}-\d{2}" 
+                                                   min="<?php echo $minDate; ?>" 
+                                                   max="<?php echo $maxDate; ?>" required>
+
                                         </div>
                                     </div>
                                 </div>
@@ -122,8 +116,10 @@ session_start();
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label for="signup-email"><i class="fa-solid fa-envelope"></i></label>
-                                        <input type="email" id="signup-email" placeholder="Email Address" name="txtemail"
+                                        <input type="email" id="signup-email" placeholder="Email Address" name="txtemail" oninput="showSuggestions(this.value)"
                                                <?php if (isset($_POST['txtemail'])) echo 'value="' . htmlspecialchars($_POST['txtemail']) . '"'; ?> required>
+                                        <datalist id="suggestions" style="list-style-type: none; padding: 0; margin: 0; border: 1px solid #ddd; max-width: calc(100% - 20px); display: none; position: absolute; background: white; z-index: 10; top: 100%; left: 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); max-height: 150px; overflow-y: auto;"></ul>
+
                                     </div>
                                     <div class="col-sm-6">
                                         <!--<lable><i class="fa-solid fa-address-card"></i></lable>-->
@@ -136,7 +132,7 @@ session_start();
                                 <div class="row">
                                     <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; margin-left: 120px;">
                                         <lable>Upload Your Adhar Card PDF, JPEG or JPG formats only
-                                            <input type="file" name="image" id="image" required style="border: 0px; margin: 0 auto;"/>
+                                            <input type="file" name="image" id="image" accept=".pdf, .jpeg, .jpg" required style="border: 0px; margin: 0 auto;"/>
                                         </lable>
                                     </div>
                                     <div class="col-sm-4"></div>
@@ -160,6 +156,9 @@ session_start();
                             <div class="form-group mb-0">
                                 <button type="submit" class="custom-button"  name="btnsignup">Sign Up</button>
                             </div>
+                             <div class="form-group mb-0">
+                                 <!--<lable>Sign Up as?<a href="sign-up-Bidder.php">Bidder</a></lable>-->
+                             </div>
                         </form>
                     </div>
                     <div class="right-side cl-white">
@@ -171,6 +170,119 @@ session_start();
                     </div>
                 </div>
             </div>
+            <script>
+                const emailDomains = [
+                    "@gmail.com",
+                    "@yahoo.com",
+                    "@outlook.com",
+                    "@hotmail.com",
+                    "@icloud.com",
+                    "@aol.com",
+                    "@live.com",
+                    "@protonmail.com",
+                    "@zoho.com",
+                    "@yandex.com",
+                    "@mail.com",
+                    "@gmx.com",
+                    "@inbox.com"
+                ];
+
+                let currentFocus = -1;  // Track the current focused suggestion
+
+                function showSuggestions(value) {
+                    const suggestionsList = document.getElementById('suggestions');
+                    suggestionsList.innerHTML = '';  // Clear previous suggestions
+                    currentFocus = -1;  // Reset focus index
+
+                    // Show the suggestions list if input contains '@' and has content before '@'
+                    if (value.includes('@') && value.split('@')[0].trim().length > 0) {
+                        const [prefix, typedDomain] = value.split('@');  // Get the part before and after '@'
+
+                        emailDomains.forEach(domain => {
+                            // Filter the domains based on user input after '@'
+                            if (!typedDomain || domain.startsWith('@' + typedDomain)) {
+                                const suggestion = prefix + domain;  // Create a suggestion for each domain
+                                const li = document.createElement('li');  // Create a list item for suggestion
+                                li.textContent = suggestion;
+                                li.style.padding = '8px';
+                                li.style.cursor = 'pointer';  // Make it clear that the list items are clickable
+                                li.onmouseover = () => li.style.backgroundColor = '#f0f0f0';  // Highlight on hover
+                                li.onmouseout = () => li.style.backgroundColor = '#fff';  // Remove highlight on hover
+                                li.onclick = () => selectSuggestion(suggestion);
+                                suggestionsList.appendChild(li);  // Add the suggestion to the list
+                            }
+                        });
+
+                        if (suggestionsList.childElementCount > 0) {
+                            suggestionsList.style.display = 'block';  // Show the suggestions list
+                        } else {
+                            suggestionsList.style.display = 'none';  // Hide the suggestions list if no match found
+                        }
+                    } else {
+                        suggestionsList.style.display = 'none';  // Hide the suggestions list if not needed
+                    }
+                }
+
+                function selectSuggestion(suggestion) {
+                    document.getElementById('signup-email').value = suggestion;  // Set the input field to the selected suggestion
+                    document.getElementById('suggestions').style.display = 'none';  // Hide suggestions
+                    currentFocus = -1;  // Reset focus index
+                }
+
+// Handle keyboard navigation for suggestions
+                document.getElementById('signup-email').addEventListener('keydown', function (e) {
+                    const suggestionsList = document.getElementById('suggestions');
+                    const items = suggestionsList.getElementsByTagName('li');
+
+                    if (e.key === 'ArrowDown') {
+                        // Move focus to the next suggestion
+                        currentFocus++;
+                        addActive(items);
+                    } else if (e.key === 'ArrowUp') {
+                        // Move focus to the previous suggestion
+                        currentFocus--;
+                        addActive(items);
+                    } else if (e.key === 'Enter') {
+                        // Prevent form submission if Enter is pressed
+                        e.preventDefault();
+                        if (currentFocus > -1) {
+                            // If a suggestion is focused, select it
+                            items[currentFocus].click();
+                        }
+                    }
+                });
+
+                function addActive(items) {
+                    // Remove active class from all items
+                    removeActive(items);
+
+                    if (currentFocus >= items.length)
+                        currentFocus = 0;  // Loop back to start
+                    if (currentFocus < 0)
+                        currentFocus = items.length - 1;  // Loop back to end
+
+                    // Add active class to the focused item
+                    items[currentFocus].classList.add('active');
+                    items[currentFocus].style.backgroundColor = '#f0f0f0';  // Highlight active item
+                }
+
+                function removeActive(items) {
+                    // Remove active class and reset background color from all items
+                    for (let i = 0; i < items.length; i++) {
+                        items[i].classList.remove('active');
+                        items[i].style.backgroundColor = '#fff';
+                    }
+                }
+
+// Hide suggestions when clicking outside
+                document.addEventListener('click', function (event) {
+                    const suggestionsList = document.getElementById('suggestions');
+                    if (!document.getElementById('signup-email').contains(event.target) && !suggestionsList.contains(event.target)) {
+                        suggestionsList.style.display = 'none';
+                    }
+                });
+
+            </script>
         </section>
 
         <?php
@@ -221,7 +333,7 @@ session_start();
                     exit();
                 } else if ($age > 65) {
                     echo '<script>alert("Age Not Allow.");</script>';
-                    
+
                     exit();
                 } else {
                     $dobstatus = 1;
@@ -252,7 +364,7 @@ session_start();
                         $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
                         $_SESSION['password'] = $pass;
                         $_SESSION['adhar'] = $_POST['signup-adhar'];
-                         $imageData = file_get_contents($_FILES['image']['tmp_name']);
+                        $imageData = file_get_contents($_FILES['image']['tmp_name']);
                         $_SESSION['adharimg'] = $imageData;
                         $_SESSION['type'] = 's';
 
@@ -292,5 +404,5 @@ session_start();
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/main2.js" type="text/javascript"></script>
-    
+
 </html>
