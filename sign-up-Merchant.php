@@ -221,7 +221,7 @@ session_start();
                     exit();
                 } else if ($age > 65) {
                     echo '<script>alert("Age Not Allow.");</script>';
-                    
+
                     exit();
                 } else {
                     $dobstatus = 1;
@@ -252,7 +252,7 @@ session_start();
                         $pass = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
                         $_SESSION['password'] = $pass;
                         $_SESSION['adhar'] = $_POST['signup-adhar'];
-                         $imageData = file_get_contents($_FILES['image']['tmp_name']);
+                        $imageData = file_get_contents($_FILES['image']['tmp_name']);
                         $_SESSION['adharimg'] = $imageData;
                         $_SESSION['type'] = 's';
 
@@ -292,5 +292,5 @@ session_start();
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/main2.js" type="text/javascript"></script>
-    
+
 </html>
