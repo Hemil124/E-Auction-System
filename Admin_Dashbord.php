@@ -166,7 +166,7 @@
                                     <a href="javascript:void(0);" onclick="toggleCategoryOptions()">
                                         <img src="assets/images/AdminDashbordicon/list-solid.svg" alt="Manage Category Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;font-size: 2px;">
                                         Manage Category
-                                        <span id="arrowIcon" style="margin-left: 130px; color: #ee4730;">&#x25BC;</span> 
+                                        <span id="arrowIcon" style="float: right; color: #ee4730;">&#x25BC;</span> 
                                     </a>
                                     <ul id="categoryOptions" style="display: none; margin-left: 50px;">
                                         <li>
@@ -183,28 +183,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);" onclick="toggleReportOptions()">
-                                        <img src="assets/images/AdminDashbordicon/list-solid.svg" alt="Generate Report Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; font-size: 2px;">
-                                        Generate Report
-                                        <span id="reportArrowIcon" style="margin-left: 135px; color: #ee4730;">&#x25BC;</span> 
-                                    </a>
-                                    <ul id="reportOptions" style="display: none; margin-left: 50px;">
-                                        <li>
-                                            <a href="auctionReport.php">
-                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                Auction Report
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="paymentReport.php">
-                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                Payment Report
-                                            </a>
-                                        </li>
 
-                                    </ul>
-                                </li>
                                 <script>
                                     function toggleCategoryOptions() {
                                         var options = document.getElementById("categoryOptions");
@@ -235,6 +214,28 @@
 
                                 <li>
                                     <a href="my-bid.php"><i class="fa-regular fa-circle-check"></i></i>Item Varify</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" onclick="toggleReportOptions()">
+                                        <img src="assets/images/AdminDashbordicon/list-solid.svg" alt="Generate Report Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; font-size: 2px;">
+                                        Generate Report
+                                        <span id="reportArrowIcon" style="float: right; color: #ee4730;">&#x25BC;</span> 
+                                    </a>
+                                    <ul id="reportOptions" style="display: none; margin-left: 50px;">
+                                        <li>
+                                            <a href="auctionReport.php">
+                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
+                                                Auction Report
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="paymentReport.php">
+                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
+                                                Payment Report
+                                            </a>
+                                        </li>
+
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Winning Bids</a>
