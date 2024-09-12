@@ -197,6 +197,12 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <a href="userRegistrationReport.php">
+                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
+                                                User Registration Report
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="paymentReport.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 Payment Report
