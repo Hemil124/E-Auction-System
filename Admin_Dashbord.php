@@ -164,7 +164,7 @@
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);" onclick="toggleCategoryOptions()">
-                                        <img src="assets/images/AdminDashbordicon/list-solid.svg" alt="Manage Category Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;font-size: 2px;">
+                                        <img src="assets/images/AdminDashboardicon/list-solid.svg" alt="Manage Category Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;font-size: 2px;">
                                         Manage Category
                                         <span id="arrowIcon" style="float: right; color: #ee4730;">&#x25BC;</span> 
                                     </a>
@@ -218,8 +218,8 @@
                                 <li>
                                     <a href="javascript:void(0);" onclick="toggleReportOptions()" style="display: flex; align-items: center; justify-content: space-between; text-decoration: none; width: 100%;">
                                         <div style="display: flex; align-items: center;">
-                                            <img src="/E-Auction-System/assets/images/flaticon/chart-mixed-svgrepo-com.svg" alt="Generate Report Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; background-color: red;">
-
+                                            <img src="assets/images/AdminDashboardicon/chart-pie-solid.svg" alt="Generate Report Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; ">
+                                            
                                             Generate Report
                                         </div>
                                         <span id="reportArrowIcon" style="color: #ee4730;">&#x25BC;</span>
