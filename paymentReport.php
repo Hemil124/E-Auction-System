@@ -130,7 +130,7 @@
                         <!--<a href="#0">My Account</a>-->
                     </li>
                     <li>
-                        <span>Admin Dashbord</span>
+                        <span>Payment Report</span>
                     </li>
                 </ul>
             </div>
@@ -213,7 +213,7 @@
                                 </script>
 
                                 <li>
-                                    <a href="my-bid.php"><i class="fa-regular fa-circle-check"></i></i>Item Varify</a>
+                                    <a href="my-bid.php"><i class="fa-regular fa-circle-check"></i></i>Item Verify</a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);" onclick="toggleReportOptions()" style="display: flex; align-items: center; justify-content: space-between; text-decoration: none; width: 100%;">
@@ -239,9 +239,9 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="paymentReport.php">
+                                            <a href="userRegistrationReport.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                User Ragistation Report
+                                                User Registration Report
                                             </a>
                                         </li>
 
