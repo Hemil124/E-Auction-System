@@ -265,7 +265,7 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <div class="dashboard-widget mb-40">
+<!--                        <div class="dashboard-widget mb-40">
                             <div class="dashboard-title mb-30">
                                 <h5 class="title">My Activity</h5>
                             </div>
@@ -304,7 +304,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="dashboard-widget">
                             <h5 class="title mb-10">Purchasing</h5>
                             <div class="dashboard-purchasing-tabs">

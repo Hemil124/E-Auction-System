@@ -219,7 +219,7 @@
                                     <a href="javascript:void(0);" onclick="toggleReportOptions()" style="display: flex; align-items: center; justify-content: space-between; text-decoration: none; width: 100%;">
                                         <div style="display: flex; align-items: center;">
                                             <img src="assets/images/flaticon/chart-pie-solid.svg" alt="Generate Report Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; ">
-                                            
+
                                             Generate Report
                                         </div>
                                         <span id="reportArrowIcon" style="color: #ee4730;">&#x25BC;</span>
@@ -250,63 +250,23 @@
                                 <li>
                                     <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Manage Payment</a>
                                 </li>
-<!--                                <li>
-                                    <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
-                                </li>
-                                <li>-->
-                                    <button class="logout" onclick="window.location.href = 'logout.php'">
-                                        Logout
-                                    </button>
+                                <!--                                <li>
+                                                                    <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
+                                                                </li>
+                                                                <li>-->
+                                <button class="logout" onclick="window.location.href = 'logout.php'">
+                                    Logout
+                                </button>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-8">
-                        <div class="dashboard-widget mb-40">
-                            <div class="dashboard-title mb-30">
-                                <h5 class="title">My Activity</h5>
-                            </div>
-                            <div class="row justify-content-center mb-30-none">
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="dashboard-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/dashboard/01.png" alt="dashboard">
-                                        </div>
-                                        <div class="content"> 
-                                            <h2 class="title"><span class="counter">80</span></h2>
-                                            <h6 class="info">Active Bids</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="dashboard-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/dashboard/02.png" alt="dashboard">
-                                        </div>
-                                        <div class="content">
-                                            <h2 class="title"><span class="counter">15</span></h2>
-                                            <h6 class="info">Items Won</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="dashboard-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/dashboard/03.png" alt="dashboard">
-                                        </div>
-                                        <div class="content">
-                                            <h2 class="title"><span class="counter">115</span></h2>
-                                            <h6 class="info">Favorites</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-lg-8" style="padding-bottom: calc(var(--bs-gutter-x)* .5);"  >
                         <div class="dashboard-widget">
-                            <h5 class="title mb-10">Purchasing</h5>
+                            <h5 class="title mb-10">Registered Users</h5>
                             <div class="dashboard-purchasing-tabs">
                                 <ul class="nav-tabs nav">
                                     <li>
@@ -526,6 +486,95 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!--reports tables-->
+                    <div class="col-lg-12" style="padding-bottom: calc(var(--bs-gutter-x)* .5);padding-top: calc(var(--bs-gutter-x)* .5);">
+                        <div class="dashboard-widget">
+                            <h5 class="title mb-10">Registered Users</h5>
+                            <div class="dashboard-purchasing-tabs">
+                                <ul class="nav-tabs nav">
+                                    <li>
+                                        <a href="#bidder" class="active" data-toggle="tab">Bidder</a>
+                                    </li>
+                                    <li>
+                                        <a href="#seller" data-toggle="tab">Seller</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane show active fade" id="bidder">
+                                        <?PHP
+                                        include 'connection.php';
+                                        $qu = "select * from tblbidders";
+                                        $q = mysqli_query($conn, $qu);
+                                        if (!$q) {
+                                            die("Error:" . mysqli_error($con));
+                                        } else {
+                                            ?>
+                                            <table class="purchasing-table">
+                                                <thead>
+                                                <th>Name</th>
+                                                <th>Contact</th>
+                                                <th>Email</th>
+                                                <th>Date Of Birth</th>
+                                                <th>Address</th>
+                                                <th>Created Date</th>
+                                                </thead>
+                                                <tbody>
+                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                        <tr>
+                                                            <td style="padding-right: 4px;"><?php echo $r['firstname'] . ' ' . $r['lastname']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['contact']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['email']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['date_of_birth']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['address']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['created_date']; ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        <?PHP }
+                                        ?>
+                                    </div>
+                                    <div class="tab-pane show fade" id="seller">
+                                        <?PHP
+                                        include 'connection.php';
+                                        $qu = "select * from  tblsellers";
+                                        $q = mysqli_query($conn, $qu);
+                                        if (!$q) {
+                                            die("Error:" . mysqli_error($con));
+                                        } else {
+                                            ?>
+                                        <table class="purchasing-table">
+                                                <thead>
+                                                <th>Name</th>
+                                                <th>Contact</th>
+                                                <th>Email</th>
+                                                <th>Date Of Birth</th>
+                                                <th>Address</th>
+                                                <th>Created Date</th>
+                                                </thead>
+                                                <tbody>
+                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                        <tr>
+                                                            <td style="padding-right: 4px;"><?php echo $r['firstname'] . ' ' . $r['lastname']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['contact']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['email']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['date_of_birth']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['address']; ?></td>
+                                                            <td style="padding-right: 4px;"><?php echo $r['created_date']; ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        <?PHP }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
