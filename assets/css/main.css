@@ -90,6 +90,8 @@ Text Domain:
 -------------------------
 39. Popup
 -------------------------
+40.Error Message
+-------------------------
 */
 html {
     color: #222;
@@ -617,7 +619,7 @@ select {
 
 input {
     background: #f4f4f4;
-    border: 1px solid transparent;
+    border: 1px solid ;
     border-radius: 5px;
     padding-left: 10px;
 }
@@ -6750,6 +6752,7 @@ div[class*=auction] .custom-button {
 .purchasing-table {
     width: 100%;
     font-size: 16px;
+    text-align: center; 
 }
 .purchasing-table thead th {
     color: #37406f;
@@ -6766,6 +6769,8 @@ div[class*=auction] .custom-button {
     padding: 13px 0;
     border-bottom: 1px solid rgba(215, 217, 245, 0.502);
     transition: all ease 0.3s;
+    text-align: center; 
+    vertical-align: middle;
 }
 @media (max-width: 767px) {
     .purchasing-table thead {
@@ -7711,3 +7716,10 @@ button.custom-button {
     display: none;
 }
 /*All Animation Ends Here*//*# sourceMappingURL=main.css.map */
+/*---------------------------------------------
+40 Error Message Starts Hear*/
+.error_message
+{
+    color: red;
+    font-size: 90%;
+}
