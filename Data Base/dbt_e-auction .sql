@@ -120,10 +120,10 @@ INSERT INTO `tblbidders` (`id`, `firstname`, `lastname`, `contact`, `email`, `da
 --
 -- Table structure for table `tblcategory`
 --
-
 CREATE TABLE `tblcategory` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `status` enum('Active','Inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

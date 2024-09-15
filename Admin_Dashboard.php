@@ -170,7 +170,7 @@
                                     </a>
                                     <ul id="categoryOptions" style="display: none; margin-left: 50px;">
                                         <li>
-                                            <a href="allCategory.php">
+                                            <a href="All_Category.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 All Categoryes
                                             </a>
