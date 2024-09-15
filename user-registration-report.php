@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     </head>
@@ -508,106 +509,133 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content">
+                                    <!-- Bidder Tab -->
                                     <div class="tab-pane show active fade" id="bidder">
-                                        <?PHP
-                                        include 'connection.php';
-                                        $qu = "select * from tblbidders";
-                                        $q = mysqli_query($conn, $qu);
-                                        if (!$q) {
-                                            die("Error:" . mysqli_error($con));
-                                        } else {
-                                            ?>
-                                            <table class="purchasing-table">
-                                                <thead>
-                                                <th>Name</th>
-                                                <th>Contact</th>
-                                                <th>Email</th>
-                                                <th>Date Of Birth</th>
-                                                <th>Address</th>
-                                                <th>Created Date</th>
-                                                </thead>
-                                                <tbody>
-                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
-                                                        <tr>
-                                                            <td style="padding-right: 4px;"><?php echo $r['firstname'] . ' ' . $r['lastname']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['contact']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['email']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['date_of_birth']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['address']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['created_date']; ?></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        <?PHP }
-                                        ?>
+                                        <div class="form-group" id="bidder-filter">
+                                            <form class="login-form" method="POST" action="">
+                                                <div class="col-sm-12" style="padding-bottom: 10px; ">
+                                                    <label for="from-date" class="mr-2" style="margin: 0px 5px">Filter by Created Date:</label>
+                                                    <input type="date" name="fdate" id="bidder-fdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                                    <label for="to-date" class="mr-2" style="width: auto;margin: 0px 5px">to</label>
+                                                    <input type="date" name="tdate" id="bidder-tdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                                    <button type="button" id="bidder-filter-btn" class="logout" style="width: auto;margin: 0px 5px ">Filter</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="bidder-table">
+                                            <!-- Default data table will be loaded here -->
+                                        </div>
                                     </div>
+
+                                    <!-- Seller Tab -->
                                     <div class="tab-pane show fade" id="seller">
-                                        <?PHP
-                                        include 'connection.php';
-                                        $qu = "select * from  tblsellers";
-                                        $q = mysqli_query($conn, $qu);
-                                        if (!$q) {
-                                            die("Error:" . mysqli_error($con));
-                                        } else {
-                                            ?>
-                                        <table class="purchasing-table">
-                                                <thead>
-                                                <th>Name</th>
-                                                <th>Contact</th>
-                                                <th>Email</th>
-                                                <th>Date Of Birth</th>
-                                                <th>Address</th>
-                                                <th>Created Date</th>
-                                                </thead>
-                                                <tbody>
-                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
-                                                        <tr>
-                                                            <td style="padding-right: 4px;"><?php echo $r['firstname'] . ' ' . $r['lastname']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['contact']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['email']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['date_of_birth']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['address']; ?></td>
-                                                            <td style="padding-right: 4px;"><?php echo $r['created_date']; ?></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        <?PHP }
-                                        ?>
+                                        <div class="form-group" id="seller-filter">
+                                            <form class="login-form" method="POST" action="">
+                                                <div class="col-sm-12" style="padding-bottom: 10px;">
+                                                    <label for="from-date" class="mr-2">Filter by Created Date:</label>
+                                                    <input type="date" name="fdate" id="seller-fdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;" required>
+                                                    <label for="to-date" class="mr-2" style="width: auto">to</label>
+                                                    <input type="date" name="tdate" id="seller-tdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;" required>
+                                                    <button type="button" id="seller-filter-btn" class="logout" style="width: auto">Filter</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="seller-table">
+                                            <!-- Default data table will be loaded here -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        function loadDefaultData() {
+                            // Load default data on page load
+                            fetchData('bidder', '');
+                            fetchData('seller', '');
+                        }
+
+                        function fetchData(type, queryString) {
+                            let url = `user-Registration-Data.php?type=${type}&${queryString}`;
+
+                            fetch(url)
+                                    .then(response => response.text())
+                                    .then(data => {
+                                        document.getElementById(`${type}-table`).innerHTML = data;
+                                    })
+                                    .catch(error => console.error('Error fetching data:', error));
+                        }
+
+                        function setupFilterButtons() {
+                            document.getElementById('bidder-filter-btn').addEventListener('click', function () {
+                                let fdate = document.getElementById('bidder-fdate').value;
+                                let tdate = document.getElementById('bidder-tdate').value;
+
+                                if (!fdate || !tdate) {
+                                    alert('Both date fields are required.');
+                                    return;
+                                }
+                                if (new Date(fdate) > new Date(tdate)) {
+                                    alert('The from date cannot be later than the to date.');
+                                    return;
+                                }
+                                let queryString = `fdate=${fdate}&tdate=${tdate}`;
+                                fetchData('bidder', queryString);
+                            });
+
+                            document.getElementById('seller-filter-btn').addEventListener('click', function () {
+                                let fdate = document.getElementById('seller-fdate').value;
+                                let tdate = document.getElementById('seller-tdate').value;
+
+                                if (!fdate || !tdate) {
+                                    alert('Both date fields are required.');
+                                    return;
+                                }
+                                if (new Date(fdate) > new Date(tdate)) {
+                                    alert('The from date cannot be later than the to date.');
+                                    return;
+                                }
+                                let queryString = `fdate=${fdate}&tdate=${tdate}`;
+                                fetchData('seller', queryString);
+                            });
+                        }
+
+                        loadDefaultData();
+                        setupFilterButtons();
+                    });
+                </script>
             </div>
-        </section>
-        <!--============= Dashboard Section Ends Here =============-->
+        </div>
+    </section>
+    <!--============= Dashboard Section Ends Here =============-->
 
 
-        <?php
-        include 'Footer.php';
-        ?>
+    <?php
+    include 'Footer.php';
+    ?>
 
 
 
-        <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
-        <script src="assets/js/modernizr-3.6.0.min.js"></script>
-        <script src="assets/js/plugins.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/isotope.pkgd.min.js"></script>
-        <script src="assets/js/aos.js"></script>
-        <script src="assets/js/wow.min.js"></script>
-        <script src="assets/js/waypoints.js"></script>
-        <script src="assets/js/nice-select.js"></script>
-        <script src="assets/js/counterup.min.js"></script>
-        <script src="assets/js/owl.min.js"></script>
-        <script src="assets/js/magnific-popup.min.js"></script>
-        <script src="assets/js/yscountdown.min.js"></script>
-        <script src="assets/js/jquery-ui.min.js"></script>
-        <script src="assets/js/main.js"></script>
-    </body>
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/waypoints.js"></script>
+    <script src="assets/js/nice-select.js"></script>
+    <script src="assets/js/counterup.min.js"></script>
+    <script src="assets/js/owl.min.js"></script>
+    <script src="assets/js/magnific-popup.min.js"></script>
+    <script src="assets/js/yscountdown.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
 
 
 </html>
