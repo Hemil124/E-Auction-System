@@ -280,7 +280,7 @@ session_start()
                                                 $email = $_SESSION['email'];
                                                 session_destroy();
                                                 $_SESSION['txtemail'] = $email;
-                                                $t=$_SESSION['txtemail'];
+                                                $t = $_SESSION['txtemail'];
 //                                                echo "<script>alert('$t');</script>";
                                                 insert_data();
 //                                                echo '<script>location.replace("index.php")</script>';
@@ -319,7 +319,7 @@ session_start()
                                     $dob = $_SESSION['dob'];
                                     $email = $_SESSION['email'];
                                     $pass = $_SESSION['password'];
-
+                                    $currentDate = date('Y-m-d');
                                     // Check for duplicate contact
                                     $checkStmt = $conn->prepare("SELECT contact FROM tblbidders WHERE contact = ?");
                                     $checkStmt->bind_param("s", $mobile);
@@ -335,8 +335,8 @@ session_start()
                                     $checkStmt->close();
 
                                     // Insert data
-                                    $stmt = $conn->prepare("INSERT INTO tblbidders (firstname, lastname, contact, email, date_of_birth, password) VALUES (?, ?, ?, ?, ?, ?)");
-                                    $stmt->bind_param("ssssss", $fname, $lname, $mobile, $email, $dob, $pass);
+                                    $stmt = $conn->prepare("INSERT INTO tblbidders (firstname, lastname, contact, email, date_of_birth, password, created_date) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                                    $stmt->bind_param("sssssss", $fname, $lname, $mobile, $email, $dob, $pass, $currentDate);
 
                                     if ($stmt->execute()) {
                                         echo "Data stored successfully";
@@ -359,7 +359,7 @@ session_start()
                                     $pass = $_SESSION['password'];
                                     $adhar = $_SESSION['adhar'];
                                     $imgContent = $_SESSION['adharimg'];
-
+                                    $currentDate = date('Y-m-d');
                                     // Check for duplicate contact
                                     $checkStmt = $conn->prepare("SELECT contact FROM tblsellers WHERE contact = ?");
                                     $checkStmt->bind_param("s", $mobile);
@@ -375,8 +375,8 @@ session_start()
                                     $checkStmt->close();
 
                                     // Insert data
-                                    $stmt = $conn->prepare("INSERT INTO tblsellers (firstname, lastname, contact, email, date_of_birth, password, adhar_number, adhar_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                                    $stmt->bind_param("ssssssss", $fname, $lname, $mobile, $email, $dob, $pass, $adhar, $imgContent);
+                                    $stmt = $conn->prepare("INSERT INTO tblsellers (firstname, lastname, contact, email, date_of_birth, password, adhar_number, adhar_img, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                    $stmt->bind_param("ssssssss", $fname, $lname, $mobile, $email, $dob, $pass, $adhar, $imgContent, $currentDate);
 
                                     if ($stmt->execute()) {
                                         echo "Data inserted successfully.";
