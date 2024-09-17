@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2024 at 07:53 AM
+-- Generation Time: Sep 16, 2024 at 05:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,8 +49,24 @@ CREATE TABLE `tblauctionitem` (
   `emd_amount` decimal(10,2) NOT NULL,
   `minimum_bidders` int(11) NOT NULL,
   `increment_value` decimal(10,2) NOT NULL,
-  `auction_status` enum('PENDING','ACTIVE','CANCELED','CLOSED') NOT NULL
+  `auction_status` enum('PENDING','ACTIVE','CANCELED','CLOSED') NOT NULL DEFAULT 'PENDING'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblauctionitem`
+--
+
+INSERT INTO `tblauctionitem` (`id`, `item_id`, `start_datetime`, `end_datetime`, `reserve_price`, `emd_date`, `emd_amount`, `minimum_bidders`, `increment_value`, `auction_status`) VALUES
+(1, 4, '2024-09-17 15:01:45', '2024-09-19 15:01:45', 1000.00, '2024-09-16', 100.00, 10, 10.00, 'PENDING'),
+(2, 5, '2024-09-20 10:00:00', '2024-09-30 18:00:00', 1500.00, '2024-09-19', 500.00, 2, 100.00, 'PENDING'),
+(3, 6, '2024-09-25 11:00:00', '2024-10-05 17:00:00', 55000.00, '2024-09-24', 1500.00, 3, 250.00, 'ACTIVE'),
+(4, 7, '2024-09-28 09:00:00', '2024-10-07 20:00:00', 8000.00, '2024-09-27', 750.00, 2, 200.00, 'PENDING'),
+(5, 8, '2024-09-30 14:00:00', '2024-10-10 15:00:00', 1000.00, '2024-09-29', 200.00, 1, 50.00, 'PENDING'),
+(6, 9, '2024-10-02 08:00:00', '2024-10-12 16:00:00', 550.00, '2024-10-01', 100.00, 2, 25.00, 'ACTIVE'),
+(7, 10, '2024-10-05 10:00:00', '2024-10-15 18:00:00', 500.00, '2024-10-04', 75.00, 1, 15.00, 'PENDING'),
+(8, 11, '2024-10-07 13:00:00', '2024-10-17 19:00:00', 2000.00, '2024-10-06', 300.00, 3, 100.00, 'ACTIVE'),
+(9, 12, '2024-10-10 09:00:00', '2024-10-20 17:00:00', 4000.00, '2024-10-09', 600.00, 2, 150.00, 'PENDING'),
+(10, 13, '2024-10-12 11:00:00', '2024-10-22 16:00:00', 6000.00, '2024-10-11', 1000.00, 2, 200.00, 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -120,11 +136,31 @@ INSERT INTO `tblbidders` (`id`, `firstname`, `lastname`, `contact`, `email`, `da
 --
 -- Table structure for table `tblcategory`
 --
+
 CREATE TABLE `tblcategory` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `status` enum('Active','Inactive') NOT NULL
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblcategory`
+--
+
+INSERT INTO `tblcategory` (`id`, `name`, `status`) VALUES
+(1, 'books', 'Inactive'),
+(2, 'Cars', 'Active'),
+(3, 'Car', 'Active'),
+(4, 'Furniture', 'Active'),
+(5, 'Jewelry', 'Active'),
+(6, 'Art', 'Active'),
+(7, 'Coins', 'Inactive'),
+(8, 'Clocks', 'Active'),
+(9, 'Watches', 'Active'),
+(10, 'Cameras', 'Active'),
+(11, 'Lamps', 'Inactive'),
+(12, 'Swords', 'Active'),
+(13, 'Books', 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -175,14 +211,32 @@ CREATE TABLE `tblimg` (
 CREATE TABLE `tblitem` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `description` varchar(255) NOT NULL,
   `image_id` int(11) DEFAULT NULL,
   `starting_price` decimal(10,2) NOT NULL,
-  `verify_status` enum('PENDING','VERIFIED','SOLD','REJECTED') NOT NULL,
-  `status` enum('ACTIVE','INACTIVE') NOT NULL
+  `verify_status` enum('PENDING','VERIFIED','SOLD','REJECTED') NOT NULL DEFAULT 'PENDING',
+  `status` enum('ACTIVE','INACTIVE') NOT NULL DEFAULT 'ACTIVE'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblitem`
+--
+
+INSERT INTO `tblitem` (`id`, `name`, `seller_id`, `category_id`, `description`, `image_id`, `starting_price`, `verify_status`, `status`) VALUES
+(3, 'Victorian Chair', 2, 1, 'Antique Victorian wooden chair', NULL, 500.00, 'PENDING', 'ACTIVE'),
+(4, 'Gold Necklace', 2, 1, '18th-century gold necklace', NULL, 1500.00, 'PENDING', 'ACTIVE'),
+(5, 'Antique Vase', 1, 4, 'A rare antique vase from the Ming Dynasty.', NULL, 1200.00, 'PENDING', 'ACTIVE'),
+(6, 'Vintage Car', 2, 5, 'A vintage car from the 1920s.', NULL, 50000.00, 'PENDING', 'ACTIVE'),
+(7, 'Old Painting', 4, 6, 'An old painting by a renowned artist.', NULL, 7500.00, 'VERIFIED', 'ACTIVE'),
+(8, 'Antique Clock', 5, 7, 'A beautiful antique clock from the 18th century.', NULL, 950.00, 'PENDING', 'ACTIVE'),
+(9, 'Vintage Camera', 6, 8, 'A vintage camera in working condition.', NULL, 450.00, 'PENDING', 'ACTIVE'),
+(10, 'Antique Lamp', 8, 9, 'An antique lamp with intricate designs.', NULL, 350.00, 'PENDING', 'INACTIVE'),
+(11, 'Classic Watch', 9, 4, 'A classic wristwatch from the 1950s.', NULL, 1500.00, 'VERIFIED', 'ACTIVE'),
+(12, 'Rare Coin', 10, 5, 'A rare gold coin from the 18th century.', NULL, 3000.00, 'PENDING', 'ACTIVE'),
+(13, 'Vintage Jewelry', 11, 6, 'Vintage jewelry set with diamonds.', NULL, 5000.00, 'PENDING', 'ACTIVE'),
+(14, 'Antique Sword', 12, 7, 'A 17th-century sword with historical significance.', NULL, 7500.00, 'VERIFIED', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -356,7 +410,7 @@ ALTER TABLE `tblimg`
 --
 ALTER TABLE `tblitem`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
+  ADD KEY `user_id` (`seller_id`),
   ADD KEY `category_id` (`category_id`);
 
 --
@@ -405,7 +459,7 @@ ALTER TABLE `tbladmin`
 -- AUTO_INCREMENT for table `tblauctionitem`
 --
 ALTER TABLE `tblauctionitem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tblbankaccount`
@@ -429,7 +483,7 @@ ALTER TABLE `tblbidders`
 -- AUTO_INCREMENT for table `tblcategory`
 --
 ALTER TABLE `tblcategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tblemdrefund`
@@ -453,7 +507,7 @@ ALTER TABLE `tblimg`
 -- AUTO_INCREMENT for table `tblitem`
 --
 ALTER TABLE `tblitem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tblsellers`
@@ -526,7 +580,7 @@ ALTER TABLE `tblimg`
 -- Constraints for table `tblitem`
 --
 ALTER TABLE `tblitem`
-  ADD CONSTRAINT `tblitem_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tblusers` (`id`),
+  ADD CONSTRAINT `tblitem_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tblsellers` (`id`),
   ADD CONSTRAINT `tblitem_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `tblcategory` (`id`);
 
 --

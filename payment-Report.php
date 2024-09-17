@@ -127,10 +127,10 @@
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <!--<a href="#0">My Account</a>-->
+                        <a href="Admin_Dashboard.php">Admin Dashbord</a>
                     </li>
                     <li>
-                        <span>Auction Report</span>
+                        <span>Payment Report</span>
                     </li>
                 </ul>
             </div>
@@ -227,24 +227,23 @@
 
                                     <ul id="reportOptions" style="display: none; margin-left: 50px;">
                                         <li>
-                                            <a href="auctionReport.php">
+                                            <a href="auction-Report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 Auction Report
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="paymentReport.php">
+                                            <a href="payment-Report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 Payment Report
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="userRegistrationReport.php">
+                                            <a href="user-registration-report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 User Registration Report
                                             </a>
                                         </li>
-
                                     </ul>
                                 </li>
                                 <li>

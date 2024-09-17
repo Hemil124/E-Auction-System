@@ -269,7 +269,7 @@
                     <div class="col-lg-8">
 
                         <div class="dashboard-widget">
-                            <h5 class="title mb-10">Catagoryies</h5>
+                            <h5 class="title mb-10">Categories</h5>
                             <div class="dashboard-purchasing-tabs">
 
                                 <div class="tab-content">
@@ -277,7 +277,7 @@
                                         <table class="purchasing-table">
                                             <thead>
                                             <th>Id</th>
-                                            <th>Catagory Name</th>
+                                            <th>Category Name</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
                                             </thead>

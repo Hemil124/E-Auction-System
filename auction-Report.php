@@ -127,10 +127,10 @@
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <!--<a href="#0">My Account</a>-->
+                        <a href="Admin_Dashboard.php">Admin Dashbord</a>
                     </li>
                     <li>
-                        <span>Payment Report</span>
+                        <span>Auction Report</span>
                     </li>
                 </ul>
             </div>
@@ -219,7 +219,7 @@
                                     <a href="javascript:void(0);" onclick="toggleReportOptions()" style="display: flex; align-items: center; justify-content: space-between; text-decoration: none; width: 100%;">
                                         <div style="display: flex; align-items: center;">
                                             <img src="assets/images/flaticon/chart-pie-solid.svg" alt="Generate Report Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; ">
-                                            
+
                                             Generate Report
                                         </div>
                                         <span id="reportArrowIcon" style="color: #ee4730;">&#x25BC;</span>
@@ -227,84 +227,36 @@
 
                                     <ul id="reportOptions" style="display: none; margin-left: 50px;">
                                         <li>
-                                            <a href="auctionReport.php">
+                                            <a href="auction-Report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 Auction Report
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="paymentReport.php">
+                                            <a href="payment-Report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 Payment Report
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="userRegistrationReport.php">
+                                            <a href="user-registration-report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 User Registration Report
                                             </a>
                                         </li>
-
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Manage Payment</a>
                                 </li>
-<!--                                <li>
-                                    <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
-                                </li>
-                                <li>-->
-                                    <button class="logout" onclick="window.location.href = 'logout.php'">
-                                        Logout
-                                    </button>
+                                <button class="logout" onclick="window.location.href = 'logout.php'">
+                                    Logout
+                                </button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-8">
-<!--                        <div class="dashboard-widget mb-40">
-                            <div class="dashboard-title mb-30">
-                                <h5 class="title">My Activity</h5>
-                            </div>
-                            <div class="row justify-content-center mb-30-none">
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="dashboard-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/dashboard/01.png" alt="dashboard">
-                                        </div>
-                                        <div class="content"> 
-                                            <h2 class="title"><span class="counter">80</span></h2>
-                                            <h6 class="info">Active Bids</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="dashboard-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/dashboard/02.png" alt="dashboard">
-                                        </div>
-                                        <div class="content">
-                                            <h2 class="title"><span class="counter">15</span></h2>
-                                            <h6 class="info">Items Won</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="dashboard-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/dashboard/03.png" alt="dashboard">
-                                        </div>
-                                        <div class="content">
-                                            <h2 class="title"><span class="counter">115</span></h2>
-                                            <h6 class="info">Favorites</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="dashboard-widget">
                             <h5 class="title mb-10">Purchasing</h5>
                             <div class="dashboard-purchasing-tabs">
@@ -466,6 +418,368 @@
                                         </table>
                                     </div>
                                     <div class="tab-pane show fade" id="history">
+                                        <table class="purchasing-table">
+                                            <thead>
+                                            <th>Item</th>
+                                            <th>Bid Price</th>
+                                            <th>Highest Bid</th>
+                                            <th>Lowest Bid</th>
+                                            <th>Expires</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--asc and desc order-->
+<!--                    <style>
+                        th {
+                            cursor: pointer;
+                        }
+                    </style>
+                    <div class="container mx-auto mt-10">
+                        <table class="min-w-full bg-white" id="sortableTable">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(0)">Item</th>
+                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(1)">Bid Price</th>
+                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(2)">Highest Bid</th>
+                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(3)">Lowest Bid</th>
+                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(4)">Expires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-2 px-4 text-sm text-gray-700">Hyundai </td>
+                                    <td class="py-2 px-4 text-sm text-gray-700">$1,5.00</td>
+                                    <td class="py-2 px-4 text-sm text-gray-700">$1,745.00</td>
+                                    <td class="py-2 px-4 text-sm text-gray-700">$1,100.00</td>
+                                    <td class="py-2 px-4 text-sm text-gray-700">7/2/2000</td>
+                                </tr>
+                                <tr>
+                                    <td data-purchase="item"> Sonata</td>
+                                    <td data-purchase="bid price">$1,75.00</td>
+                                    <td data-purchase="highest bid">$1,77.00</td>
+                                    <td data-purchase="lowest bid">$1,40.00</td>
+                                    <td data-purchase="expires">7/2/2004</td>
+                                </tr>
+                                <tr>
+                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                    <td data-purchase="bid price">$1,775.00</td>
+                                    <td data-purchase="highest bid">$1,775.00</td>
+                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                    <td data-purchase="expires">7/2/2024</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <script>
+                        let sortDirection = true; // true for ascending, false for descending
+
+                        function sortTable(columnIndex) {
+                            const table = document.getElementById("sortableTable");
+                            const tbody = table.tBodies[0];
+                            const rows = Array.from(tbody.rows);
+                            const isNumericColumn = columnIndex > 0; // Assuming first column is text
+
+                            rows.sort((a, b) => {
+                                const aText = a.cells[columnIndex].innerText;
+                                const bText = b.cells[columnIndex].innerText;
+
+                                if (isNumericColumn) {
+                                    const aValue = parseFloat(aText.replace(/[$,]/g, ''));
+                                    const bValue = parseFloat(bText.replace(/[$,]/g, ''));
+                                    return sortDirection ? aValue - bValue : bValue - aValue;
+                                } else {
+                                    return sortDirection ? aText.localeCompare(bText) : bText.localeCompare(aText);
+                                }
+                            });
+
+                            // Append sorted rows back to the tbody
+                            rows.forEach(row => tbody.appendChild(row));
+
+                            // Toggle sort direction for next click
+                            sortDirection = !sortDirection;
+                        }
+                    </script>-->
+
+
+
+                    <!--Auction reports-->
+                    <div class="col-lg-12" style="padding-bottom: calc(var(--bs-gutter-x)* .5);padding-top: calc(var(--bs-gutter-x)* .5);">
+                        <div class="dashboard-widget">
+                            <h5 class="title mb-10">Reports</h5>
+                            <div class="dashboard-purchasing-tabs">
+                                <ul class="nav-tabs nav">
+                                    <li>
+                                        <a href="#ALR" class="active" data-toggle="tab">Auction Listings Report</a>
+                                    </li>
+                                    <li>
+                                        <a href="#APR" data-toggle="tab">Auction Performance Report</a>
+                                    </li>
+                                    <li>
+                                        <a href="#UAR" data-toggle="tab">Upcoming Auctions Report</a>
+                                    </li>
+                                    <li>
+                                        <a href="#CAR" data-toggle="tab">Closed Auctions Report</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane show active fade" id="ALR">
+                                        <?php
+                                        include 'connection.php';
+
+                                        $qu = "SELECT
+                                                    a.id, 
+                                                    i.name AS item_name, 
+                                                    c.name AS category_name, 
+                                                    s.firstname, 
+                                                    a.start_datetime, 
+                                                    a.end_datetime, 
+                                                    i.starting_price, 
+                                                    a.reserve_price, 
+                                                    a.minimum_bidders, 
+                                                    a.emd_amount, 
+                                                    a.auction_status
+                                           FROM 
+                                               tblauctionitem a
+                                           LEFT JOIN 
+                                               tblitem i ON a.item_id = i.id
+                                           LEFT JOIN 
+                                               tblcategory c ON i.category_id = c.id
+                                           JOIN 
+                                               tblsellers s ON i.seller_id = s.id;";
+
+                                        $q = mysqli_query($conn, $qu);
+
+                                        if (!$q) {
+                                        die("Error:" . mysqli_error($conn));
+                                        } else {
+                                        ?>
+                                        <table class="purchasing-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Auction ID</th>
+                                                    <th>Item Name</th>
+                                                    <th>Category Name</th>
+                                                    <th>Seller Name</th>
+                                                    <th>Starting Date</th>
+                                                    <th>Ending Date</th>
+                                                    <th>Starting Price</th>
+                                                    <th>Reserve Price</th>
+                                                    <th>Minimum Bidders</th>
+                                                    <th>EMD Amount</th>
+                                                    <th>Auction Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                <tr>
+                                                    <td data-purchase="Auction ID"><?php echo $r['id']; ?></td>
+                                                    <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
+                                                    <td data-purchase="Category Name"><?php echo $r['category_name']; ?></td>
+                                                    <td data-purchase="Seller Name"><?php echo $r['firstname']; ?></td>
+                                                    <td data-purchase="Starting Date"><?php echo $r['start_datetime']; ?></td>
+                                                    <td data-purchase="Ending Date"><?php echo $r['end_datetime']; ?></td>
+                                                    <td data-purchase="Starting Price"><?php echo $r['starting_price']; ?></td>
+                                                    <td data-purchase="Reserve Price"><?php echo $r['reserve_price']; ?></td>
+                                                    <td data-purchase="Minimum Bidders"><?php echo $r['minimum_bidders']; ?></td>
+                                                    <td data-purchase="EMD Amount"><?php echo $r['emd_amount']; ?></td>
+                                                    <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
+                                                </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                        <?php } ?>
+                                    </div>
+
+                                    <div class="tab-pane show fade" id="APR">
+                                        <table class="purchasing-table">
+                                            <thead>
+                                            <th>Item</th>
+                                            <th>Bid Price</th>
+                                            <th>Highest Bid</th>
+                                            <th>Lowest Bid</th>
+                                            <th>Expires</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane show fade" id="UAR">
+                                        <table class="purchasing-table">
+                                            <thead>
+                                            <th>Item</th>
+                                            <th>Bid Price</th>
+                                            <th>Highest Bid</th>
+                                            <th>Lowest Bid</th>
+                                            <th>Expires</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
+                                                    <td data-purchase="bid price">$1,775.00</td>
+                                                    <td data-purchase="highest bid">$1,775.00</td>
+                                                    <td data-purchase="lowest bid">$1,400.00</td>
+                                                    <td data-purchase="expires">7/2/2024</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane show fade" id="CAR">
                                         <table class="purchasing-table">
                                             <thead>
                                             <th>Item</th>

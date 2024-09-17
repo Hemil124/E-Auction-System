@@ -30,12 +30,12 @@ if ($type == 'bidder') {
                 <tbody>';
         while ($r = mysqli_fetch_assoc($q)) {
             echo '<tr>
-                    <td>' . $r['firstname'] . ' ' . $r['lastname'] . '</td>
-                    <td>' . $r['contact'] . '</td>
-                    <td>' . $r['email'] . '</td>
-                    <td>' . $r['date_of_birth'] . '</td>
-                    <td>' . $r['address'] . '</td>
-                    <td>' . $r['created_date'] . '</td>
+                    <td data-purchase="Name" style="padding-right: 4px;">' . $r['firstname'] . ' ' . $r['lastname'] . '</td>
+                    <td data-purchase="Contact" style="padding-right: 4px;">' . $r['contact'] . '</td>
+                    <td data-purchase="Email" style="padding-right: 4px;">' . $r['email'] . '</td>
+                    <td data-purchase="Date Of Birth" style="padding-right: 4px;">' . $r['date_of_birth'] . '</td>
+                    <td data-purchase="Address" style="padding-right: 4px;">' . $r['address'] . '</td>
+                    <td data-purchase="Created Date" style="padding-right: 4px;">' . $r['created_date'] . '</td>
                 </tr>';
         }
         echo '</tbody></table>';
@@ -66,13 +66,13 @@ if ($type == 'bidder') {
                 <tbody>';
         while ($r = mysqli_fetch_assoc($q)) {
             echo '<tr>
-                    <td>' . $r['firstname'] . ' ' . $r['lastname'] . '</td>
-                    <td>' . $r['contact'] . '</td>
-                    <td>' . $r['email'] . '</td>
-                    <td>' . $r['date_of_birth'] . '</td>
-                    <td>' . $r['address'] . '</td>
-                    <td>' . $r['adhar_number'] . '</td>
-                    <td>' . $r['created_date'] . '</td>
+                    <td data-purchase="Name" style="padding-right: 4px;">' . $r['firstname'] . ' ' . $r['lastname'] . '</td>
+                    <td data-purchase="Contact" style="padding-right: 4px;">' . $r['contact'] . '</td>
+                    <td data-purchase="Email" style="padding-right: 4px;">' . $r['email'] . '</td>
+                    <td data-purchase="Date Of Birth" style="padding-right: 4px;">' . $r['date_of_birth'] . '</td>
+                    <td data-purchase="Address" style="padding-right: 4px;">' . $r['address'] . '</td>
+                    <td data-purchase="Adhar Number" style="padding-right: 4px;">' . $r['adhar_number'] . '</td>
+                    <td data-purchase="Created Date" style="padding-right: 4px;">' . $r['created_date'] . '</td>
                 </tr>';
         }
         echo '</tbody></table>';

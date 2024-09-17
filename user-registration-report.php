@@ -128,7 +128,7 @@
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <!--<a href="#0">My Account</a>-->
+                        <a href="Admin_Dashboard.php">Admin Dashbord</a>
                     </li>
                     <li>
                         <span>User Registration Report</span>
@@ -228,36 +228,28 @@
 
                                     <ul id="reportOptions" style="display: none; margin-left: 50px;">
                                         <li>
-                                            <a href="auctionReport.php">
+                                            <a href="auction-Report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 Auction Report
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="paymentReport.php">
+                                            <a href="payment-Report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 Payment Report
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="userRegistrationReport.php">
+                                            <a href="user-registration-report.php">
                                                 <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
                                                 User Registration Report
                                             </a>
                                         </li>
-
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Manage Payment</a>
                                 </li>
-                                <!--                                <li>
-                                                                    <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
-                                                                </li>
-                                                                <li>-->
                                 <button class="logout" onclick="window.location.href = 'logout.php'">
                                     Logout
                                 </button>
@@ -485,14 +477,22 @@
                                 </ul>
                                 <div class="tab-content">
                                     <!-- Bidder Tab -->
+                                    <?php
+                                    $maxDate = date('Y-m-d');
+                                    $minDate = date('Y-m-d', strtotime('-1 years'));
+                                    ?>
                                     <div class="tab-pane show active fade" id="bidder">
                                         <div class="form-group" id="bidder-filter">
                                             <form class="login-form" method="POST" action="">
                                                 <div class="col-sm-12" style="padding-bottom: 10px; ">
                                                     <label for="from-date" class="mr-2" style="margin: 0px 5px">Filter by Created Date:</label>
-                                                    <input type="date" name="fdate" id="bidder-fdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                                    <input type="date" name="fdate" id="bidder-fdate" 
+                                                           min="<?php echo $minDate; ?>" 
+                                                           max="<?php echo $maxDate; ?>" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
                                                     <label for="to-date" class="mr-2" style="width: auto;margin: 0px 5px">to</label>
-                                                    <input type="date" name="tdate" id="bidder-tdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                                    <input type="date" name="tdate" id="bidder-tdate" 
+                                                           min="<?php echo $minDate; ?>" 
+                                                           max="<?php echo $maxDate; ?>" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
                                                     <button type="button" id="bidder-filter-btn" class="logout" style="width: auto;margin: 0px 5px ">Filter</button>
 
                                                 </div>
@@ -504,16 +504,24 @@
                                     </div>
 
                                     <!-- Seller Tab -->
+
                                     <div class="tab-pane show fade" id="seller">
                                         <div class="form-group" id="seller-filter">
                                             <form class="login-form" method="POST" action="">
                                                 <div class="col-sm-12" style="padding-bottom: 10px;">
-                                                    <label for="from-date" class="mr-2">Filter by Created Date:</label>
-                                                    <input type="date" name="fdate" id="seller-fdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;" required>
-                                                    <label for="to-date" class="mr-2" style="width: auto">to</label>
-                                                    <input type="date" name="tdate" id="seller-tdate" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;" required>
-                                                    <button type="button" id="seller-filter-btn" class="logout" style="width: auto">Filter</button>
+                                                    <label for="from-date" class="mr-2" style="margin: 0px 5px">Filter by Created Date:</label>
+                                                    <input type="date" name="fdate" id="seller-fdate"  pattern="\d{4}-\d{2}-\d{2}" 
+                                                           min="<?php echo $minDate; ?>" 
+                                                           max="<?php echo $maxDate; ?>" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                                    <label for="to-date" class="mr-2" style="width: auto;margin: 0px 5px">to</label>
+
+                                                    <input type="date" name="tdate" id="seller-tdate" pattern="\d{4}-\d{2}-\d{2}" 
+                                                           min="<?php echo $minDate; ?>" 
+                                                           max="<?php echo $maxDate; ?>" style="width: auto; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff; margin: 0px 5px" required>
+                                                    <button type="button" id="seller-filter-btn" class="logout" style="width: auto ;margin: 0px 5px">Filter</button>
                                                 </div>
+
+
                                             </form>
                                         </div>
                                         <div id="seller-table">

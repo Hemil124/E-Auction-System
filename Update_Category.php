@@ -296,7 +296,7 @@
                                                     echo $row[1];
                                                 }
                                                 ?>" required><br><br><br>
-                                                <input type="submit" value="Submit" name="btnSubmit"><br>
+                                                <input type="submit" value="Submit" name="btnSubmit"><br><br>
                                                 <?php
                                                 if (isset($_POST['btnSubmit'])) {
                                                     try {
@@ -304,10 +304,7 @@
                                                         $re = mysqli_query($conn, "select * from tblcategory where name='$catagory'");
                                                         $row = mysqli_fetch_row($re);
                                                         if (isset($row)) {
-                                                            if ($row[2] === 'Inactive') {
-                                                               
-                                                                echo "<p class='error_message'>This Catagory Alredy Exists In database</p>";
-                                                            }
+                                                            echo "<p class='error_message'>This Catagory Alredy Exists In database</p>";
                                                         } else {
                                                             $result = mysqli_query($conn, "update tblcategory set name='$catagory' where id='$id'");
                                                             if ($result) {
