@@ -249,13 +249,6 @@
                                 <li>
                                     <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Manage Payment</a>
                                 </li>
-<!--                                <li>
-                                    <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
-                                </li>
-                                <li>-->
                                     <button class="logout" onclick="window.location.href = 'logout.php'">
                                         Logout
                                     </button>
