@@ -608,238 +608,236 @@
                                         $q = mysqli_query($conn, $qu);
 
                                         if (!$q) {
-                                        die("Error:" . mysqli_error($conn));
+                                            die("Error:" . mysqli_error($conn));
                                         } else {
-                                        ?>
-                                        <table class="purchasing-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Auction ID</th>
-                                                    <th>Item Name</th>
-                                                    <th>Category Name</th>
-                                                    <th>Seller Name</th>
-                                                    <th>Starting Date</th>
-                                                    <th>Ending Date</th>
-                                                    <th>Starting Price</th>
-                                                    <th>Reserve Price</th>
-                                                    <th>Minimum Bidders</th>
-                                                    <th>EMD Amount</th>
-                                                    <th>Auction Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php while ($r = mysqli_fetch_assoc($q)) { ?>
-                                                <tr>
-                                                    <td data-purchase="Auction ID"><?php echo $r['id']; ?></td>
-                                                    <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
-                                                    <td data-purchase="Category Name"><?php echo $r['category_name']; ?></td>
-                                                    <td data-purchase="Seller Name"><?php echo $r['firstname']; ?></td>
-                                                    <td data-purchase="Starting Date"><?php echo $r['start_datetime']; ?></td>
-                                                    <td data-purchase="Ending Date"><?php echo $r['end_datetime']; ?></td>
-                                                    <td data-purchase="Starting Price"><?php echo $r['starting_price']; ?></td>
-                                                    <td data-purchase="Reserve Price"><?php echo $r['reserve_price']; ?></td>
-                                                    <td data-purchase="Minimum Bidders"><?php echo $r['minimum_bidders']; ?></td>
-                                                    <td data-purchase="EMD Amount"><?php echo $r['emd_amount']; ?></td>
-                                                    <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
-                                                </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        </table>
+                                            ?>
+                                            <table class="purchasing-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Auction ID</th>
+                                                        <th>Item Name</th>
+                                                        <th>Category Name</th>
+                                                        <th>Seller Name</th>
+                                                        <th>Starting Date</th>
+                                                        <th>Ending Date</th>
+                                                        <th>Starting Price</th>
+                                                        <th>Reserve Price</th>
+                                                        <th>Minimum Bidders</th>
+                                                        <th>EMD Amount</th>
+                                                        <th>Auction Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                        <tr>
+                                                            <td data-purchase="Auction ID"><?php echo $r['id']; ?></td>
+                                                            <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
+                                                            <td data-purchase="Category Name"><?php echo $r['category_name']; ?></td>
+                                                            <td data-purchase="Seller Name"><?php echo $r['firstname']; ?></td>
+                                                            <td data-purchase="Starting Date"><?php echo $r['start_datetime']; ?></td>
+                                                            <td data-purchase="Ending Date"><?php echo $r['end_datetime']; ?></td>
+                                                            <td data-purchase="Starting Price"><?php echo $r['starting_price']; ?></td>
+                                                            <td data-purchase="Reserve Price"><?php echo $r['reserve_price']; ?></td>
+                                                            <td data-purchase="Minimum Bidders"><?php echo $r['minimum_bidders']; ?></td>
+                                                            <td data-purchase="EMD Amount"><?php echo $r['emd_amount']; ?></td>
+                                                            <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
                                         <?php } ?>
                                     </div>
 
                                     <div class="tab-pane show fade" id="APR">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <?php
+                                        include 'connection.php';
+
+                                        $qu = "SELECT 
+                                                    a.id AS auction_id,
+                                                    i.name AS item_name,
+                                                    c.name AS category,
+                                                    s.firstname AS seller_name,
+                                                    COUNT(b.id) AS number_of_bids,
+                                                    MAX(b.bid_value) AS highest_bid,
+                                                    (SELECT b2.bid_value FROM tblbid b2 WHERE b2.auction_item_id = a.id ORDER BY b2.bid_value DESC LIMIT 1) AS final_auction_price,
+                                                    (SELECT CONCAT(b3.firstname, ' ', b3.lastname) FROM tblbid b2 
+                                                     INNER JOIN tblbidders b3 ON b2.bidder_id = b3.id 
+                                                     WHERE b2.auction_item_id = a.id ORDER BY b2.bid_value DESC LIMIT 1) AS winner_name,
+                                                    a.auction_status
+                                            FROM 
+                                                    tblauctionitem a
+                                            LEFT JOIN 
+                                                    tblitem i ON a.item_id = i.`id` 
+                                            LEFT JOIN 
+                                                    tblcategory c ON i.category_id = c.id 
+                                            LEFT JOIN 
+                                                    tblbid b ON b.auction_item_id = a.id
+                                            JOIN 
+                                                    tblsellers s ON i.seller_id = s.id
+                                            WHERE 
+                                                    a.auction_status IN ('active', 'closed')
+                                            GROUP BY 
+                                                    a.id, i.name, c.name, s.firstname, a.auction_status;";
+
+                                        $q = mysqli_query($conn, $qu);
+
+                                        if (!$q) {
+                                            die("Error:" . mysqli_error($conn));
+                                        } else {
+                                            ?>
+                                            <table class="purchasing-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Auction ID</th>
+                                                        <th>Item Name</th>
+                                                        <th>Category</th>
+                                                        <th>Seller</th>
+                                                        <th>Total Bids</th>
+                                                        <th>Highest Bid</th>
+                                                        <th>Final Price</th>
+                                                        <th>Winner</th>
+                                                        <th>Auction Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                        <tr>
+                                                            <td data-purchase="Auction ID"><?php echo $r['auction_id']; ?></td>
+                                                            <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
+                                                            <td data-purchase="Category"><?php echo $r['category']; ?></td>
+                                                            <td data-purchase="Seller"><?php echo $r['seller_name']; ?></td>
+                                                            <td data-purchase="Total Bids"><?php echo $r['number_of_bids']; ?></td>
+                                                            <td data-purchase="Highest Bid"><?php echo $r['highest_bid']; ?></td>
+                                                            <td data-purchase="Final Price"><?php echo $r['final_auction_price']; ?></td>
+                                                            <td data-purchase="Winner"><?php echo $r['winner_name']; ?></td>
+                                                            <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        <?php } ?>
                                     </div>
                                     <div class="tab-pane show fade" id="UAR">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <?php
+                                        include 'connection.php';
+
+                                        $qu = "SELECT 
+                                                    a.id AS auction_id, 
+                                                    i.name AS item_name, 
+                                                    c.name AS category, 
+                                                    CONCAT(s.firstname, ' ', s.lastname) AS seller_name, 
+                                                    a.start_datetime AS start_time, 
+                                                    a.end_datetime AS end_time, 
+                                                    i.starting_price AS starting_price, 
+                                                    a.auction_status AS auction_status
+                                               FROM 
+                                                   tblauctionitem a 
+                                               LEFT JOIN 
+                                                   tblitem i ON a.item_id = i.id 
+                                               LEFT JOIN 
+                                                   tblcategory c ON i.category_id = c.id 
+                                               LEFT JOIN 
+                                                   tblsellers s ON i.seller_id = s.id
+                                               WHERE 
+                                                   a.auction_status IN('ACTIVE', 'PENDING')";
+
+                                        $q = mysqli_query($conn, $qu);
+
+                                        if (!$q) {
+                                            die("Error:" . mysqli_error($conn));
+                                        } else {
+                                            ?>
+                                            <table class="purchasing-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Auction ID</th>
+                                                        <th>Item Name</th>
+                                                        <th>Category</th>
+                                                        <th>Seller Name</th>
+                                                        <th>Start Time</th>
+                                                        <th>End Time</th>
+                                                        <th>Starting Price</th>
+                                                        <th>Auction Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                        <tr>
+                                                            <td data-purchase="Auction ID"><?php echo $r['auction_id']; ?></td>
+                                                            <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
+                                                            <td data-purchase="Category"><?php echo $r['category']; ?></td>
+                                                            <td data-purchase="Seller Name"><?php echo $r['seller_name']; ?></td>
+                                                            <td data-purchase="Start Time"><?php echo $r['start_time']; ?></td>
+                                                            <td data-purchase="End Time"><?php echo $r['end_time']; ?></td>
+                                                            <td data-purchase="Starting Price"><?php echo $r['starting_price']; ?></td>
+                                                            <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        <?php } ?>
                                     </div>
                                     <div class="tab-pane show fade" id="CAR">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <?php
+                                        include 'connection.php';
+
+                                        $qu = "SELECT 
+                                                ai.id AS auction_id,
+                                                i.name AS item_name,
+                                                c.name AS category_name,
+                                                CONCAT(s.firstname, ' ', s.lastname) AS seller_name,
+                                                ai.end_datetime AS auction_endtime,
+                                                b.max_bid_value AS final_auction_price,
+                                                CONCAT(bd.firstname, ' ', bd.lastname) AS winner_bidder_name
+                                            FROM 
+                                                tblauctionitem ai
+                                            LEFT JOIN tblitem i ON ai.item_id = i.id
+                                            LEFT JOIN tblcategory c ON i.category_id = c.id
+                                            LEFT JOIN tblsellers s ON i.seller_id = s.id
+                                            LEFT JOIN (
+                                                SELECT auction_item_id, MAX(bid_value) AS max_bid_value, bidder_id
+                                                FROM tblbid
+                                                GROUP BY auction_item_id
+                                            ) b ON b.auction_item_id = ai.id
+                                            LEFT JOIN tblbidders bd ON bd.id = b.bidder_id
+                                            WHERE 
+                                                ai.auction_status = 'closed'
+                                            GROUP BY 
+                                                ai.id, i.name, c.name, s.firstname, s.lastname, ai.end_datetime, bd.firstname, bd.lastname;";
+
+                                        $q = mysqli_query($conn, $qu);
+
+                                        if (!$q) {
+                                            die("Error:" . mysqli_error($conn));
+                                        } else {
+                                            ?>
+                                            <table class="purchasing-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Auction ID</th>
+                                                        <th>Item</th>
+                                                        <th>Category</th>
+                                                        <th>Seller </th>
+                                                        <th>Auction End Time</th>
+                                                        <th>Final Auction Price</th>
+                                                        <th>Winner</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                        <tr>
+                                                            <td data-purchase="Auction ID"><?php echo $r['auction_id']; ?></td>
+                                                            <td data-purchase="Item"><?php echo $r['item_name']; ?></td>
+                                                            <td data-purchase="Category"><?php echo $r['category_name']; ?></td>
+                                                            <td data-purchase="Seller"><?php echo $r['seller_name']; ?></td>
+                                                            <td data-purchase="Auction End Time"><?php echo $r['auction_endtime']; ?></td>
+                                                            <td data-purchase="Final Auction Price"><?php echo $r['final_auction_price']; ?></td>
+                                                            <td data-purchase="Winner"><?php echo $r['winner_bidder_name']; ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
