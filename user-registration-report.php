@@ -259,227 +259,202 @@
                     </div>
                     <div class="col-lg-8" style="padding-bottom: calc(var(--bs-gutter-x)* .5);"  >
                         <div class="dashboard-widget">
-                            <h5 class="title mb-10">Registered Users</h5>
+                            <h4 class="title mb-10">Registered Users</h4>
                             <div class="dashboard-purchasing-tabs">
                                 <ul class="nav-tabs nav">
                                     <li>
-                                        <a href="#current" class="active" data-toggle="tab">Current</a>
+                                        <a href="#Year" class="active" data-toggle="tab">Yearly</a>
                                     </li>
                                     <li>
-                                        <a href="#pending" data-toggle="tab">Pending</a>
+                                        <a href="#Month" data-toggle="tab">Monthly</a>
                                     </li>
-                                    <li>
-                                        <a href="#history" data-toggle="tab">History</a>
-                                    </li>
+
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane show active fade" id="current">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <div class="tab-pane show active fade" id="Year">
+                                        Yearly Chart
+                                        <?php
+                                        include 'connection.php';
+
+                                        $query = "SELECT YEAR(created_date) as year, count(YEAR(created_date)) as user_count FROM tblsellers GROUP BY YEAR(created_date)";
+                                        $result = mysqli_query($conn, $query);
+
+                                        $dataPoints1 = array();
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $dataPoints1[] = array("label" => $row['year'], "y" => $row['user_count']);
+                                        }
+
+                                        $query = "SELECT YEAR(created_date) as year, count(YEAR(created_date)) as user_count FROM  tblbidders GROUP BY YEAR(created_date)";
+                                        $re = mysqli_query($conn, $query);
+
+                                        $dataPoints2 = array();
+                                        while ($row = mysqli_fetch_assoc($re)) {
+                                            $dataPoints2[] = array("label" => $row['year'], "y" => $row['user_count']);
+                                        }
+                                        ?>
+
+                                        <script>
+                                            window.onload = function () {
+
+                                                var chart = new CanvasJS.Chart("chartContainer", {
+                                                    animationEnabled: true,
+                                                    theme: "light2",
+                                                    title: {
+                                                        text: "Registered Users Per Year"
+                                                    },
+                                                    axisY: {
+                                                        includeZero: true
+                                                    },
+                                                    axisX: {
+                                                        title: "Years",
+                                                        labelFormatter: function (e) {
+                                                            return e.label; // Ensure that only the labels (years) from dataPoints are shown
+                                                        },
+                                                        interval: 1, // Remove unnecessary labels between years
+                                                        valueFormatString: "####", // Force display of years (if needed)
+                                                        type: "category" // Important: Treat X-axis as categories, not numbers
+                                                    },
+                                                    legend: {
+                                                        cursor: "pointer",
+                                                        verticalAlign: "center",
+                                                        horizontalAlign: "right",
+                                                        itemclick: toggleDataSeries
+                                                    },
+                                                    data: [{
+                                                            type: "column",
+                                                            name: "Seller Registered Users",
+                                                            indexLabel: "{y}",
+                                                            yValueFormatString: "#0",
+                                                            showInLegend: true,
+                                                            dataPoints: <?php echo json_encode($dataPoints1, JSON_NUMERIC_CHECK); ?>
+                                                        }, {
+                                                            type: "column",
+                                                            name: "Bidder Registered Users",
+                                                            indexLabel: "{y}",
+                                                            yValueFormatString: "#0",
+                                                            showInLegend: true,
+                                                            dataPoints: <?php echo json_encode($dataPoints2, JSON_NUMERIC_CHECK); ?>
+                                                        }]
+                                                });
+                                                chart.render();
+
+                                                function toggleDataSeries(e) {
+                                                    if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                                                        e.dataSeries.visible = false;
+                                                    } else {
+                                                        e.dataSeries.visible = true;
+                                                    }
+                                                    chart.render();
+                                                }
+                                            }
+                                        </script>
+
+                                        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
                                     </div>
-                                    <div class="tab-pane show fade" id="pending">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <div class="tab-pane show fade" id="Month">
+                                        <!--Monthly Chart-->
+
+                                        <form>
+                                            <label for="yearSelect">Select Year:</label>
+                                            <select id="yearSelect" name="yearSelect" onchange="fetchMonthlyData()" style="width: 20%;height: 20%;">
+                                                <option value="">--Select Year--</option>
+                                                <?php
+                                                $Yearquery = "SELECT DISTINCT YEAR(created_date) as year FROM tblsellers  WHERE created_date IS NOT NULL UNION SELECT DISTINCT YEAR(created_date) FROM tblbidders  WHERE created_date IS NOT NULL";
+                                                $re = mysqli_query($conn, $Yearquery);
+                                                while ($year = mysqli_fetch_row($re)) {
+                                                    echo "<option value='$year[0]'>$year[0]</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </form>
+                                        <div id="chartContainerMonthly" style="height: 370px; width: 100%;"></div>
+                                        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+                                        <script>
+                                                                                var chart; // Define chart as a global variable
+
+                                                                                function fetchMonthlyData() {
+                                                                                    var selectedYear = document.getElementById("yearSelect").value;
+//                                               alert(selectedYear);
+                                                                                    if (selectedYear) {
+
+                                                                                        var xhr = new XMLHttpRequest();
+                                                                                        xhr.open("POST", "user-registration-report-FetchYearData.php?year=" + selectedYear, true);
+                                                                                        xhr.send();
+                                                                                        xhr.onreadystatechange = function () {
+                                                                                            console.log("Request completed. Status:", this.status);
+                                                                                            console.log("Response text:", this.responseText);
+                                                                                            if (this.readyState == 4 && this.status == 200) {
+                                                                                                try {
+                                                                                                    var response = JSON.parse(this.responseText);
+                                                                                                    console.log("Parsed Response:", response);
+
+                                                                                                    chart = new CanvasJS.Chart("chartContainerMonthly", {
+                                                                                                        animationEnabled: true,
+                                                                                                        theme: "light2",
+                                                                                                        title: {
+                                                                                                            text: "Registered Users Per Month for Year " + selectedYear
+                                                                                                        },
+                                                                                                        axisY: {
+                                                                                                            includeZero: true
+                                                                                                        },
+                                                                                                        axisX: {
+                                                                                                            title: "Months",
+                                                                                                            interval: 1,
+                                                                                                            valueFormatString: "MMM"
+                                                                                                        },
+                                                                                                        legend: {
+                                                                                                            cursor: "pointer",
+                                                                                                            verticalAlign: "center",
+                                                                                                            horizontalAlign: "right",
+                                                                                                            itemclick: toggleDataSeries
+                                                                                                        },
+                                                                                                        data: [{
+                                                                                                                type: "column",
+                                                                                                                name: "Seller Registered Users",
+                                                                                                                indexLabel: "{y}",
+                                                                                                                yValueFormatString: "#0",
+                                                                                                                showInLegend: true,
+                                                                                                                dataPoints: response.sellers
+                                                                                                            }, {
+                                                                                                                type: "column",
+                                                                                                                name: "Bidder Registered Users",
+                                                                                                                indexLabel: "{y}",
+                                                                                                                yValueFormatString: "#0",
+                                                                                                                showInLegend: true,
+                                                                                                                dataPoints: response.bidders
+                                                                                                            }]
+                                                                                                    });
+                                                                                                    chart.render();
+                                                                                                } catch (e) {
+                                                                                                    console.error("Error parsing response:", e);
+                                                                                                }
+                                                                                            } else {
+                                                                                                console.error("Failed to fetch data. Status:", this.status);
+                                                                                            }
+                                                                                        };
+                                                                                        xhr.onerror = function () {
+                                                                                            console.error("Request error.");
+                                                                                        };
+
+                                                                                    } else {
+                                                                                        alert("No year selected.");
+                                                                                    }
+                                                                                }
+
+                                                                                function toggleDataSeries(e) {
+                                                                                    if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                                                                                        e.dataSeries.visible = false;
+                                                                                    } else {
+                                                                                        e.dataSeries.visible = true;
+                                                                                    }
+                                                                                    chart.render();
+                                                                                }
+                                        </script>
                                     </div>
-                                    <div class="tab-pane show fade" id="history">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -562,7 +537,6 @@
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         function loadDefaultData() {
-                            // Load default data on page load
                             fetchData('bidder', '');
                             fetchData('seller', '');
                         }

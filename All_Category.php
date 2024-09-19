@@ -288,10 +288,10 @@
                                                     $result = mysqli_query($conn, "select * from tblcategory where status='Active'");
                                                     while ($row = mysqli_fetch_row($result)) {
                                                         echo '<tr>';
-                                                        echo "<td>$row[0]</td>";
-                                                        echo "<td>$row[1]</td>";
-                                                        echo "<td><a href='Update_Category.php?id=$row[0]'><i class='fa-regular fa-pen-to-square'></i></a></td>";
-                                                        echo "<td><a href='Delete_Category.php?id=$row[0]'>' <i class='fa-solid fa-trash'></i></a></td>";
+                                                        echo "<td data-purchase='Id'>$row[0]</td>";
+                                                        echo "<td data-purchase='Category Name'>$row[1]</td>";
+                                                        echo "<td data-purchase='Edit'> <a href='Update_Category.php?id=$row[0]'><i class='fa-regular fa-pen-to-square'></i></a></td>";
+                                                        echo "<td data-purchase='Delete'><a href='Delete_Category.php?id=$row[0]'>' <i class='fa-solid fa-trash'></i></a></td>";
                                                         echo '</tr>';
                                                     }
                                                 } catch (Exception $ex) {
