@@ -373,85 +373,85 @@
                                         <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 
                                         <script>
-                                                                                var chart; // Define chart as a global variable
+                                            var chart; // Define chart as a global variable
 
-                                                                                function fetchMonthlyData() {
-                                                                                    var selectedYear = document.getElementById("yearSelect").value;
+                                            function fetchMonthlyData() {
+                                                var selectedYear = document.getElementById("yearSelect").value;
 //                                               alert(selectedYear);
-                                                                                    if (selectedYear) {
+                                                if (selectedYear) {
 
-                                                                                        var xhr = new XMLHttpRequest();
-                                                                                        xhr.open("POST", "user-registration-report-FetchYearData.php?year=" + selectedYear, true);
-                                                                                        xhr.send();
-                                                                                        xhr.onreadystatechange = function () {
-                                                                                            console.log("Request completed. Status:", this.status);
-                                                                                            console.log("Response text:", this.responseText);
-                                                                                            if (this.readyState == 4 && this.status == 200) {
-                                                                                                try {
-                                                                                                    var response = JSON.parse(this.responseText);
-                                                                                                    console.log("Parsed Response:", response);
+                                                    var xhr = new XMLHttpRequest();
+                                                    xhr.open("POST", "user-registration-report-FetchYearData.php?year=" + selectedYear, true);
+                                                    xhr.send();
+                                                    xhr.onreadystatechange = function () {
+                                                        console.log("Request completed. Status:", this.status);
+                                                        console.log("Response text:", this.responseText);
+                                                        if (this.readyState == 4 && this.status == 200) {
+                                                            try {
+                                                                var response = JSON.parse(this.responseText);
+                                                                console.log("Parsed Response:", response);
 
-                                                                                                    chart = new CanvasJS.Chart("chartContainerMonthly", {
-                                                                                                        animationEnabled: true,
-                                                                                                        theme: "light2",
-                                                                                                        title: {
-                                                                                                            text: "Registered Users Per Month for Year " + selectedYear
-                                                                                                        },
-                                                                                                        axisY: {
-                                                                                                            includeZero: true
-                                                                                                        },
-                                                                                                        axisX: {
-                                                                                                            title: "Months",
-                                                                                                            interval: 1,
-                                                                                                            valueFormatString: "MMM"
-                                                                                                        },
-                                                                                                        legend: {
-                                                                                                            cursor: "pointer",
-                                                                                                            verticalAlign: "center",
-                                                                                                            horizontalAlign: "right",
-                                                                                                            itemclick: toggleDataSeries
-                                                                                                        },
-                                                                                                        data: [{
-                                                                                                                type: "column",
-                                                                                                                name: "Seller Registered Users",
-                                                                                                                indexLabel: "{y}",
-                                                                                                                yValueFormatString: "#0",
-                                                                                                                showInLegend: true,
-                                                                                                                dataPoints: response.sellers
-                                                                                                            }, {
-                                                                                                                type: "column",
-                                                                                                                name: "Bidder Registered Users",
-                                                                                                                indexLabel: "{y}",
-                                                                                                                yValueFormatString: "#0",
-                                                                                                                showInLegend: true,
-                                                                                                                dataPoints: response.bidders
-                                                                                                            }]
-                                                                                                    });
-                                                                                                    chart.render();
-                                                                                                } catch (e) {
-                                                                                                    console.error("Error parsing response:", e);
-                                                                                                }
-                                                                                            } else {
-                                                                                                console.error("Failed to fetch data. Status:", this.status);
-                                                                                            }
-                                                                                        };
-                                                                                        xhr.onerror = function () {
-                                                                                            console.error("Request error.");
-                                                                                        };
+                                                                chart = new CanvasJS.Chart("chartContainerMonthly", {
+                                                                    animationEnabled: true,
+                                                                    theme: "light2",
+                                                                    title: {
+                                                                        text: "Registered Users Per Month for Year " + selectedYear
+                                                                    },
+                                                                    axisY: {
+                                                                        includeZero: true
+                                                                    },
+                                                                    axisX: {
+                                                                        title: "Months",
+                                                                        interval: 1,
+                                                                        valueFormatString: "MMM"
+                                                                    },
+                                                                    legend: {
+                                                                        cursor: "pointer",
+                                                                        verticalAlign: "center",
+                                                                        horizontalAlign: "right",
+                                                                        itemclick: toggleDataSeries
+                                                                    },
+                                                                    data: [{
+                                                                            type: "column",
+                                                                            name: "Seller Registered Users",
+                                                                            indexLabel: "{y}",
+                                                                            yValueFormatString: "#0",
+                                                                            showInLegend: true,
+                                                                            dataPoints: response.sellers
+                                                                        }, {
+                                                                            type: "column",
+                                                                            name: "Bidder Registered Users",
+                                                                            indexLabel: "{y}",
+                                                                            yValueFormatString: "#0",
+                                                                            showInLegend: true,
+                                                                            dataPoints: response.bidders
+                                                                        }]
+                                                                });
+                                                                chart.render();
+                                                            } catch (e) {
+                                                                console.error("Error parsing response:", e);
+                                                            }
+                                                        } else {
+                                                            console.error("Failed to fetch data. Status:", this.status);
+                                                        }
+                                                    };
+                                                    xhr.onerror = function () {
+                                                        console.error("Request error.");
+                                                    };
 
-                                                                                    } else {
-                                                                                        alert("No year selected.");
-                                                                                    }
-                                                                                }
+                                                } else {
+                                                    alert("No year selected.");
+                                                }
+                                            }
 
-                                                                                function toggleDataSeries(e) {
-                                                                                    if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                                                                                        e.dataSeries.visible = false;
-                                                                                    } else {
-                                                                                        e.dataSeries.visible = true;
-                                                                                    }
-                                                                                    chart.render();
-                                                                                }
+                                            function toggleDataSeries(e) {
+                                                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                                                    e.dataSeries.visible = false;
+                                                } else {
+                                                    e.dataSeries.visible = true;
+                                                }
+                                                chart.render();
+                                            }
                                         </script>
                                     </div>
 
