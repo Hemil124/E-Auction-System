@@ -374,9 +374,8 @@ session_start()
 
                                     $checkStmt->close();
 
-                                    // Insert data
                                     $stmt = $conn->prepare("INSERT INTO tblsellers (firstname, lastname, contact, email, date_of_birth, password, adhar_number, adhar_img, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                                    $stmt->bind_param("ssssssss", $fname, $lname, $mobile, $email, $dob, $pass, $adhar, $imgContent, $currentDate);
+                                    $stmt->bind_param("sssssssss", $fname, $lname, $mobile, $email, $dob, $pass, $adhar, $imgContent, $currentDate);
 
                                     if ($stmt->execute()) {
                                         echo "Data inserted successfully.";
@@ -386,11 +385,9 @@ session_start()
 
                                     $stmt->close();
 
-                                    // Clear session variables
                                     unset($_SESSION['fname'], $_SESSION['lname'], $_SESSION['mobile'], $_SESSION['dob'], $_SESSION['email'], $_SESSION['password'], $_SESSION['adhar'], $_SESSION['adharimg'], $_SESSION['type']);
                                 }
 
-                                // Close the database connection
                                 $conn->close();
                             }
                             ?>

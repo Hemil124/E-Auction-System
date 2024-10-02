@@ -278,21 +278,9 @@ session_start();
         </section>
 
         <?php
-//        session_start();
-        // Load environment variables
-        //require 'vendor/autoload.php';
-        //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-        //$dotenv->load();
-
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
-            //0= otp is not expire
-            //1= otp is  expire
-
-
             if (isset($_POST['btnsignup'])) {
                 signup();
             }

@@ -247,7 +247,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Manage Payment</a>
+                                    <a href="Manage_Payment.php"><i class="flaticon-best-seller"></i>Manage Payment</a>
                                 </li>
 <!--                                <li>
                                     <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>

@@ -14,8 +14,8 @@ function sendEmail($recipient_email) {
     try {
 
 
-         $otp = mt_rand(10000, 99999);
-//        $otp = 11111;
+//         $otp = mt_rand(10000, 99999);
+        $otp = 11111;
         $_SESSION["otp"] = $otp;
         $timestamp = $_SERVER["REQUEST_TIME"];
         $_SESSION["otp_time"] = $timestamp;
@@ -41,7 +41,7 @@ function sendEmail($recipient_email) {
         $mail->Body = getEmailTemplate($otp);
 
         // Send email
-        $mail->send();
+//        $mail->send();
         // Store OTP in session for verification
 
         $_SESSION['email'] = $recipient_email;
