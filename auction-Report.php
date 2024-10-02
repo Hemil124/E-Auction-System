@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     </head>
 
@@ -484,82 +484,6 @@
                         </div>
                     </div>
 
-
-                    <!--asc and desc order-->
-<!--                    <style>
-                        th {
-                            cursor: pointer;
-                        }
-                    </style>
-                    <div class="container mx-auto mt-10">
-                        <table class="min-w-full bg-white" id="sortableTable">
-                            <thead>
-                                <tr>
-                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(0)">Item</th>
-                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(1)">Bid Price</th>
-                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(2)">Highest Bid</th>
-                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(3)">Lowest Bid</th>
-                                    <th class="py-2 px-4 bg-gray-100 text-left text-sm font-medium text-gray-700" onclick="sortTable(4)">Expires</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b">
-                                    <td class="py-2 px-4 text-sm text-gray-700">Hyundai </td>
-                                    <td class="py-2 px-4 text-sm text-gray-700">$1,5.00</td>
-                                    <td class="py-2 px-4 text-sm text-gray-700">$1,745.00</td>
-                                    <td class="py-2 px-4 text-sm text-gray-700">$1,100.00</td>
-                                    <td class="py-2 px-4 text-sm text-gray-700">7/2/2000</td>
-                                </tr>
-                                <tr>
-                                    <td data-purchase="item"> Sonata</td>
-                                    <td data-purchase="bid price">$1,75.00</td>
-                                    <td data-purchase="highest bid">$1,77.00</td>
-                                    <td data-purchase="lowest bid">$1,40.00</td>
-                                    <td data-purchase="expires">7/2/2004</td>
-                                </tr>
-                                <tr>
-                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                    <td data-purchase="bid price">$1,775.00</td>
-                                    <td data-purchase="highest bid">$1,775.00</td>
-                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                    <td data-purchase="expires">7/2/2024</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <script>
-                        let sortDirection = true; // true for ascending, false for descending
-
-                        function sortTable(columnIndex) {
-                            const table = document.getElementById("sortableTable");
-                            const tbody = table.tBodies[0];
-                            const rows = Array.from(tbody.rows);
-                            const isNumericColumn = columnIndex > 0; // Assuming first column is text
-
-                            rows.sort((a, b) => {
-                                const aText = a.cells[columnIndex].innerText;
-                                const bText = b.cells[columnIndex].innerText;
-
-                                if (isNumericColumn) {
-                                    const aValue = parseFloat(aText.replace(/[$,]/g, ''));
-                                    const bValue = parseFloat(bText.replace(/[$,]/g, ''));
-                                    return sortDirection ? aValue - bValue : bValue - aValue;
-                                } else {
-                                    return sortDirection ? aText.localeCompare(bText) : bText.localeCompare(aText);
-                                }
-                            });
-
-                            // Append sorted rows back to the tbody
-                            rows.forEach(row => tbody.appendChild(row));
-
-                            // Toggle sort direction for next click
-                            sortDirection = !sortDirection;
-                        }
-                    </script>-->
-
-
-
                     <!--Auction reports-->
                     <div class="col-lg-12" style="padding-bottom: calc(var(--bs-gutter-x)* .5);padding-top: calc(var(--bs-gutter-x)* .5);">
                         <div class="dashboard-widget">
@@ -580,15 +504,199 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content">
+                                    <!--Auction Listings Report-->
                                     <div class="tab-pane show active fade" id="ALR">
-                                        <?php
-                                        include 'connection.php';
+                                        <div class="col-sm-12">
+                                            <label class="mr-2" style="margin: 0px 5px">Select Filter Option:</label>
+                                            <select name="dropfilter" id="filter-select" style="width: 20%;height: 30px ;border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required >
+                                                <option value="">--Choose an option--</option>
+                                                <option value="Auction Id" >Auction Id</option>
+                                                <option value="Item name" >Item name</option>
+                                                <option value="Category name">Category name</option>
+                                                <option value="Seller name">Seller name</option>
+                                                <option value="Auction status">Auction status</option>
+                                            </select>
+                                        </div>
 
-                                        $qu = "SELECT
+                                        <!--search filter div script-->
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#filter-select").change(function () {
+                                                    var selectedValue = $(this).val();
+                                                    $("#AuctionId, #Itemname, #Categoryname, #Sellername, #Auctionstatus").hide();
+
+                                                    if (selectedValue === "Auction Id") {
+                                                        $("#AuctionId").show();
+                                                    } else if (selectedValue === "Item name") {
+                                                        $("#Itemname").show();
+                                                    } else if (selectedValue === "Category name") {
+                                                        $("#Categoryname").show();
+                                                    } else if (selectedValue === "Seller name") {
+                                                        $("#Sellername").show();
+                                                    } else if (selectedValue === "Auction status") {
+                                                        $("#Auctionstatus").show();
+                                                    }
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with auction id-->
+                                        <div id="AuctionId" style="display: none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Auction ID:</label>
+                                                <input type="text" id="auction-id-search" placeholder="Enter Auction ID" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                                <!--<button id="search-auction-id-btn" class="logout" style="width: auto ;margin: 0px 5px">Search</button>-->
+                                                <!--<div id="auction-id-search-results"></div>-->
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#auction-id-search").on('keyup', function () {
+                                                    var auctionId = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_ALR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {
+                                                            auction_id: auctionId
+                                                        },
+                                                        success: function (data) {
+                                                            $("#ALRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with item name-->
+                                        <div id="Itemname" style="display: none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Item Name:</label>
+                                                <input type="text" id="item-name-search" placeholder="Enter Item Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>                                        
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#item-name-search").on('keyup', function () {
+                                                    var itemName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_ALR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {item_name: itemName},
+                                                        success: function (data) {
+                                                            $("#ALRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with category-->
+                                        <div id="Categoryname" style="display: none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Category Name:</label>
+                                                <input type="text" id="category-name-search" placeholder="Enter Category Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#category-name-search").on('keyup', function () {
+                                                    var categoryName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_ALR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {category_name: categoryName},
+                                                        success: function (data) {
+                                                            $("#ALRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with seller name-->
+                                        <div id="Sellername" style="display: none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px;">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Seller Name:</label>
+                                                <input type="text" id="seller-name-search" placeholder="Enter Seller Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>           
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#seller-name-search").on('keyup', function () {
+                                                    var sellerName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_filter_data.php",
+                                                        method: "POST",
+                                                        data: {
+                                                            seller_name: sellerName
+                                                        },
+                                                        success: function (data) {
+                                                            $("#ALRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with auction status-->
+                                        <div id="Auctionstatus" style="display: none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px;">
+                                                <label class="mr-2" style="margin: 0px 5px">Select Auction Status:</label>
+                                                <select id="auction-status-search" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px">
+                                                    <option value="">Select Status</option>
+                                                    <option value="PENDING">PENDING</option>
+                                                    <option value="ACTIVE">ACTIVE</option>
+                                                    <option value="CANCELED">CANCELED</option>
+                                                    <option value="CLOSED">CLOSED</option>
+                                                </select>
+
+
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#auction-status-search").on('change', function () {
+                                                    var auctionStatus = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_ALR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {
+                                                            auction_status: auctionStatus
+                                                        },
+                                                        success: function (data) {
+                                                            $("#ALRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--table show-->
+                                        <div>
+                                        <!--<div  style="overflow-y: scroll; height: 770px;">-->
+                                            <?php
+                                            include 'connection.php';
+
+                                            $qu = "SELECT
                                                     a.id, 
                                                     i.name AS item_name, 
                                                     c.name AS category_name, 
-                                                    s.firstname, 
+                                                    CONCAT(s.firstname, ' ', s.lastname) AS seller_name, 
                                                     a.start_datetime, 
                                                     a.end_datetime, 
                                                     i.starting_price, 
@@ -605,241 +713,573 @@
                                            JOIN 
                                                tblsellers s ON i.seller_id = s.id;";
 
-                                        $q = mysqli_query($conn, $qu);
+                                            $q = mysqli_query($conn, $qu);
 
-                                        if (!$q) {
-                                        die("Error:" . mysqli_error($conn));
-                                        } else {
-                                        ?>
-                                        <table class="purchasing-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Auction ID</th>
-                                                    <th>Item Name</th>
-                                                    <th>Category Name</th>
-                                                    <th>Seller Name</th>
-                                                    <th>Starting Date</th>
-                                                    <th>Ending Date</th>
-                                                    <th>Starting Price</th>
-                                                    <th>Reserve Price</th>
-                                                    <th>Minimum Bidders</th>
-                                                    <th>EMD Amount</th>
-                                                    <th>Auction Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php while ($r = mysqli_fetch_assoc($q)) { ?>
-                                                <tr>
-                                                    <td data-purchase="Auction ID"><?php echo $r['id']; ?></td>
-                                                    <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
-                                                    <td data-purchase="Category Name"><?php echo $r['category_name']; ?></td>
-                                                    <td data-purchase="Seller Name"><?php echo $r['firstname']; ?></td>
-                                                    <td data-purchase="Starting Date"><?php echo $r['start_datetime']; ?></td>
-                                                    <td data-purchase="Ending Date"><?php echo $r['end_datetime']; ?></td>
-                                                    <td data-purchase="Starting Price"><?php echo $r['starting_price']; ?></td>
-                                                    <td data-purchase="Reserve Price"><?php echo $r['reserve_price']; ?></td>
-                                                    <td data-purchase="Minimum Bidders"><?php echo $r['minimum_bidders']; ?></td>
-                                                    <td data-purchase="EMD Amount"><?php echo $r['emd_amount']; ?></td>
-                                                    <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
-                                                </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php } ?>
+                                            if (!$q) {
+                                                die("Error:" . mysqli_error($conn));
+                                            } else {
+                                                ?>
+                                                <table class="purchasing-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Auction ID</th>
+                                                            <th>Item </th>
+                                                            <th>Category </th>
+                                                            <th>Seller </th>
+                                                            <th>Starting Time</th>
+                                                            <th>Ending Time</th>
+                                                            <th>Starting Price</th>
+                                                            <th>Reserve Price</th>
+                                                            <th>Minimum Bidders</th>
+                                                            <th>EMD Amount</th>
+                                                            <th>Auction Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="ALRDATA">
+                                                        <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                            <tr>
+                                                                <td data-purchase="Auction ID"><?php echo $r['id']; ?></td>
+                                                                <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
+                                                                <td data-purchase="Category Name"><?php echo $r['category_name']; ?></td>
+                                                                <td data-purchase="Seller Name"><?php echo $r['seller_name']; ?></td>
+                                                                <td data-purchase="Starting Date"><?php echo $r['start_datetime']; ?></td>
+                                                                <td data-purchase="Ending Date"><?php echo $r['end_datetime']; ?></td>
+                                                                <td data-purchase="Starting Price"><?php echo $r['starting_price']; ?></td>
+                                                                <td data-purchase="Reserve Price"><?php echo $r['reserve_price']; ?></td>
+                                                                <td data-purchase="Minimum Bidders"><?php echo $r['minimum_bidders']; ?></td>
+                                                                <td data-purchase="EMD Amount"><?php echo $r['emd_amount']; ?></td>
+                                                                <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            <?php } ?>
+                                        </div>
                                     </div>
 
+                                    <!--Auction Performance Report-->
                                     <div class="tab-pane show fade" id="APR">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="col-sm-12">
+                                            <label class="mr-2" style="margin: 0px 5px">Select Filter Option:</label>
+                                            <select name="dropfilter" id="APRfilter-select" style="width: 20%;height: 30px ;border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required >
+                                                <option value="">--Choose an option--</option>
+                                                <option value="Auction Id" >Auction Id</option>
+                                                <option value="Item name" >Item name</option>
+                                                <option value="Category name">Category name</option>
+                                            </select>
+                                        </div>
+
+                                        <!--search filter div script-->
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#APRfilter-select").change(function () {
+                                                    var selectedValue = $(this).val();
+                                                    $("#APRAuctionId, #APRItemname, #APRCategoryname").hide();
+
+                                                    if (selectedValue === "Auction Id") {
+                                                        $("#APRAuctionId").show();
+                                                    } else if (selectedValue === "Item name") {
+                                                        $("#APRItemname").show();
+                                                    } else if (selectedValue === "Category name") {
+                                                        $("#APRCategoryname").show();
+                                                    }
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with auction id-->
+                                        <div id="APRAuctionId" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Auction ID:</label>
+                                                <input type="text" id="APRauction-id-search" placeholder="Enter Auction ID" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#APRauction-id-search").on('keyup', function () {
+                                                    var auctionId = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_APR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {auction_id: auctionId},
+                                                        success: function (data) {
+                                                            $("#APRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with item name-->
+                                        <div id="APRItemname" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Item Name:</label>
+                                                <input type="text" id="APRitem-name-search" placeholder="Enter Item Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>  
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#APRitem-name-search").on('keyup', function () {
+                                                    var itemName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_APR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {item_name: itemName},
+                                                        success: function (data) {
+                                                            $("#APRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with category-->
+                                        <div id="APRCategoryname" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Category Name:</label>
+                                                <input type="text" id="APRcategory-name-search" placeholder="Enter Category Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#APRcategory-name-search").on('keyup', function () {
+                                                    var categoryName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_APR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {category_name: categoryName},
+                                                        success: function (data) {
+                                                            $("#APRDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--table show-->
+                                        <div>
+                                        <!--<div  style="overflow-y: scroll; height: 770px;">-->
+                                            <?php
+                                            include 'connection.php';
+
+                                            $qu = "SELECT 
+                                                    a.id AS auction_id,
+                                                    i.name AS item_name,
+                                                    c.name AS category,
+                                                    CONCAT(s.firstname, ' ', s.lastname) AS seller_name,
+                                                    COUNT(b.id) AS number_of_bids,
+                                                    MAX(b.bid_value) AS highest_bid,
+                                                    (SELECT b2.bid_value FROM tblbid b2 WHERE b2.auction_item_id = a.id ORDER BY b2.bid_value DESC LIMIT 1) AS final_auction_price,
+                                                    (SELECT CONCAT(b3.firstname, ' ', b3.lastname) FROM tblbid b2 
+                                                     INNER JOIN tblbidders b3 ON b2.bidder_id = b3.id 
+                                                     WHERE b2.auction_item_id = a.id ORDER BY b2.bid_value DESC LIMIT 1) AS winner_name,
+                                                    a.auction_status
+                                            FROM 
+                                                    tblauctionitem a
+                                            LEFT JOIN 
+                                                    tblitem i ON a.item_id = i.`id` 
+                                            LEFT JOIN 
+                                                    tblcategory c ON i.category_id = c.id 
+                                            LEFT JOIN 
+                                                    tblbid b ON b.auction_item_id = a.id
+                                            JOIN 
+                                                    tblsellers s ON i.seller_id = s.id
+                                            WHERE 
+                                                    a.auction_status IN ('active', 'closed')
+                                            GROUP BY 
+                                                    a.id, i.name, c.name, s.firstname, a.auction_status;";
+
+                                            $q = mysqli_query($conn, $qu);
+
+                                            if (!$q) {
+                                                die("Error:" . mysqli_error($conn));
+                                            } else {
+                                                ?>
+                                                <table class="purchasing-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Auction ID</th>
+                                                            <th>Item </th>
+                                                            <th>Category</th>
+                                                            <th>Seller</th>
+                                                            <th>Total Bids</th>
+                                                            <th>Highest Bid</th>
+                                                            <th>Final Price</th>
+                                                            <th>Winner</th>
+                                                            <th>Auction Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="APRDATA">
+                                                        <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                            <tr>
+                                                                <td data-purchase="Auction ID"><?php echo $r['auction_id']; ?></td>
+                                                                <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
+                                                                <td data-purchase="Category"><?php echo $r['category']; ?></td>
+                                                                <td data-purchase="Seller"><?php echo $r['seller_name']; ?></td>
+                                                                <td data-purchase="Total Bids"><?php echo $r['number_of_bids']; ?></td>
+                                                                <td data-purchase="Highest Bid"><?php echo $r['highest_bid']; ?></td>
+                                                                <td data-purchase="Final Price"><?php echo $r['final_auction_price']; ?></td>
+                                                                <td data-purchase="Winner"><?php echo $r['winner_name']; ?></td>
+                                                                <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            <?php } ?>
+                                        </div>
                                     </div>
+
+                                    <!--Upcoming Auction Report-->
                                     <div class="tab-pane show fade" id="UAR">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="col-sm-12">
+                                            <label class="mr-2" style="margin: 0px 5px">Select Filter Option:</label>
+                                            <select name="dropfilter" id="UARfilter-select" style="width: 20%;height: 30px ;border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required >
+                                                <option value="">--Choose an option--</option>
+                                                <option value="Auction Id" >Auction Id</option>
+                                                <option value="Item name" >Item name</option>
+                                                <option value="Category name">Category name</option>
+                                            </select>
+                                        </div>
+
+                                        <!--search filter div script-->
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#UARfilter-select").change(function () {
+                                                    var selectedValue = $(this).val();
+                                                    $("#UARAuctionId, #UARItemname, #UARCategoryname").hide();
+
+                                                    if (selectedValue === "Auction Id") {
+                                                        $("#UARAuctionId").show();
+                                                    } else if (selectedValue === "Item name") {
+                                                        $("#UARItemname").show();
+                                                    } else if (selectedValue === "Category name") {
+                                                        $("#UARCategoryname").show();
+                                                    }
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with auction id-->
+                                        <div id="UARAuctionId" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Auction ID:</label>
+                                                <input type="text" id="UARauction-id-search" placeholder="Enter Auction ID" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#UARauction-id-search").on('keyup', function () {
+                                                    var auctionId = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_UAR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {auction_id: auctionId},
+                                                        success: function (data) {
+                                                            $("#UARDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with item name-->
+                                        <div id="UARItemname" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Item Name:</label>
+                                                <input type="text" id="UARitem-name-search" placeholder="Enter Item Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>  
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#UARitem-name-search").on('keyup', function () {
+                                                    var itemName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_UAR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {item_name: itemName},
+                                                        success: function (data) {
+                                                            $("#UARDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with category-->
+                                        <div id="UARCategoryname" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Category Name:</label>
+                                                <input type="text" id="UARcategory-name-search" placeholder="Enter Category Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#UARcategory-name-search").on('keyup', function () {
+                                                    var categoryName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_UAR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {category_name: categoryName},
+                                                        success: function (data) {
+                                                            $("#UARDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                        <!--table show-->
+                                        <div>
+                                        <!--<div  style="overflow-y: scroll; height: 770px;">-->
+                                            <?php
+                                            include 'connection.php';
+
+                                            $qu = "SELECT 
+                                                    a.id AS auction_id, 
+                                                    i.name AS item_name, 
+                                                    c.name AS category, 
+                                                    CONCAT(s.firstname, ' ', s.lastname) AS seller_name, 
+                                                    a.start_datetime AS start_time, 
+                                                    a.end_datetime AS end_time, 
+                                                    i.starting_price AS starting_price, 
+                                                    a.auction_status AS auction_status
+                                               FROM 
+                                                   tblauctionitem a 
+                                               LEFT JOIN 
+                                                   tblitem i ON a.item_id = i.id 
+                                               LEFT JOIN 
+                                                   tblcategory c ON i.category_id = c.id 
+                                               LEFT JOIN 
+                                                   tblsellers s ON i.seller_id = s.id
+                                               WHERE 
+                                                   a.auction_status IN('ACTIVE', 'PENDING')";
+
+                                            $q = mysqli_query($conn, $qu);
+
+                                            if (!$q) {
+                                                die("Error:" . mysqli_error($conn));
+                                            } else {
+                                                ?>
+                                                <table class="purchasing-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Auction ID</th>
+                                                            <th>Item </th>
+                                                            <th>Category</th>
+                                                            <th>Seller </th>
+                                                            <th>Start Time</th>
+                                                            <th>End Time</th>
+                                                            <th>Starting Price</th>
+                                                            <th>Auction Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="UARDATA">
+                                                        <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                            <tr>
+                                                                <td data-purchase="Auction ID"><?php echo $r['auction_id']; ?></td>
+                                                                <td data-purchase="Item Name"><?php echo $r['item_name']; ?></td>
+                                                                <td data-purchase="Category"><?php echo $r['category']; ?></td>
+                                                                <td data-purchase="Seller Name"><?php echo $r['seller_name']; ?></td>
+                                                                <td data-purchase="Start Time"><?php echo $r['start_time']; ?></td>
+                                                                <td data-purchase="End Time"><?php echo $r['end_time']; ?></td>
+                                                                <td data-purchase="Starting Price"><?php echo $r['starting_price']; ?></td>
+                                                                <td data-purchase="Auction Status"><?php echo $r['auction_status']; ?></td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            <?php } ?>
+                                        </div>
                                     </div>
+
+                                    <!--closing auction report-->
                                     <div class="tab-pane show fade" id="CAR">
-                                        <table class="purchasing-table">
-                                            <thead>
-                                            <th>Item</th>
-                                            <th>Bid Price</th>
-                                            <th>Highest Bid</th>
-                                            <th>Lowest Bid</th>
-                                            <th>Expires</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-purchase="item">2018 Hyundai Sonata</td>
-                                                    <td data-purchase="bid price">$1,775.00</td>
-                                                    <td data-purchase="highest bid">$1,775.00</td>
-                                                    <td data-purchase="lowest bid">$1,400.00</td>
-                                                    <td data-purchase="expires">7/2/2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="col-sm-12">
+                                            <label class="mr-2" style="margin: 0px 5px">Select Filter Option:</label>
+                                            <select name="dropfilter" id="CARfilter-select" style="width: 20%;height: 30px ;border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required >
+                                                <option value="">--Choose an option--</option>
+                                                <option value="Auction Id" >Auction Id</option>
+                                                <option value="Item name" >Item name</option>
+                                                <option value="Category name">Category name</option>
+                                            </select>
+                                        </div>
+
+                                        <!--search filter div script-->
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#CARfilter-select").change(function () {
+                                                    var selectedValue = $(this).val();
+                                                    $("#CARAuctionId, #CARItemname, #CARCategoryname").hide();
+
+                                                    if (selectedValue === "Auction Id") {
+                                                        $("#CARAuctionId").show();
+                                                    } else if (selectedValue === "Item name") {
+                                                        $("#CARItemname").show();
+                                                    } else if (selectedValue === "Category name") {
+                                                        $("#CARCategoryname").show();
+                                                    }
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with auction id-->
+                                        <div id="CARAuctionId" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Auction ID:</label>
+                                                <input type="text" id="CARauction-id-search" placeholder="Enter Auction ID" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#CARauction-id-search").on('keyup', function () {
+                                                    var auctionId = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_CAR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {auction_id: auctionId},
+                                                        success: function (data) {
+                                                            $("#CARDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with item name-->
+                                        <div id="CARItemname" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Item Name:</label>
+                                                <input type="text" id="CARitem-name-search" placeholder="Enter Item Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>  
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#CARitem-name-search").on('keyup', function () {
+                                                    var itemName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_CAR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {item_name: itemName},
+                                                        success: function (data) {
+                                                            $("#CARDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+
+                                        <!--search with category-->
+                                        <div id="CARCategoryname" style="display:none;">
+                                            <div class="col-sm-12" style="padding: 10px 0px; ">
+                                                <label class="mr-2" style="margin: 0px 5px">Enter Category Name:</label>
+                                                <input type="text" id="CARcategory-name-search" placeholder="Enter Category Name" style="width: 20%;height: 30px; border: 1px solid rgba(97, 90, 191, 0.2); background: #ffffff;margin: 0px 5px" required>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#CARcategory-name-search").on('keyup', function () {
+                                                    var categoryName = $(this).val();
+                                                    $.ajax({
+                                                        url: "auction-Report-fetch_CAR_filter_data.php",
+                                                        method: "POST",
+                                                        data: {category_name: categoryName},
+                                                        success: function (data) {
+                                                            $("#CARDATA").html(data);
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            alert("Error: " + error);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                        <!--table show-->
+                                        <div>
+                                        <!--<div  style="overflow-y: scroll; height: 770px;">-->
+                                            <?php
+                                            include 'connection.php';
+
+                                            $qu = "SELECT 
+                                                ai.id AS auction_id,
+                                                i.name AS item_name,
+                                                c.name AS category_name,
+                                                CONCAT(s.firstname, ' ', s.lastname) AS seller_name,
+                                                ai.end_datetime AS auction_endtime,
+                                                b.max_bid_value AS final_auction_price,
+                                                CONCAT(bd.firstname, ' ', bd.lastname) AS winner_bidder_name
+                                            FROM 
+                                                tblauctionitem ai
+                                            LEFT JOIN tblitem i ON ai.item_id = i.id
+                                            LEFT JOIN tblcategory c ON i.category_id = c.id
+                                            LEFT JOIN tblsellers s ON i.seller_id = s.id
+                                            LEFT JOIN (
+                                                SELECT auction_item_id, MAX(bid_value) AS max_bid_value, bidder_id
+                                                FROM tblbid
+                                                GROUP BY auction_item_id
+                                            ) b ON b.auction_item_id = ai.id
+                                            LEFT JOIN tblbidders bd ON bd.id = b.bidder_id
+                                            WHERE 
+                                                ai.auction_status = 'closed'
+                                            GROUP BY 
+                                                ai.id, i.name, c.name, s.firstname, s.lastname, ai.end_datetime, bd.firstname, bd.lastname;";
+
+                                            $q = mysqli_query($conn, $qu);
+
+                                            if (!$q) {
+                                                die("Error:" . mysqli_error($conn));
+                                            } else {
+                                                ?>
+                                                <table class="purchasing-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Auction ID</th>
+                                                            <th>Item</th>
+                                                            <th>Category</th>
+                                                            <th>Seller </th>
+                                                            <th>Auction End Time</th>
+                                                            <th>Final Auction Price</th>
+                                                            <th>Winner</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php while ($r = mysqli_fetch_assoc($q)) { ?>
+                                                            <tr>
+                                                                <td data-purchase="Auction ID"><?php echo $r['auction_id']; ?></td>
+                                                                <td data-purchase="Item"><?php echo $r['item_name']; ?></td>
+                                                                <td data-purchase="Category"><?php echo $r['category_name']; ?></td>
+                                                                <td data-purchase="Seller"><?php echo $r['seller_name']; ?></td>
+                                                                <td data-purchase="Auction End Time"><?php echo $r['auction_endtime']; ?></td>
+                                                                <td data-purchase="Final Auction Price"><?php echo $r['final_auction_price']; ?></td>
+                                                                <td data-purchase="Winner"><?php echo $r['winner_bidder_name']; ?></td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            <?php } ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
