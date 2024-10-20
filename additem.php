@@ -27,7 +27,21 @@ session_start();
         <!--<link rel="stylesheet" href="assets/css/main.css">-->
         <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
         <link href="assets/css/nice-select.css" rel="stylesheet" type="text/css"/>
-        <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">  
+        <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+        <style>
+            #image-preview-container {
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+                max-height: 700px;
+            }
+
+            #image-preview-container img {
+                width: 100%;
+                height: auto;
+                margin-bottom: 10px;
+            }
+        </style>
     </head>
 
     <body>
@@ -100,7 +114,7 @@ session_start();
                             </div>
                             <div class="form-group mb-30">
                                 <label for="image-upload"><i class="fa fa-image"></i></label>
-                                <input type="file" id="image-upload" name="txtimage" required accept="image/*" onchange="previewImage(event)">
+                                <input type="file" id="image-upload" name="txtimage[]" required accept="image/*" multiple onchange="previewImages(event)">
                             </div>
                             <div class="form-group mb-30">
                                 <label for="bill-upload"><i class="fa fa-image"></i></label>
@@ -113,7 +127,7 @@ session_start();
                     </div>
                     <div class="right-side cl-white">
                         <div class="section-header mb-0">
-                        <img id="image-preview" src="#" alt="Image Preview" style="margin-top: 10px; max-width: 200px;"/>
+                            <div id="image-preview-container"></div>
                         </div>
                     </div>
                 </div>
@@ -152,100 +166,137 @@ function itemSubmit() {
         $category_id = $_POST['txtcategoryid'];
         $description = $_POST['txtdescription'];
         $starting_price = $_POST['txtstartingprice'];
-        $image = $_FILES['txtimage'];
+        $imageFiles = $_FILES['txtimage'];
         $bill = $_FILES['txtbill'];
 
-        // Image Upload
+        $imageNames = [];
         $target_dir_image = "uploads/";
-        $imageFileType = strtolower(pathinfo($image["name"], PATHINFO_EXTENSION));
-        $random_filename_image = time() . rand(1000, 9999) . '.' . $imageFileType;
-        $target_file_image = $target_dir_image . $random_filename_image;
-        $uploadOk_image = 1;
 
-        // Check if image file is a real image
-        $check = getimagesize($image["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk_image = 1;
-        } else {
-            $uploadOk_image = 0;
-        }
+        for ($i = 0; $i < count($imageFiles['name']); $i++) {
+            $imageFileType = strtolower(pathinfo($imageFiles["name"][$i], PATHINFO_EXTENSION));
+            $random_filename_image = time() . rand(1000, 9999) . '.' . $imageFileType;
+            $target_file_image = $target_dir_image . $random_filename_image;
 
-        // Check if image file already exists
-        if (file_exists($target_file_image)) {
-            $uploadOk_image = 0;
-        }
+            $check = getimagesize($imageFiles["tmp_name"][$i]);
+            if ($check === false) {
+                echo '<script>alert("File is not an image.")</script>';
+                continue;
+            }
 
-        // Check image file size
-        if ($image["size"] > 500000) {
-            $uploadOk_image = 0;
-        }
+            if (file_exists($target_file_image)) {
+                echo '<script>alert("Sorry, image already exists.")</script>';
+                continue;
+            }
 
-        // Check image file type
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $uploadOk_image = 0;
+            if ($imageFiles["size"][$i] > 500000) {
+                echo '<script>alert("Sorry, your image is too large.")</script>';
+                continue;
+            }
+
+            if (!in_array($imageFileType, ['jpg', 'png', 'jpeg'])) {
+                echo '<script>alert("Sorry, only JPG, JPEG, & PNG files are allowed.")</script>';
+                continue;
+            }
+
+            if (move_uploaded_file($imageFiles["tmp_name"][$i], $target_file_image)) {
+                $imageNames[] = $random_filename_image;
+            } else {
+                echo '<script>alert("Sorry, there was an error uploading your image.")</script>';
+            }
         }
 
         $target_dir_bill = "billuploads/";
         $billFileType = strtolower(pathinfo($bill["name"], PATHINFO_EXTENSION));
         $random_filename_bill = time() . rand(1000, 9999) . '.' . $billFileType;
         $target_file_bill = $target_dir_bill . $random_filename_bill;
-        $uploadOk_bill = 1;
 
         if (file_exists($target_file_bill)) {
-            $uploadOk_bill = 0;
+            echo '<script>alert("Sorry, bill already exists.")</script>';
+            return;
         }
 
         if ($bill["size"] > 500000) {
-            $uploadOk_bill = 0;
+            echo '<script>alert("Sorry, your bill is too large.")</script>';
+            return;
         }
 
-        // if ($billFileType != "pdf" && $billFileType != "docx" && $billFileType != "doc") {
-        if ($billFileType != "jpg" && $billFileType != "png" && $billFileType != "jpeg") {
-            $uploadOk_bill = 0;
+        if (!in_array($billFileType, ['jpg', 'png', 'jpeg'])) {
+            echo '<script>alert("Sorry, only PDF, DOCX, & DOC files are allowed.")</script>';
+            return;
         }
 
-        if ($uploadOk_image == 0 || $uploadOk_bill == 0) {
-            echo '<script>alert("Sorry, your file was not uploaded.")</script>';
+        if (!move_uploaded_file($bill["tmp_name"], $target_file_bill)) {
+            echo '<script>alert("Sorry, there was an error uploading your bill.")</script>';
+            return;
+        }
+
+        $images_json = json_encode($imageNames);
+
+        include 'connection.php';
+        $query = "INSERT INTO tblitem (name, seller_id, category_id, description, image_id, bill_id, starting_price, verify_status, status) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'inactive')";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ssssssd", $item_name, $seller_id, $category_id, $description, $images_json, $random_filename_bill, $starting_price);
+
+        if (mysqli_stmt_execute($stmt)) {
+            echo '<script type="text/javascript"> 
+                  alert("Item added successfully!"); 
+                  window.location.href = "index.php"; 
+                  </script>';
         } else {
-            if (move_uploaded_file($image["tmp_name"], $target_file_image) && move_uploaded_file($bill["tmp_name"], $target_file_bill)) {
-                include 'connection.php';
-                $query = "INSERT INTO tblitem (name, seller_id, category_id, description, image_id, bill_id, starting_price, verify_status, status) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'inactive')";
-                $stmt = mysqli_prepare($conn, $query);
-                mysqli_stmt_bind_param($stmt, "ssssssd", $item_name, $seller_id, $category_id, $description, $random_filename_image, $random_filename_bill, $starting_price);
-                if (mysqli_stmt_execute($stmt)) {
-                    echo '<script type="text/javascript"> 
-                      alert("Item added successfully!"); 
-                      window.location.href = "./additem.php";
-                      </script>';
-                } else {
-                    echo '<script>alert("Failed to add item!")</script>';
-                }
-            } else {
-                echo '<script>alert("Sorry, there was an error uploading your file.")</script>';
-            }
+            echo '<script>alert("Error adding item!")</script>';
         }
     }
 }
 
         ?>
- <script>
-        function previewImage(event) {
-            const imagePreview = document.getElementById('image-preview');
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.src = "#";
-                imagePreview.style.display = 'none';
-            }
+<script>
+function previewImages(event) {
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+    imagePreviewContainer.innerHTML = '';
+    const files = event.target.files;
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageContainer = document.createElement('div');
+            imageContainer.style.position = 'relative';
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            img.style.marginBottom = '10px';
+
+            const removeButton = document.createElement('button');
+            removeButton.innerHTML = '✖';
+            removeButton.style.position = 'absolute';
+            removeButton.style.top = '0px';
+            removeButton.style.left = '0px';
+            removeButton.style.background = 'red';
+            removeButton.style.color = 'white';
+            removeButton.style.border = 'none';
+            removeButton.style.cursor = 'pointer';
+            removeButton.style.zIndex = '5';
+            removeButton.style.fontSize = '16px';
+            removeButton.style.padding = '15';
+            removeButton.style.width = 'auto';
+            removeButton.style.height = 'auto';
+            removeButton.style.lineHeight = 'normal';
+
+            removeButton.addEventListener('click', function() {
+                imagePreviewContainer.removeChild(imageContainer);
+            });
+
+            imageContainer.appendChild(removeButton);
+            imageContainer.appendChild(img);
+            imagePreviewContainer.appendChild(imageContainer);
         }
-    </script>
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 
         <!--============= Account Section Ends Here =============-->
         <!--footer-->
