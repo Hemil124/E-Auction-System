@@ -165,7 +165,7 @@
 
                                 // Send AJAX request to PHP script
                                 $.ajax({
-                                    url: 'seller_fetch_items.php',
+                                    url: 'fetch_item_cards.php',
                                     type: 'GET',
                                     data: {
                                         status: status,
