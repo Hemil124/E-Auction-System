@@ -371,6 +371,7 @@
                 <div class="product-details-slider-top-wrapper">
                     <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                         <?php
+                        include 'connection.php';
                         // Fetch images from the database
                         $result_img = mysqli_query($conn, "SELECT img FROM tblimg WHERE item_id=$item_id");
 
@@ -708,7 +709,7 @@
                                             if (mysqli_num_rows($result) > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     // Format bid date and time
-                                                    $bidderName=$row['firstname'];
+                                                    $bidderName = $row['firstname'];
                                                     $bidDateTime = new DateTime($row['bid_datetime']);
                                                     $bidDate = $bidDateTime->format('m/d/Y');
                                                     $bidTime = $bidDateTime->format('h:i:s A');
@@ -717,8 +718,8 @@
                                                         $bidderImage = 'data:image/jpeg;base64,' . $imageData;
                                                     } else {
                                                         // Use a placeholder image if there's no image in the database
-                                                         $bidderImage = '/assets/images/history/05.png';
-                                                         echo '<script>alert('.$bidderImage.')</script>';
+                                                        $bidderImage = '/assets/images/history/05.png';
+                                                        echo '<script>alert(' . $bidderImage . ')</script>';
                                                     }
                                                     $bidValue = "$" . number_format($row['bid_value'], 2);
 
