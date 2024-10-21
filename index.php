@@ -170,6 +170,9 @@ session_start();
                                             <li>
                                                 <a href="referral.php">Referrals</a>
                                             </li>
+                                            <li>
+                                                <a href="admin-item-list.php">Admin Item List</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
@@ -185,6 +188,9 @@ session_start();
                             </li>
                             <li>
                                 <a href="contact.php">Contact</a>
+                            </li>
+                            <li>
+                                <a href="additem.php">Add item</a>
                             </li>
                         </ul>
                         <form class="search-form" style="margin-bottom: 150px;">

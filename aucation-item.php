@@ -1,20 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <?php
-//    session_start();
-//    //without login can't open indexpage!!        
-//    if (!isset($_SESSION['txtemail'])) {
-//        header("Location: sign-in.php");
-//        exit();
-//    }
-    ?>
 
+<?php
+session_start();
+include 'connection.php';
+
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $itemId = intval($_GET['id']);
+
+    $sql = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
+            FROM tblitem 
+            JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
+            JOIN tblcategory ON tblitem.category_id = tblcategory.id 
+            WHERE tblitem.id = ?";
+    
+    // Prepare and execute the statement
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("i", $itemId); // Bind the parameter
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Fetch the item data
+        if ($result->num_rows > 0) {
+            $item = $result->fetch_assoc();
+        } else {
+            echo "No item found.";
+            exit();
+        }
+        $stmt->close();
+    } else {
+        echo "Database query failed.";
+        exit();
+    }
+} else {
+    echo "Invalid item ID.";
+    exit();
+}
+
+$conn->close(); // Close the database connection
+?>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <title>Sbidu - Bid And Auction HTML Template</title>
+        <title>Admin Item List E-Auction</title>
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
@@ -264,17 +294,17 @@
 
 
         <!--============= Hero Section Starts Here =============-->
-        <div class="hero-section style-2">
+        <div class="hero-section style-2 pb-lg-400">
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <a href="#0">Pages</a>
+                        <a href="admin-item-list.php">Admin Item List</a>
                     </li>
                     <li>
-                        <span>winning Bids</span>
+                        <span>Aucation List</span>
                     </li>
                 </ul>
             </div>
@@ -284,244 +314,59 @@
 
 
         <!--============= Dashboard Section Starts Here =============-->
-        <section class="dashboard-section padding-bottom mt--240 mt-lg--440 pos-rel">
+        <section class="dashboard-section padding-bottom mt--240 mt-lg--325 pos-rel">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-sm-10 col-md-7 col-lg-4">
-                        <div class="dashboard-widget mb-30 mb-lg-0 sticky-menu">
-                            <div class="user">
-                                <div class="thumb-area">
-                                    <div class="thumb">
-                                        <img src="assets/images/dashboard/user.png" alt="user">
-                                    </div>
-                                    <label for="profile-pic" class="profile-pic-edit"><i class="flaticon-pencil"></i></label>
-                                    <input type="file" id="profile-pic" class="d-none">
-                                </div>
-                                <div class="content">
-                                    <h5 class="title"><a href="#0">Percy Reed</a></h5>
-                                    <span class="username"><a href="https://pixner.net/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8fe5e0e7e1cfe8e2eee6e3a1ece0e2">[email&#160;protected]</a></span>
-                                </div>
-                            </div>
-                            <ul class="dashboard-menu">
-                                <li>
-                                    <a href="dashboard.php"><i class="flaticon-dashboard"></i>Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="profile.php"><i class="flaticon-settings"></i>Personal Profile </a>
-                                </li>
-                                <li>
-                                    <a href="my-bid.php"><i class="flaticon-auction"></i>My Bids</a>
-                                </li>
-                                <li>
-                                    <a href="#0" class="active"><i class="flaticon-best-seller"></i>Winning Bids</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
-                                </li>
-                                <button class="logout" onclick="window.location.href = 'logout.php'">
-                                     Logout
-                                </button>
-                            </ul>
-                        </div>
-                    </div>
+                    
                     <div class="col-lg-8">
-                        <div class="dash-bid-item dashboard-widget mb-4">
-                            <div class="header">
-                                <h4 class="title">Winning Bids</h4>
+                        <div class="dashboard-widget mb-40">
+                            <div class="dashboard-title mb-30">
+                                <h4 class="title">Aucation Item</h4>
                             </div>
-                            <div class="button-area justify-content-between">
-                                <form class="product-search">
-                                    <input type="text" placeholder="Item Name">
-                                    <button type="submit"><i class="fas fa-search"></i></button>
-                                </form>
-                                <div class="sort-winning-bid">
-                                    <div class="item">Sort By : </div>
-                                    <select name="sort-by" class="select-bar">
-                                        <option value="all">All</option>
-                                        <option value="name">Name</option>
-                                        <option value="date">Date</option>
-                                        <option value="type">Type</option>
-                                        <option value="car">Car</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-30-none justify-content-center">
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.php"><img src="assets/images/auction/car/auction-3.jpg" alt="car"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="#0">2018 Hyundai Sonata</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter26"></div>
-                                            </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.php"><img src="assets/images/auction/product/08.png" alt="car"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="#0">2018 Nissan Versa, S</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter27"></div>
-                                            </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.php"><img src="assets/images/auction/product/04.png" alt="product"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="#0">2019 Mercedes-Benz C, 300</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter1"></div>
-                                            </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.php"><img src="assets/images/auction/product/07.png" alt="product"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="#0">2017 Harley-Davidson XG750,</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter2"></div>
-                                            </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted">Item Name</td>
+                                        <td class="text-dark"><?php echo htmlspecialchars($item['name']); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Seller Name</td>
+                                        <td class="text-dark"><?php echo htmlspecialchars($item['firstname']); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Category</td>
+                                        <td class="text-dark"><?php echo htmlspecialchars($item['category_name']); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Description</td>
+                                        <td class="text-dark"><?php echo nl2br(htmlspecialchars($item['description'])); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Starting Price</td>
+                                        <td class="text-dark"><?php echo number_format($item['starting_price'], 2); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Item Image</td>
+                                        <td class="text-dark"><img src="uploads/<?php echo htmlspecialchars($item['image_id']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid" style="margin-top: 5px; max-width: 200px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Bill</td>
+                                        <td class="text-dark"><img src="billuploads/<?php echo htmlspecialchars($item['bill_id']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid" style="margin-top: 5px; max-width: 200px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Verification</td>
+                                        <td class="text-dark" colspan="2" style="display: flex; gap: 10px;">
+                                            <form method="POST" action="update_verification.php" style="display: flex; gap: 10px;">
+                                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['id']); ?>">
+                                                <button type="submit" name="action" value="verify" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Verify</button>
+                                                <button type="submit" name="action" value="reject" class="btn btn-danger" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Reject</button>
+                                                <button type="submit" name="action" value="sold" class="btn btn-warning" style="background-color: #ffc107; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Sold</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -666,7 +511,7 @@
                                         <a href="#0"><i class="fas fa-blender-phone"></i>(646) 968-0608</a>
                                     </li>
                                     <li>
-                                        <a href="#0"><i class="fas fa-envelope-open-text"></i><span class="__cf_email__" data-cfemail="caa2afa6ba8aafa4ada5bea2afa7afe4a9a5a7">[email&#160;protected]</span></a>
+                                        <a href="#0"><i class="fas fa-envelope-open-text"></i><span class="__cf_email__" data-cfemail="08606d6478486d666f677c606d656d266b6765">[email&#160;protected]</span></a>
                                     </li>
                                     <li>
                                         <a href="#0"><i class="fas fa-location-arrow"></i>1201 Broadway Suite</a>
@@ -719,7 +564,6 @@
             </div>
         </footer>
         <!--============= Footer Section Ends Here =============-->
-
 
 
         <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>

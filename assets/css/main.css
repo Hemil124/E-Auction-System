@@ -5809,6 +5809,9 @@ div[class*=auction] .custom-button {
     border-radius: 5px;
     align-items: center;
     justify-content: space-between;
+    background: #ffffff;
+    transform: translateY(-5px); /* Moves the container 50px upwards */
+    transition: transform 0.3s ease-in-out; /* Smooth transition */
 }
 .product-header .product-header-item {
     align-items: center;
@@ -5947,7 +5950,7 @@ div[class*=auction] .custom-button {
     border-radius: 20px;
 }
 .slide-top-item .slide-inner img {
-    width: 100%;
+    width: 30%;
 }
 @media (max-width: 575px) {
     .slide-top-item {
@@ -5998,11 +6001,11 @@ div[class*=auction] .custom-button {
 }
 
 .det-prev {
-    left: 0;
+    left: 10px;
 }
 
 .det-next {
-    right: 0;
+    right: 10px;
 }
 
 .product-single-sidebar {
