@@ -3,16 +3,11 @@
 include 'connection.php';
 
 // Get filters from request
-$status = isset($_GET['status']) ? $_GET['status'] : 'all';
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
 
 // Build the SQL query based on the filters
 $sql = "SELECT * FROM tblauctionitem WHERE 1=1";
 
-// Add condition for status filter
-if ($status != 'all') {
-    $sql .= " AND auction_status = '" . $conn->real_escape_string($status) . "'";
-}
 
 // Add condition for item name search
 if (!empty($itemName)) {
@@ -45,7 +40,9 @@ if ($result->num_rows > 0) {
         $row3 = mysqli_fetch_assoc($result_bid);
 
         // Display auction card
-        echo '<div class="col-sm-10 col-md-6 col-lg-4">';
+//        echo '<div class="col-sm-10 col-md-6 col-lg-4">';
+//        echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
+        echo '<div class="col-md-4 col-sm-6 card-container mb-4" style="padding: 47px;">'; // Make sure this is 4 columns wide to display 3 items per row
         echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
         echo '        <div class="auction-thumb">';
         echo '            <a href="product-details.php">';
@@ -58,8 +55,8 @@ if ($result->num_rows > 0) {
         echo '                <div class="bid-amount">';
         echo '                    <div class="icon"><i class="flaticon-auction"></i></div>';
         echo '                    <div class="amount-content">';
-        echo '                        <div class="current">Current Bid</div>';
-        echo '                        <div class="amount">' . htmlspecialchars($row3['current_bid']) . '</div>';
+        echo '                        <div class="current" style="font-size: 100%;">Current Bid</div>';
+        echo '                        <div class="amount"  style="font-size: 100%;">' . htmlspecialchars($row3['current_bid']) . '</div>';
         echo '                    </div>';
         echo '                </div>';
         echo '                <div class="bid-amount">';
