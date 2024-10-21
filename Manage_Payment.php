@@ -317,46 +317,46 @@
                                 ?>
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
                                 <script>
-                                                                    function payNow(amount, name, sellerId) {
-                                                                        // Check if the amount is valid
-                                                                        if (amount <= 0) {
-                                                                            alert('Invalid amount.');
-                                                                            return;
-                                                                        }
+                                    function payNow(amount, name, sellerId) {
+                                        // Check if the amount is valid
+                                        if (amount <= 0) {
+                                            alert('Invalid amount.');
+                                            return;
+                                        }
 
-                                                                        // Send the request to the backend to create a Razorpay order
-                                                                        var xhr = new XMLHttpRequest();
-                                                                        xhr.open('POST', 'payment/cheakout.php', true);
-                                                                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                                                                        xhr.onload = function () {
-                                                                            if (xhr.status === 200) {
-                                                                                var response = JSON.parse(xhr.responseText);
+                                        // Send the request to the backend to create a Razorpay order
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('POST', 'payment/cheakout.php', true);
+                                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                        xhr.onload = function () {
+                                            if (xhr.status === 200) {
+                                                var response = JSON.parse(xhr.responseText);
 
-                                                                                // Open Razorpay payment gateway
-                                                                                var options = {
-                                                                                    "key": response.key,
-                                                                                    "amount": response.amount, // Razorpay expects the amount in paise
-                                                                                    "currency": "INR",
-                                                                                    "name": name,
-                                                                                    "description": "Payment for Seller ID " + sellerId,
-                                                                                    "order_id": response.order_id,
-                                                                                    "handler": function (response) {
-                                                                                        console.log(response);
-                                                                                        alert('Payment Successful for Seller ID: ' + sellerId);
-                                                                                        // Handle post-payment activities here
-                                                                                    },
-                                                                                    "theme": {
-                                                                                        "color": "#F37254"
-                                                                                    }
-                                                                                };
-                                                                                var rzp = new Razorpay(options);
-                                                                                rzp.open();
-                                                                            } else {
-                                                                                alert('Something went wrong. Please try again.');
-                                                                            }
-                                                                        };
-                                                                        xhr.send('num=' + encodeURIComponent(amount));
-                                                                    }
+                                                // Open Razorpay payment gateway
+                                                var options = {
+                                                    "key": response.key,
+                                                    "amount": response.amount, // Razorpay expects the amount in paise
+                                                    "currency": "INR",
+                                                    "name": name,
+                                                    "description": "Payment for Seller ID " + sellerId,
+                                                    "order_id": response.order_id,
+                                                    "handler": function (response) {
+                                                        console.log(response);
+                                                        alert('Payment Successful for Seller ID: ' + sellerId);
+                                                        // Handle post-payment activities here
+                                                    },
+                                                    "theme": {
+                                                        "color": "#F37254"
+                                                    }
+                                                };
+                                                var rzp = new Razorpay(options);
+                                                rzp.open();
+                                            } else {
+                                                alert('Something went wrong. Please try again.');
+                                            }
+                                        };
+                                        xhr.send('num=' + encodeURIComponent(amount));
+                                    }
                                 </script>
                             </div>
                         </div>

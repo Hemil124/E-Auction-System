@@ -1672,14 +1672,14 @@ footer {
 }
 
 /*Header Sectionn Starts Here*/
-.textMerchant a 
+.textMerchant a
 {
     margin-bottom: 50px;
     color: white;
 }
-.textMerchant a:hover 
+.textMerchant a:hover
 {
-    
+
     color: whitesmoke;
 }
 .header-top-wrapper {
@@ -1693,7 +1693,7 @@ footer {
 }
 .header-top-wrapper .customer-support .cmn-support-text {
     padding-right: 19px;
-   
+
 }
 .header-top-wrapper .customer-support .cmn-support-text a i {
     padding-right: 10px;
@@ -6752,7 +6752,7 @@ div[class*=auction] .custom-button {
 .purchasing-table {
     width: 100%;
     font-size: 16px;
-    text-align: center; 
+    text-align: center;
 }
 .purchasing-table thead th {
     color: #37406f;
@@ -6769,7 +6769,7 @@ div[class*=auction] .custom-button {
     padding: 13px 0;
     border-bottom: 1px solid rgba(215, 217, 245, 0.502);
     transition: all ease 0.3s;
-    text-align: center; 
+    text-align: center;
     vertical-align: middle;
 }
 @media (max-width: 767px) {
@@ -7498,6 +7498,14 @@ button.custom-button {
     font-size: 16px;
 }
 /* Auto Suggestion Search Bar CSS Start Here*/
+#search-input {
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 #search-input.active {
     border-radius: 20px 20px 0 0;
 }
@@ -7525,6 +7533,11 @@ button.custom-button {
 
 .suggestion-item:hover {
     background-color: #f0f0f0;
+}
+
+.no-results {
+    border-radius: 5px;
+    border: 1px solid red;
 }
 /* Auto Suggestion Search Bar CSS End Here*/
 
