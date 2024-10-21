@@ -1,3 +1,11 @@
+<?php
+session_start();
+//without login can't open indexpage!!        
+//        if (!isset($_SESSION['txtemail']) ) {
+//            header("Location: sign-in.php");
+//            exit();
+//        }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +29,7 @@
         <link rel="stylesheet" href="assets/css/main.css">
         <script src="../E-Auction-System/assets/js/yscountdown.min.js" type="text/javascript"></script><!-- For Auction Start End Coundown -->
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
     <body>
@@ -258,14 +267,14 @@
 
         <?php
         //Get id
-        if (isset($_GET['item_id'])) {
+//        if (isset($_GET['item_id'])) {
 //            $item_id = $_GET['item_id'];
-$item_id=1;
-            //fetch Item name For Hero Section
-            include 'connection.php';
-            $query_item = mysqli_query($conn, 'select * from tblitem where id=' . $item_id . '');
-            $item_details = mysqli_fetch_assoc($query_item);
-        }
+        $item_id = 4;
+        //fetch Item name For Hero Section
+        include 'connection.php';
+        $query_item = mysqli_query($conn, 'select * from tblitem where id=' . $item_id . '');
+        $item_details = mysqli_fetch_assoc($query_item);
+//        }
         ?>
 
         <!--============= Hero Section Starts Here =============-->
@@ -294,80 +303,6 @@ $item_id=1;
         <!--============= Product Details Section Starts Here =============-->
         <section class="product-details padding-bottom mt--240 mt-lg--440">
             <div class="container">
-                <!--            <div class="product-details-slider-top-wrapper">
-                                <div class="product-details-slider owl-theme owl-carousel" id="sync1">
-                                    <div class="slide-top-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/product1.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-top-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/product2.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-top-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/product3.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-top-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/product4.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-top-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/product5.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-top-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/product6.png" alt="product">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-details-slider-wrapper">
-                                <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
-                                    <div class="slide-bottom-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/01.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-bottom-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/02.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-bottom-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/03.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-bottom-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/04.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-bottom-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/05.png" alt="product">
-                                        </div>
-                                    </div>
-                                    <div class="slide-bottom-item">
-                                        <div class="slide-inner">
-                                            <img src="assets/images/product/06.png" alt="product">
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="det-prev det-nav">
-                                    <i class="fas fa-angle-left"></i>
-                                </span>
-                                <span class="det-next det-nav active">
-                                    <i class="fas fa-angle-right"></i>
-                                </span>
-                            </div>-->
                 <div class="product-details-slider-top-wrapper">
                     <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                         <?php
@@ -483,36 +418,37 @@ $item_id=1;
                                         ?></h5>
                                 </li>
                             </ul>
-                            <!--                            <div class="product-bid-area">
-                                                            <form class="product-bid-form">
-                                                                <div class="search-icon">
-                                                                    <img src="assets/images/product/search-icon.png" alt="product">
-                                                                </div>
-                                                                <input type="text" placeholder="Enter you bid amount">
-                                                                <button type="submit" class="custom-button">Submit a bid</button>
-                                                            </form>
-                                                        </div>-->
-                            <!--                            <div class="buy-now-area">
-                                                            <a href="#0" class="custom-button">Buy Now: $4,200</a>
-                                                            <a href="#0" class="rating custom-button active border"><i class="fas fa-star"></i> Add to Wishlist</a>
-                                                            <div class="share-area">
-                                                                <span>Share to:</span>
-                                                                <ul>
-                                                                    <li>
-                                                                        <a href="#0"><i class="fab fa-facebook-f"></i></a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#0"><i class="fab fa-twitter"></i></a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#0"><i class="fab fa-linkedin-in"></i></a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#0"><i class="fab fa-instagram"></i></a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>-->
+                            <div class="product-bid-area">
+                                <form class="product-bid-form" method="POST">
+                                    <div class="search-icon">
+                                        <img src="assets/images/product/search-icon.png" alt="product">
+                                    </div>
+                                    <input type="text" placeholder="Enter you bid amount" name="txtValue" value="<?php echo $bid_details['current_bid'] + $autionItem_details['increment_value']; ?>" disabled style="font-size: 150%; color: #43b055;" title="Can't Change Value">
+                                    <button type="submit" value="btnBid" class="custom-button">Submit a bid</button>
+                                    <!-- Hidden message displayed when auction expires -->
+                                    <span id="auction-expired-message" style="display: none; color: red;">Auction is Completed</span>
+
+                                    <?php
+                                    if (isset($_GET['btnBid'])) {
+//                                        include 'connection.php';
+//                                        include 'find_ID.php';
+//
+//                                        // Fetch the bidder ID
+//                                        $bidder_id = find_bidderID($_SESSION['txtemail']); // Assuming the user's email is stored in the session
+//                                        // Fetch the auction item ID and bid value from the form
+//                                        $auction_item_id = $autionItem_details['id'];
+//                                        $bid_value = $_POST['txtValue']; // Assuming bid value is entered by user
+//                                        // Get the current datetime for the bid
+//                                        $bid_datetime = date('Y-m-d H:i:s');
+//
+//                                        // Insert the bid into the tblbid table
+//                                        $sql = mysqli_query($conn,"INSERT INTO tblbid (auction_item_id, bidder_id, bid_value, bid_datetime) VALUES ('$auction_item_id', '$bidder_id', '$bid_value', '$bid_datetime')");
+//                                    
+//                                        
+                                    }
+                                    ?>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
@@ -522,19 +458,34 @@ $item_id=1;
                                 <h6 class="title">This Auction Ends in:</h6>
                                 <div class="countdown">
                                     <div id="bid_counter"></div>
+                                    <!--//For Countdown-->
                                     <script>
                                         // PHP Variables
-                                        let startDate = "<?php echo $autionItem_details['start_datetime']; ?>"; // Fetch start date from PHP
                                         let endDate = "<?php echo $autionItem_details['end_datetime']; ?>"; // Fetch end date from PHP
 
                                         // Initialize the countdown only if the element exists
                                         if (document.querySelector("#bid_counter")) { // Correct way to check for existence
                                             // Create a new countdown instance
                                             let counterElement = document.querySelector("#bid_counter");
+                                            let submitButton = document.getElementById("submit-bid");
+                                            let expiredMessage = document.getElementById("auction-expired-message");
+
                                             let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
                                                 let message = "";
                                                 if (finished) {
                                                     message = "Expired";
+
+                                                    // Disable the submit button when time expires
+                                                    submitButton.disabled = true;
+
+                                                    // Show the expired auction message when hovered
+                                                    submitButton.addEventListener('mouseover', function () {
+                                                        expiredMessage.style.display = "inline";
+                                                    });
+                                                    submitButton.addEventListener('mouseout', function () {
+                                                        expiredMessage.style.display = "none";
+                                                    });
+
                                                 } else {
                                                     let re_days = remaining.totalDays;
                                                     let re_hours = remaining.hours;
@@ -547,6 +498,43 @@ $item_id=1;
                                             });
                                         }
                                     </script>
+                                    <!--For Fetch values Active Bidders and Current Price every 3 second-->
+                                    <script>
+                                        $(document).ready(function () {
+                                            // Function to fetch latest auction details
+                                            function fetchLatestAuctionDetails() {
+                                                var itemId = "<?php echo $autionItem_details['item_id']; ?>"; // Get the item ID from PHP
+
+                                                $.ajax({
+                                                    url: 'seller_fetch_values.php', // URL to the PHP script
+                                                    type: 'GET',
+                                                    data: {
+                                                        item_id: itemId // Send the item ID to the server
+                                                    },
+                                                    success: function (response) {
+                                                        var data = JSON.parse(response); // Parse the JSON response
+
+                                                        // Update Current Price
+                                                        $('.price').text(data.current_bid);
+
+                                                        // Update Active Bidders
+                                                        $('.active-bidders-count').text(data.active_bidders);
+
+                                                        // Update Total Bids
+                                                        $('.total-bids-count').text(data.total_bids);
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.error("Error fetching latest auction details:", error);
+                                                    }
+                                                });
+                                            }
+
+                                            // Call the function immediately, and then every 1 seconds
+                                            fetchLatestAuctionDetails();
+                                            setInterval(fetchLatestAuctionDetails, 1000); // 1000ms = 1 seconds
+                                        });
+                                    </script>
+
                                 </div>
                                 <div class="side-counter-area">
                                     <div class="side-counter-item">
@@ -554,7 +542,7 @@ $item_id=1;
                                             <img src="assets/images/product/icon1.png" alt="product">
                                         </div>
                                         <div class="content">
-                                            <h3 class="count-title"><span class="counter"><?php
+                                            <h3 class="count-title"><span class="counter active-bidders-count"><?php
                                                     if (isset($bid_details)) {
                                                         echo $bid_details['active_bidders'];
                                                     }
@@ -562,25 +550,25 @@ $item_id=1;
                                             <p>Active Bidders</p>
                                         </div>
                                     </div>
-                                    <div class="side-counter-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/product/icon2.png" alt="product">
-                                        </div>
-                                        <div class="content">
-                                            <h3 class="count-title"><span class="counter"><?php
-                                                    if (isset($ragisterUsers)) {
-                                                        echo $ragisterUsers['bidders'];
-                                                    }
-                                                    ?></span></h3>
-                                            <p>Ragister User For Auction</p>
-                                        </div>
-                                    </div>
+                                    <!--                                    <div class="side-counter-item">
+                                                                            <div class="thumb">
+                                                                                <img src="assets/images/product/icon2.png" alt="product">
+                                                                            </div>
+                                                                            <div class="content">
+                                                                                <h3 class="count-title"><span class="counter"><?php
+//                                                    if (isset($ragisterUsers)) {
+//                                                        echo $ragisterUsers['bidders'];
+//                                                    }
+                                    ?></span></h3>
+                                                                                <p>Ragister User For Auction</p>
+                                                                            </div>
+                                                                        </div>-->
                                     <div class="side-counter-item">
                                         <div class="thumb">
                                             <img src="assets/images/product/icon3.png" alt="product">
                                         </div>
                                         <div class="content">
-                                            <h3 class="count-title"><span class="counter"><?php
+                                            <h3 class="count-title"><span class="counter total-bids-count"><?php
                                                     if (isset($bid_details)) {
                                                         echo $bid_details['bids'];
                                                     }
@@ -708,7 +696,7 @@ $item_id=1;
                                             if (mysqli_num_rows($result) > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     // Format bid date and time
-                                                    $bidderName=$row['firstname'];
+                                                    $bidderName = $row['firstname'];
                                                     $bidDateTime = new DateTime($row['bid_datetime']);
                                                     $bidDate = $bidDateTime->format('m/d/Y');
                                                     $bidTime = $bidDateTime->format('h:i:s A');
@@ -717,8 +705,8 @@ $item_id=1;
                                                         $bidderImage = 'data:image/jpeg;base64,' . $imageData;
                                                     } else {
                                                         // Use a placeholder image if there's no image in the database
-                                                         $bidderImage = '/assets/images/history/05.png';
-                                                         echo '<script>alert('.$bidderImage.')</script>';
+                                                        $bidderImage = '/assets/images/history/05.png';
+                                                        echo '<script>alert(' . $bidderImage . ')</script>';
                                                     }
                                                     $bidValue = "$" . number_format($row['bid_value'], 2);
 
