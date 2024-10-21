@@ -175,6 +175,7 @@
                 </div>
             </div>
         </header>
+<!--        <div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png" style="background-image: url(&quot;assets/images/banner/hero-bg.png&quot;);"></div>-->
     </body>
     <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/modernizr-3.6.0.min.js"></script>

@@ -79,26 +79,26 @@
   $(document).ready(function () {
     //Bidding All Events Here
     //New Countdown Starts
-    if ($("#bid_counter1").length) {
-      // If you need specific date then comment out 1 and comment in 2
-      // let endDate = "2020/03/20"; //This is 1
-      let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
-      let counterElement = document.querySelector("#bid_counter1");
-      let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
-          let message = "";
-          if (finished) {
-          message = "Expired";
-          } else {
-              var re_days = remaining.totalDays;
-              var re_hours = remaining.hours;
-              message += re_days +"d  : ";
-              message += re_hours +"h  : ";
-              message += remaining.minutes +"m  : ";
-              message += remaining.seconds + "s";
-          }
-          counterElement.textContent = message;
-      });
-    }
+//    if ($("#bid_counter1").length) {
+//      // If you need specific date then comment out 1 and comment in 2
+//      // let endDate = "2020/03/20"; //This is 1
+//      let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+//      let counterElement = document.querySelector("#bid_counter1");
+//      let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+//          let message = "";
+//          if (finished) {
+//          message = "Expired";
+//          } else {
+//              var re_days = remaining.totalDays;
+//              var re_hours = remaining.hours;
+//              message += re_days +"d  : ";
+//              message += re_hours +"h  : ";
+//              message += remaining.minutes +"m  : ";
+//              message += remaining.seconds + "s";
+//          }
+//          counterElement.textContent = message;
+//      });
+//    }
     //New Countdown Starts
     if ($("#bid_counter2").length) {
       // If you need specific date then comment out 1 and comment in 2
@@ -1266,11 +1266,11 @@
     $('.det-next').on('click', function() {
       sync1.trigger('next.owl.carousel');
       sync2.trigger('next.owl.carousel');
-    })
+    });
     // Go to the previous item
     $('.det-prev').on('click', function() {
       sync1.trigger('prev.owl.carousel', [300]);
       sync2.trigger('prev.owl.carousel', [300]);
-    })
+    });
   });
 })(jQuery);
