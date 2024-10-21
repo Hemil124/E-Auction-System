@@ -352,8 +352,9 @@ if (!$resultPending) {
                                                         echo "<td data-purchase='seller_id'>" . htmlspecialchars($row['firstname']) . "</td>";
                                                         echo "<td data-purchase='category_id'>" . htmlspecialchars($row['category_name']) . "</td>";
                                                         echo "<td data-purchase='description'>" . htmlspecialchars($row['description']) . "</td>";
-                                                        $imagePath = 'uploads/' . htmlspecialchars($row['image_id']);
-                                                        echo "<td data-purchase='image'><img src='" . $imagePath . "' alt='" . htmlspecialchars($row['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
+                                                        $imageArray = json_decode($row['image_id'], true);
+                                                        $firstImage = !empty($imageArray) ? 'uploads/' . htmlspecialchars($imageArray[0]) : 'path/to/default/image.png';
+                                                        echo "<td data-purchase='image'><img src='" . $firstImage . "' alt='" . htmlspecialchars($row['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
                                                         echo "<td data-purchase='starting_price'>" . number_format($row['starting_price'], 2) . "</td>";
                                                         echo "<td data-purchase='starting_price'>" . htmlspecialchars($row['verify_status'], 2) . "</td>";
                                                         echo "<td><a href='aucation-item.php?id=".$row['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
@@ -389,9 +390,9 @@ if (!$resultPending) {
                                                         echo "<td data-purchase='seller_id'>" . htmlspecialchars($rowPending['firstname']) . "</td>";
                                                         echo "<td data-purchase='category_id'>" . htmlspecialchars($rowPending['category_name']) . "</td>";
                                                         echo "<td data-purchase='description'>" . htmlspecialchars($rowPending['description']) . "</td>";
-                                                        $imagePath = 'uploads/' . htmlspecialchars($rowPending['image_id']);
-                                                        echo "<td data-purchase='image'><img src='" . $imagePath . "' alt='" . htmlspecialchars($rowPending['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
-                                                        echo "<td data-purchase='starting_price'>" . number_format($rowPending['starting_price'], 2) . "</td>";
+                                                        $imageArray = json_decode($rowPending['image_id'], true);
+                                                        $firstImage = !empty($imageArray) ? 'uploads/' . htmlspecialchars($imageArray[0]) : 'path/to/default/image.png';
+                                                        echo "<td data-purchase='image'><img src='" . $firstImage . "' alt='" . htmlspecialchars($rowPending['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";echo "<td data-purchase='starting_price'>" . number_format($rowPending['starting_price'], 2) . "</td>";
                                                         echo "<td data-purchase='starting_price'>" . htmlspecialchars($rowPending['verify_status'], 2) . "</td>";
                                                         echo "<td><a href='aucation-item.php?id=".$rowPending['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
                                                         echo "</tr>";
