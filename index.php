@@ -211,7 +211,7 @@ session_start();
                                     searchInput.classList.add('active');
 
                                     // Fetch data from the server using AJAX
-                                    fetch(`index_search_data.php?term=${value}`)
+                                    fetch(`index_search_item.php?term=${value}`)
                                             .then(response => response.json())
                                             .then(data => {
                                                 if (data.length === 0) {

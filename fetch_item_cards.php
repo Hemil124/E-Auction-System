@@ -4,11 +4,27 @@ include 'connection.php';
 
 // Get filters from request
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
+$status = isset($_GET['status']) ? $_GET['status'] : '';
+$bidderemail = "22bmiit142@gmail.com"; //fetch the id on prev page
+$sellerid = 1; //fetch the id on prev page
 
+if ($status == "Bidder") {
+//$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
+    $sql = "
+    SELECT 
+        tai.* 
+    FROM 
+        tblauctionitem tai
+    JOIN 
+        tblbidderpayment tbp ON tai.id = tbp.auction_item_id
+    WHERE 
+        tbp.bidder_id = (SELECT id from tblbidders WHERE email='$bidderemail')
+        AND tai.auction_status = 'active';
+    ";
+} elseif ($status == "Seller") {
+    $sql = "SELECT * FROM tblauctionitem WHERE 1=1";
+}
 // Build the SQL query based on the filters
-$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
-
-
 // Add condition for item name search
 if (!empty($itemName)) {
     $sql .= " AND item_id IN (SELECT id FROM tblitem WHERE name LIKE '%" . $conn->real_escape_string($itemName) . "%')";
