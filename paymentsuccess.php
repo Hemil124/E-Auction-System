@@ -1,44 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <?php
 session_start();
-include 'connection.php';
-
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $itemId = intval($_GET['id']);
-
-    $sql = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
-            FROM tblitem 
-            JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
-            JOIN tblcategory ON tblitem.category_id = tblcategory.id 
-            WHERE tblitem.id = ?";
-    
-    // Prepare and execute the statement
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("i", $itemId); // Bind the parameter
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Fetch the item data
-        if ($result->num_rows > 0) {
-            $item = $result->fetch_assoc();
-        } else {
-            echo "No item found.";
-            exit();
-        }
-        $stmt->close();
-    } else {
-        echo "Database query failed.";
-        exit();
-    }
-} else {
-    echo "Invalid item ID.";
-    exit();
-}
-
-$conn->close(); // Close the database connection
 ?>
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,28 +21,9 @@ $conn->close(); // Close the database connection
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-        <style>
-            .image-container {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    max-width: 500px;
-}
-
-.image-container img {
-    margin-right: 10px;
-    max-height: 200px;
-}
-
-.more-images {
-    margin-left: 10px;
-    font-weight: bold;
-    color: #007bff;
-    cursor: pointer;
-}
-        </style>
     </head>
 
     <body>
@@ -315,19 +261,6 @@ $conn->close(); // Close the database connection
 
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section style-2 pb-lg-400">
-            <div class="container">
-                <ul class="breadcrumb">
-                    <li>
-                        <a href="index.php">Home</a>
-                    </li>
-                    <li>
-                        <a href="admin-item-list.php">Admin Item List</a>
-                    </li>
-                    <li>
-                        <span>Aucation List</span>
-                    </li>
-                </ul>
-            </div>
             <div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png"></div>
         </div>
         <!--============= Hero Section Ends Here =============-->
@@ -337,74 +270,20 @@ $conn->close(); // Close the database connection
         <section class="dashboard-section padding-bottom mt--240 mt-lg--325 pos-rel">
             <div class="container">
                 <div class="row justify-content-center">
-                    
                     <div class="col-lg-8">
-                        <div class="dashboard-widget mb-40">
-                            <div class="dashboard-title mb-30">
-                                <h4 class="title">Aucation Item</h4>
+                        <div class="dashboard-widget">
+                            <div class="dashboard-purchasing-tabs">
+                            <h2 class="text-center">YOUR PAYMENT HAS BEEN RECEIVED</h2>
+                            <h3 class="text-center">Thank you for your payment, it’s processing</h3>
+            
+                            <p class="text-center">Your bidder number is: <b> <?php echo 'ORDER'.rand(111111,999999); ?> </b></p>
+                            <p class="text-center">You will receive an order confirmation email with details of your order and a link to track your process.</p>
+                            <center>
+                                <div class="btn-group" style="margin-top:50px;">
+                                    <a href="index.php" class="btn btn-lg btn-warning">CONTINUE</a>
+                                </div>
+                            </center>
                             </div>
-
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td class="text-muted">Item Name</td>
-                                        <td class="text-dark"><?php echo htmlspecialchars($item['name']); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Seller Name</td>
-                                        <td class="text-dark"><?php echo htmlspecialchars($item['firstname']); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Category</td>
-                                        <td class="text-dark"><?php echo htmlspecialchars($item['category_name']); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Description</td>
-                                        <td class="text-dark"><?php echo nl2br(htmlspecialchars($item['description'])); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Starting Price</td>
-                                        <td class="text-dark"><?php echo number_format($item['starting_price'], 2); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Item Images</td>
-                                        <td class="text-dark">
-                                            <div class="image-container">
-                                                <?php
-                                                // Decode the JSON array of image filenames
-                                                $imageArray = json_decode($item['image_id'], true);
-                                                
-                                                // Check if the array is not empty
-                                                if (!empty($imageArray)) {
-                                                    // Limit to the first three images
-                                                    $limitedImages = array_slice($imageArray, 0);
-                                                    foreach ($limitedImages as $image) {
-                                                        echo "<img src='uploads/" . htmlspecialchars($image) . "' alt='" . htmlspecialchars($item['name']) . "' class='img-fluid' style='margin-top: 5px; max-width: 200px;'>";
-                                                    }
-                                                    
-                                                } else {
-                                                    echo "No images available.";
-                                                }
-                                                ?>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Bill</td>
-                                        <td class="text-dark"><img src="billuploads/<?php echo htmlspecialchars($item['bill_id']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid" style="margin-top: 5px; max-width: 200px;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Verification</td>
-                                        <td class="text-dark" colspan="2" style="display: flex; gap: 10px;">
-                                            <form method="POST" action="update_verification.php" style="display: flex; gap: 10px;">
-                                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['id']); ?>">
-                                                <button type="submit" name="action" value="verify" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Verify</button>
-                                                <button type="submit" name="action" value="reject" class="btn btn-danger" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Reject</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>

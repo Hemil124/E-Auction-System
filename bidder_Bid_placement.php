@@ -267,14 +267,14 @@ session_start();
 
         <?php
         //Get id
-//        if (isset($_GET['item_id'])) {
-//            $item_id = $_GET['item_id'];
-        $item_id = 4;
+        if (isset($_GET['item_id'])) {
+            $item_id = $_GET['item_id'];
+//        $item_id = 4;
         //fetch Item name For Hero Section
         include 'connection.php';
         $query_item = mysqli_query($conn, 'select * from tblitem where id=' . $item_id . '');
         $item_details = mysqli_fetch_assoc($query_item);
-//        }
+        }
         ?>
 
         <!--============= Hero Section Starts Here =============-->

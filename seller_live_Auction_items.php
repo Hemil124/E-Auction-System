@@ -152,37 +152,37 @@
                     </form>
                     <script>
                         $(document).ready(function () {
-                            $('#item-search').on('keyup', function () {
-                                fetchFilteredAuctions();
-                            });
-                            // Event listener for search button
-                            $('#search-button').on('click', function () {
-                                fetchFilteredAuctions();
-                            });
-                            // Function to fetch filtered auctions
-                            function fetchFilteredAuctions() {
-                                var itemName = $('#item-search').val(); // Get searched item name
-
-                                // Send AJAX request to PHP script
-                                $.ajax({
-                                    url: 'fetch_item_cards.php',
-                                    type: 'GET',
-                                    data: {
-                                        status: status,
+                        $('#item-search').on('keyup', function () {
+                        fetchFilteredAuctions();
+                        });
+                        // Event listener for search button
+                        $('#search-button').on('click', function () {
+                        fetchFilteredAuctions();
+                        });
+                        // Function to fetch filtered auctions
+                        function fetchFilteredAuctions() {
+                        var itemName = $('#item-search').val(); // Get searched item name
+                        var status = "Seller";
+                        // Send AJAX request to PHP script
+                        $.ajax({
+                        url: 'fetch_item_cards.php',
+                                type: 'GET',
+                                data: {
+                                status: status,
                                         itemName: itemName
-                                    },
-                                    success: function (response) {
-                                        // Update the auction results container with the filtered items
-                                        $('#auction-results').html(response);
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('Error: ' + error);
-                                    }
-                                });
-                            }
+                                },
+                                success: function (response) {
+                                // Update the auction results container with the filtered items
+                                $('#auction-results').html(response);
+                                },
+                                error: function (xhr, status, error) {
+                                console.error('Error: ' + error);
+                                }
+                        });
+                        }
 
-                            // Fetch all auctions on page load
-                            fetchFilteredAuctions();
+                        // Fetch all auctions on page load
+                        fetchFilteredAuctions();
                         });
                     </script>
                     <style>
@@ -215,11 +215,9 @@
             </div>
         </div>
         <!--============= Product Auction Section Ends Here =============-->
-
-        <?php
+       <?php
         include 'Footer.php';
         ?>
-
         <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/modernizr-3.6.0.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/plugins.js"></script>
@@ -236,6 +234,4 @@
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/jquery-ui.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/main.js"></script>
     </body>
-
-
 </html>

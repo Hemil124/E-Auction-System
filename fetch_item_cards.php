@@ -1,14 +1,46 @@
 <?php
 
+//session_start();
+//without login can't open indexpage!!        
+//        if (!isset($_SESSION['txtemail']) ) {
+//            header("Location: sign-in.php");
+//            exit();
+//        }
+?>
+<?php
+
 include 'connection.php';
 
 // Get filters from request
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
+$status = isset($_GET['status']) ? $_GET['status'] : '';
 
+if ($status == "Bidder") {
+//$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
+    include 'find_ID.php';
+//    $bidder_id=find_bidderID($_SESSION['txtemail']);
+    $bidder_id = 2;
+    if (isset($bidder_id)) {
+        $sql = "
+    SELECT 
+        tai.* 
+    FROM 
+        tblauctionitem tai
+    JOIN 
+        tblbidderpayment tbp ON tai.id = tbp.auction_item_id
+    WHERE 
+        tbp.bidder_id = $bidder_id
+        AND tai.auction_status = 'active';
+    ";
+    }
+} elseif ($status == "Seller") {
+//    $sellerid = find_sellerID($_SESSION['txtemail']);
+    $sellerid=3;
+    if (isset($sellerid)) {
+        $sql = "SELECT tblauctionitem.*, tblitem.name, tblitem.seller_id, tblitem.category_id, tblitem.description, tblitem.starting_price FROM tblauctionitem INNER JOIN tblitem ON tblauctionitem.item_id = tblitem.id WHERE tblauctionitem.auction_status = 'active' AND tblitem.seller_id = $sellerid;";
+    }
+}
 // Build the SQL query based on the filters
-$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
-
-
 // Add condition for item name search
 if (!empty($itemName)) {
     $sql .= " AND item_id IN (SELECT id FROM tblitem WHERE name LIKE '%" . $conn->real_escape_string($itemName) . "%')";
@@ -66,7 +98,13 @@ if ($result->num_rows > 0) {
         echo '                </div>';
         echo '            </div>';
         echo '            <div class="text-center">';
-        echo '                <a href="seller_live_Auction.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">View Details</a>';
+        if ($status == "Seller")
+        {
+                    echo '                <a href="seller_live_Auction.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">View Details</a>';
+        }elseif ($status == "Bidder")
+        {
+                                echo '                <a href="bidder_Bid_placement.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">View Details</a>';
+        }
         echo '            </div>';
         echo '        </div>';
         echo '    </div>';

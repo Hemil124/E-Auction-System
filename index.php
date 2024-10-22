@@ -173,6 +173,9 @@ session_start();
                                             <li>
                                                 <a href="admin-item-list.php">Admin Item List</a>
                                             </li>
+                                            <li>
+                                                <a href="checkout.php">Check Out</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
@@ -197,61 +200,50 @@ session_start();
                             <input type="text" placeholder="Search for brand, model...." id="search-input" onkeyup="showSuggestions(this.value)" >
                             <div id="suggestions"></div>
                             <script>
-                                const data = [
-                                    "Apple",
-                                    "Banana",
-                                    "Cherry",
-                                    "Date",
-                                    "Elderberry",
-                                    "Fig",
-                                    "Grape",
-                                    "Honeydew",
-                                ];
-
                                 function showSuggestions(value) {
                                     let suggestions = document.getElementById('suggestions');
                                     let searchInput = document.getElementById('search-input');
                                     suggestions.innerHTML = '';
 
                                     if (value.length === 0) {
-                                        searchInput.classList.remove('active');
+                                        searchInput.classList.remove('active', 'no-results');
                                         suggestions.classList.remove('active');
                                         return;
                                     }
 
                                     searchInput.classList.add('active');
-                                    suggestions.classList.add('active');
 
-                                    let lowerCaseValue = value.toLowerCase();
-
-                                    // Items that start with the input value
-                                    let startWithData = data.filter(item => item.toLowerCase().startsWith(lowerCaseValue));
-
-                                    // Items that contain the input value but don't start with it
-                                    let containData = data.filter(item => item.toLowerCase().includes(lowerCaseValue) && !item.toLowerCase().startsWith(lowerCaseValue));
-
-                                    // Combine both lists
-                                    let filteredData = [...startWithData, ...containData];
-
-                                    // Limit to 5 suggestions
-                                    filteredData = filteredData.slice(0, 5);
-
-                                    filteredData.forEach(item => {
-                                        let suggestionItem = document.createElement('div');
-                                        suggestionItem.classList.add('suggestion-item');
-                                        suggestionItem.textContent = item;
-                                        suggestionItem.onclick = () => selectSuggestion(item);
-                                        suggestions.appendChild(suggestionItem);
-                                    });
+                                    // Fetch data from the server using AJAX
+                                    fetch(`index_search_item.php?term=${value}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.length === 0) {
+                                                    // No results found, apply default styles
+                                                    searchInput.classList.remove('active', 'no-results');
+                                                    suggestions.classList.remove('active');
+                                                } else {
+                                                    // Display results
+                                                    searchInput.classList.remove('no-results');
+                                                    suggestions.classList.add('active');
+                                                    data.forEach(item => {
+                                                        let suggestionItem = document.createElement('div');
+                                                        suggestionItem.classList.add('suggestion-item');
+                                                        suggestionItem.textContent = item;
+                                                        suggestionItem.onclick = () => selectSuggestion(item);
+                                                        suggestions.appendChild(suggestionItem);
+                                                    });
+                                                }
+                                            });
                                 }
 
                                 function selectSuggestion(value) {
                                     document.getElementById('search-input').value = value;
                                     document.getElementById('suggestions').innerHTML = '';
-                                    document.getElementById('search-input').classList.remove('active');
+                                    document.getElementById('search-input').classList.remove('active', 'no-results');
                                     document.getElementById('suggestions').classList.remove('active');
                                 }
                             </script>
+
                             <button type="submit"><i class="fas fa-search" ></i></button>
                         </form>
                         <div class="search-bar d-md-none">

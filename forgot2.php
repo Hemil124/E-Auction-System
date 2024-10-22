@@ -1,11 +1,12 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 
     <head>
-        <?php
-        session_start();
-        ?>
+
         <!--<meta charset="UTF-8">-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -31,11 +32,11 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-                <div class="overlayer" id="overlayer">
-                    <div class="loader">
-                        <div class="loader-inner"></div>
-                    </div>
-                </div>
+        <div class="overlayer" id="overlayer">
+            <div class="loader">
+                <div class="loader-inner"></div>
+            </div>
+        </div>
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
         <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
@@ -329,82 +330,81 @@
         </section>
 
 
-       <?php
-
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['btnforgot'])) {
-        forgot();
-    }
-}
-
-function forgot() {
-    if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
-        $password = $_POST['txtpassword'];
-        $confirmPassword = $_POST['txtconfirm_password'];
-        $email = $_SESSION['email']; // Assuming email is stored in the session during the forgot password process
-        
-        if ($password !== $confirmPassword) {
-            echo '<script>alert("Passwords do not match. Please try again.");</script>';
-        } elseif (empty($password)) {
-            echo '<script>alert("Password not valid.");</script>';
-        } else {
-            include 'connection.php';
-            
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            // Check if the email exists in any of the three tables
-            $qs = $conn->prepare("SELECT email FROM tblbidders WHERE email = ?");
-            $qs->bind_param("s", $email);
-            $qs->execute();
-            $qs->store_result();
-
-            $qb = $conn->prepare("SELECT email FROM tblsellers WHERE email = ?");
-            $qb->bind_param("s", $email);
-            $qb->execute();
-            $qb->store_result();
-
-            $qa = $conn->prepare("SELECT email FROM tbladmin WHERE email = ?");
-            $qa->bind_param("s", $email);
-            $qa->execute();
-            $qa->store_result();
-
-            if ($qs->num_rows == 0 && $qb->num_rows == 0 && $qa->num_rows == 0) {
-                echo '<script>alert("You don\'t have an account.");</script>';
-            } else {
-                // Update password in the appropriate table
-                if ($qs->num_rows == 1) {
-                    $us = $conn->prepare("UPDATE tblbidders SET password = ? WHERE email = ?");
-                    $us->bind_param("ss", $hashedPassword, $email);
-                    $us->execute();
-                } elseif ($qb->num_rows == 1) {
-                    $ub = $conn->prepare("UPDATE tblsellers SET password = ? WHERE email = ?");
-                    $ub->bind_param("ss", $hashedPassword, $email);
-                    $ub->execute();
-                } elseif ($qa->num_rows == 1) {
-                    $ua = $conn->prepare("UPDATE tbladmin SET password = ? WHERE email = ?");
-                    $ua->bind_param("ss", $hashedPassword, $email);
-                    $ua->execute();
-                }
-
-                echo '<script>alert("Password updated successfully.");</script>';
-                session_destroy();  
-                echo '<script>location.replace("sign-in.php")</script>';
-                exit();
-            }
-
-            // Close the prepared statements and the connection
-            $qs->close();
-            $qb->close();
-            $qa->close();
-            $conn->close();
+        <?php
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
         }
-    }
-}
-?>
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_POST['btnforgot'])) {
+                forgot();
+            }
+        }
+
+        function forgot() {
+            if (isset($_POST['txtpassword']) && isset($_POST['txtconfirm_password'])) {
+                $password = $_POST['txtpassword'];
+                $confirmPassword = $_POST['txtconfirm_password'];
+                $email = $_SESSION['email']; // Assuming email is stored in the session during the forgot password process
+
+                if ($password !== $confirmPassword) {
+                    echo '<script>alert("Passwords do not match. Please try again.");</script>';
+                } elseif (empty($password)) {
+                    echo '<script>alert("Password not valid.");</script>';
+                } else {
+                    include 'connection.php';
+
+                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+                    // Check if the email exists in any of the three tables
+                    $qs = $conn->prepare("SELECT email FROM tblbidders WHERE email = ?");
+                    $qs->bind_param("s", $email);
+                    $qs->execute();
+                    $qs->store_result();
+
+                    $qb = $conn->prepare("SELECT email FROM tblsellers WHERE email = ?");
+                    $qb->bind_param("s", $email);
+                    $qb->execute();
+                    $qb->store_result();
+
+                    $qa = $conn->prepare("SELECT email FROM tbladmin WHERE email = ?");
+                    $qa->bind_param("s", $email);
+                    $qa->execute();
+                    $qa->store_result();
+
+                    if ($qs->num_rows == 0 && $qb->num_rows == 0 && $qa->num_rows == 0) {
+                        echo '<script>alert("You don\'t have an account.");</script>';
+                    } else {
+                        // Update password in the appropriate table
+                        if ($qs->num_rows == 1) {
+                            $us = $conn->prepare("UPDATE tblbidders SET password = ? WHERE email = ?");
+                            $us->bind_param("ss", $hashedPassword, $email);
+                            $us->execute();
+                        } elseif ($qb->num_rows == 1) {
+                            $ub = $conn->prepare("UPDATE tblsellers SET password = ? WHERE email = ?");
+                            $ub->bind_param("ss", $hashedPassword, $email);
+                            $ub->execute();
+                        } elseif ($qa->num_rows == 1) {
+                            $ua = $conn->prepare("UPDATE tbladmin SET password = ? WHERE email = ?");
+                            $ua->bind_param("ss", $hashedPassword, $email);
+                            $ua->execute();
+                        }
+
+                        echo '<script>alert("Password updated successfully.");</script>';
+                        session_destroy();
+                        echo '<script>location.replace("sign-in.php")</script>';
+                        exit();
+                    }
+
+                    // Close the prepared statements and the connection
+                    $qs->close();
+                    $qb->close();
+                    $qa->close();
+                    $conn->close();
+                }
+            }
+        }
+        ?>
 
 
 
