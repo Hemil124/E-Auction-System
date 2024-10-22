@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <?php
-    session_start();
-    //without login can't open indexpage!!        
-//        if (!isset($_SESSION['txtemail']) ) {
-//            header("Location: sign-in.php");
-//            exit();
-//        }
-    ?>
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,16 +9,16 @@
 
         <title>Sbidu - Bid And Auction HTML Template</title>
 
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/all.min.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/animate.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/nice-select.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/owl.min.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/magnific-popup.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/flaticon.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/jquery-ui.min.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/aos.css">
-        <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/all.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/nice-select.css">
+        <link rel="stylesheet" href="assets/css/owl.min.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="assets/css/flaticon.css">
+        <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+        <link rel="stylesheet" href="assets/css/aos.css">
+        <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <script src="../E-Auction-System/assets/js/yscountdown.min.js" type="text/javascript"></script><!-- For Auction Start End Coundown -->
 
@@ -45,9 +38,7 @@
 
 
         <!--============= Header Section Starts Here =============-->
-        <?php
-        include 'Header.php';
-        ?>
+        <?php include 'bidder_Header.php'; ?>
         <!--============= Header Section Ends Here =============-->
 
         <!--============= Cart Section Starts Here =============-->
@@ -119,26 +110,32 @@
         </div>
         <!--============= Cart Section Ends Here =============-->
 
+
         <!--============= Hero Section Starts Here =============-->
-        <div class="hero-section style-2 pb-lg-400">
+        <div class="hero-section style-2">
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.php">Home</a>
+                        <a href="index-3.php">Home</a>
                     </li>
+                    <!--                <li>
+                                        <a href="#0">Pages</a>
+                                    </li>-->
                     <li>
-                        <!--<a href="#0">My Account</a>-->
-                    </li>
-                    <li>
-                        <span>Live Auction Items</span>
+                        <span>Upcoming Auction</span>
                     </li>
                 </ul>
             </div>
             <div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png"></div>
         </div>
         <!--============= Hero Section Ends Here =============-->
-        <br>
-        <br>
+
+
+        <!--============= Featured Auction Section Starts Here =============-->
+
+        <!--============= Featured Auction Section Ends Here =============-->
+
+
         <!--============= Product Auction Section Starts Here =============-->
         <div class="product-auction padding-bottom">
             <div class="container">
@@ -152,37 +149,37 @@
                     </form>
                     <script>
                         $(document).ready(function () {
-                        $('#item-search').on('keyup', function () {
-                        fetchFilteredAuctions();
-                        });
-                        // Event listener for search button
-                        $('#search-button').on('click', function () {
-                        fetchFilteredAuctions();
-                        });
-                        // Function to fetch filtered auctions
-                        function fetchFilteredAuctions() {
-                        var itemName = $('#item-search').val(); // Get searched item name
-                        var status = "Seller";
-                        // Send AJAX request to PHP script
-                        $.ajax({
-                        url: 'fetch_item_cards.php',
-                                type: 'GET',
-                                data: {
-                                status: status,
-                                        itemName: itemName
-                                },
-                                success: function (response) {
-                                // Update the auction results container with the filtered items
-                                $('#auction-results').html(response);
-                                },
-                                error: function (xhr, status, error) {
-                                console.error('Error: ' + error);
-                                }
-                        });
-                        }
+                            $('#item-search').on('keyup', function () {
+                                fetchFilteredAuctions();
+                            });
+                            // Event listener for search button
+                            $('#search-button').on('click', function () {
+                                fetchFilteredAuctions();
+                            });
+                            // Function to fetch filtered auctions
+                            function fetchFilteredAuctions() {
+                                var itemName = $('#item-search').val(); // Get searched item name
 
-                        // Fetch all auctions on page load
-                        fetchFilteredAuctions();
+                                // Send AJAX request to PHP script
+                                $.ajax({
+                                    url: 'fetch_item_cards.php',
+                                    type: 'GET',
+                                    data: {
+                                        status: status,
+                                        itemName: itemName
+                                    },
+                                    success: function (response) {
+                                        // Update the auction results container with the filtered items
+                                        $('#auction-results').html(response);
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error: ' + error);
+                                    }
+                                });
+                            }
+
+                            // Fetch all auctions on page load
+                            fetchFilteredAuctions();
                         });
                     </script>
                     <style>
@@ -215,23 +212,32 @@
             </div>
         </div>
         <!--============= Product Auction Section Ends Here =============-->
-       <?php
+
+
+        <!--============= Footer Section Starts Here =============-->
+        <?php
         include 'Footer.php';
         ?>
+        <!--============= Footer Section Ends Here =============-->
+
+
+
         <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/modernizr-3.6.0.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/plugins.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/bootstrap.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/isotope.pkgd.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/aos.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/wow.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/waypoints.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/nice-select.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/counterup.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/owl.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/magnific-popup.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/yscountdown.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/jquery-ui.min.js"></script>
-        <script src="C:\xampp\htdocs\E-Auction-System/assets/js/main.js"></script>
+        <script src="assets/js/modernizr-3.6.0.min.js"></script>
+        <script src="assets/js/plugins.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/isotope.pkgd.min.js"></script>
+        <script src="assets/js/aos.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/waypoints.js"></script>
+        <script src="assets/js/nice-select.js"></script>
+        <script src="assets/js/counterup.min.js"></script>
+        <script src="assets/js/owl.min.js"></script>
+        <script src="assets/js/magnific-popup.min.js"></script>
+        <script src="assets/js/yscountdown.min.js"></script>
+        <script src="assets/js/jquery-ui.min.js"></script>
+        <script src="assets/js/main.js"></script>
     </body>
+
+
 </html>

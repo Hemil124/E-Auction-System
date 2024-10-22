@@ -42,7 +42,7 @@ session_start();
                     </li>
 
                     <li>
-                        <span>Sign Up as Merchant</span>
+                        <span>Sign Up as Seller</span>
                     </li>
                 </ul>
             </div>
@@ -60,7 +60,7 @@ session_start();
                 <div class="account-wrapper mt--100 mt-lg--440">
                     <div class="left-side">
                         <div class="section-header" data-aos="zoom-out-down" data-aos-duration="1200">
-                            <h2 class="title">SIGN UP FOR MERCHANT</h2>
+                            <h2 class="title">SIGN UP FOR SELLER</h2>
                             <p>We're happy you're here!</p>
                         </div>
 
@@ -343,19 +343,28 @@ session_start();
                 if ($dobstatus == 1 && $passstatus == 1) {
                     $email = $_POST['txtemail'];
                     include 'connection.php';
-                    $email_check_bidder = "select * from tblbidders where email='$email'";
-                    $result_bidder = mysqli_query($conn, $email_check_bidder);
+                    $email_check_bidder = mysqli_query($conn,"select email,contact from tblbidders");
+                    $result_bidder = mysqli_num_rows($result_seller);
 
-                    $email_check_seller = "select * from tblsellers where email='$email'";
-                    $result_seller = mysqli_query($conn, $email_check_seller);
+                    $email_check_seller = mysqli_query($conn, "select email,contact,adhar_number from tblsellers");
+                    $result_seller = mysqli_num_rows($result_seller);
 
-                    $email_check_admin = "select * from tbladmin where email='$email'";
-                    $result_admin = mysqli_query($conn, $email_check_admin);
+                    $email_check_admin =  mysqli_query($conn, "select email from tbladmin");
+                    $result_admin =mysqli_num_rows($result_admin);
 
-                    if (mysqli_num_rows($result_bidder) == 1 || mysqli_num_rows($result_seller) == 1 || mysqli_num_rows($result_admin) == 1) {
+                    if ($result_bidder[0] ==  $_POST['txtemail']|| $result_seller[0] ==  $_POST['txtemail'] ||$result_admin[0] ==  $_POST['txtemail']) {
                         echo '<script>alert("Email ID is already exist.")</script>';
                         exit();
-                    } else {
+                    }
+                    elseif($result_bidder[1] ==  $_POST['txtMobileNo']|| $result_seller[1] ==  $_POST['txtMobileNo']){
+                        echo '<script>alert("Mobile Number is already exist.")</script>';
+                        exit();
+                    }
+                    elseif( $result_seller[2]== $_POST['signup-adhar']){
+                        echo '<script>alert("Adhar Number is already exist.")</script>';
+                        exit();
+                    }
+                    else {
                         $_SESSION['fname'] = $_POST['txtfirstname'];
                         $_SESSION['lname'] = $_POST['txtlastname'];
                         $_SESSION['mobile'] = $_POST['txtMobileNo'];

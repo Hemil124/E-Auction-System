@@ -1,19 +1,46 @@
 <?php
 
+//session_start();
+//without login can't open indexpage!!        
+//        if (!isset($_SESSION['txtemail']) ) {
+//            header("Location: sign-in.php");
+//            exit();
+//        }
+?>
+<?php
+
 include 'connection.php';
 
 // Get filters from request
-$status = isset($_GET['status']) ? $_GET['status'] : 'all';
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
+$status = isset($_GET['status']) ? $_GET['status'] : '';
 
-// Build the SQL query based on the filters
-$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
-
-// Add condition for status filter
-if ($status != 'all') {
-    $sql .= " AND auction_status = '" . $conn->real_escape_string($status) . "'";
+if ($status == "Bidder") {
+//$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
+    include 'find_ID.php';
+//    $bidder_id=find_bidderID($_SESSION['txtemail']);
+    $bidder_id = 2;
+    if (isset($bidder_id)) {
+        $sql = "
+    SELECT 
+        tai.* 
+    FROM 
+        tblauctionitem tai
+    JOIN 
+        tblbidderpayment tbp ON tai.id = tbp.auction_item_id
+    WHERE 
+        tbp.bidder_id = $bidder_id
+        AND tai.auction_status = 'active';
+    ";
+    }
+} elseif ($status == "Seller") {
+//    $sellerid = find_sellerID($_SESSION['txtemail']);
+    $sellerid=3;
+    if (isset($sellerid)) {
+        $sql = "SELECT tblauctionitem.*, tblitem.name, tblitem.seller_id, tblitem.category_id, tblitem.description, tblitem.starting_price FROM tblauctionitem INNER JOIN tblitem ON tblauctionitem.item_id = tblitem.id WHERE tblauctionitem.auction_status = 'active' AND tblitem.seller_id = $sellerid;";
+    }
 }
-
+// Build the SQL query based on the filters
 // Add condition for item name search
 if (!empty($itemName)) {
     $sql .= " AND item_id IN (SELECT id FROM tblitem WHERE name LIKE '%" . $conn->real_escape_string($itemName) . "%')";
@@ -45,7 +72,9 @@ if ($result->num_rows > 0) {
         $row3 = mysqli_fetch_assoc($result_bid);
 
         // Display auction card
-        echo '<div class="col-sm-10 col-md-6 col-lg-4">';
+//        echo '<div class="col-sm-10 col-md-6 col-lg-4">';
+//        echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
+        echo '<div class="col-md-4 col-sm-6 card-container mb-4" style="padding: 47px;">'; // Make sure this is 4 columns wide to display 3 items per row
         echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
         echo '        <div class="auction-thumb">';
         echo '            <a href="product-details.php">';
@@ -58,8 +87,8 @@ if ($result->num_rows > 0) {
         echo '                <div class="bid-amount">';
         echo '                    <div class="icon"><i class="flaticon-auction"></i></div>';
         echo '                    <div class="amount-content">';
-        echo '                        <div class="current">Current Bid</div>';
-        echo '                        <div class="amount">' . htmlspecialchars($row3['current_bid']) . '</div>';
+        echo '                        <div class="current" style="font-size: 100%;">Current Bid</div>';
+        echo '                        <div class="amount"  style="font-size: 100%;">' . htmlspecialchars($row3['current_bid']) . '</div>';
         echo '                    </div>';
         echo '                </div>';
         echo '                <div class="bid-amount">';
@@ -69,7 +98,13 @@ if ($result->num_rows > 0) {
         echo '                </div>';
         echo '            </div>';
         echo '            <div class="text-center">';
-        echo '                <a href="seller_live_Auction.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">View Details</a>';
+        if ($status == "Seller")
+        {
+                    echo '                <a href="seller_live_Auction.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">View Details</a>';
+        }elseif ($status == "Bidder")
+        {
+                                echo '                <a href="bidder_Bid_placement.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">View Details</a>';
+        }
         echo '            </div>';
         echo '        </div>';
         echo '    </div>';

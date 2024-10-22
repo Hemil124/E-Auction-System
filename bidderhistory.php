@@ -1,21 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+session_start();
+?>
+<?php
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// session_start();
 
-    <?php
-    session_start();
-//    //without login can't open indexpage!!        
-//    if (!isset($_SESSION['txtemail'])) {
-//        header("Location: sign-in.php");
-//        exit();
-//    }
-    ?>
+// if (!isset($_SESSION['txtemail'])) {
+//     header("Location: sign-in.php");
+//     exit();
+// }
+
+include 'connection.php';
+
+$sql = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
+        FROM tblitem 
+        JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
+        JOIN tblcategory ON tblitem.category_id = tblcategory.id";
+
+$result = $conn->query($sql);
+
+$sqlPending = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
+               FROM tblitem 
+               JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
+               JOIN tblcategory ON tblitem.category_id = tblcategory.id 
+               WHERE tblitem.verify_status = 'PENDING'";
+
+$resultPending = $conn->query($sqlPending);
+
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
+
+if (!$resultPending) {
+    die("Pending query failed: " . $conn->error);
+}
+?>
     <head>
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <title>Sbidu - Bid And Auction HTML Template</title>
+        <title>Admin Item List E-Auction</title>
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
@@ -265,17 +293,17 @@
 
 
         <!--============= Hero Section Starts Here =============-->
-        <div class="hero-section style-2">
+        <div class="hero-section style-2 pb-lg-400">
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <a href="#0">My Account</a>
+                        <a href="#0">Dashboard</a>
                     </li>
                     <li>
-                        <span>My Alerts</span>
+                        <span>Admin Item List</span>
                     </li>
                 </ul>
             </div>
@@ -285,138 +313,90 @@
 
 
         <!--============= Dashboard Section Starts Here =============-->
-        <section class="dashboard-section padding-bottom mt--240 mt-lg--440 pos-rel">
+        <section class="dashboard-section padding-bottom mt--240 mt-lg--325 pos-rel">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-sm-10 col-md-7 col-lg-4">
-                        <div class="dashboard-widget mb-30 mb-lg-0">
-                            <div class="user">
-                                <div class="thumb-area">
-                                    <div class="thumb">
-                                        <img src="assets/images/dashboard/user.png" alt="user">
-                                    </div>
-                                    <label for="profile-pic" class="profile-pic-edit"><i class="flaticon-pencil"></i></label>
-                                    <input type="file" id="profile-pic" class="d-none">
-                                </div>
-                                <div class="content">
-                                    <h5 class="title"><a href="#0">Percy Reed</a></h5>
-                                    <span class="username"><a href="https://pixner.net/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="016b6e696f41666c60686d2f626e6c">[email&#160;protected]</a></span>
-                                </div>
-                            </div>
-                            <ul class="dashboard-menu">
-                                <li>
-                                    <a href="dashboard.php"><i class="flaticon-dashboard"></i>Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="profilev.php"><i class="flaticon-settings"></i>Personal Profile </a>
-                                </li>
-                                <li>
-                                    <a href="my-bid.php"><i class="flaticon-auction"></i>My Bids</a>
-                                </li>
-                                <li>
-                                    <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Winning Bids</a>
-                                </li>
-                                <li>
-                                    <a href="#0" class="active"><i class="flaticon-alarm"></i>My Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
-                                </li>
-                                <button class="logout" onclick="window.location.href = 'logout.php'">
-                                     Logout
-                                </button>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="col-lg-8">
-                        <div class="dash-bid-item dashboard-widget mb-30">
-                            <div class="header">
-                                <h4 class="title mw-100">My Alerts</h4>
-                            </div>
-                            <ul class="button-area nav nav-tabs">
-                                <li>
-                                    <a href="#alerts" data-toggle="tab" class="custom-button">Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="#newsletters" data-toggle="tab" class="custom-button">Newsletters</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dashboard-widget tab-content">
-                            <div class="alert-widget tab-pane show fade active" id="alerts">
-                                <ul>
+                        <div class="dashboard-widget">
+                            <h5 class="title mb-10">Aucation Item List</h5>
+                            <div class="dashboard-purchasing-tabs">
+                                <ul class="nav-tabs nav">
                                     <li>
-                                        <input type="checkbox" id="check1" checked>
-                                        <label for="check1">
-                                            <h6 class="title">Bid Notifications</h6>
-                                            <p>Receive an email notifying you if someone else bids on an item on which you have already placed a bid.</p>
-                                        </label>
+                                        <a href="#current" class="active" data-toggle="tab">Current</a>
                                     </li>
                                     <li>
-                                        <input type="checkbox" id="check2">
-                                        <label for="check2">
-                                            <h6 class="title">Live Auction Reminder</h6>
-                                            <p>Get a reminder that a live auction you've registered for is about
-                                                to begin.</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="check3" checked>
-                                        <label for="check3">
-                                            <h6 class="title">Saved Items Going Live</h6>
-                                            <p>Get a reminder that items you've saved are going live in an auction.</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="check4">
-                                        <label for="check4">
-                                            <h6 class="title">Bids Ending Soon</h6>
-                                            <p>Get a reminder when items you've bid on are going live in the next
-                                                couple days</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="check5" checked>
-                                        <label for="check5">
-                                            <h6 class="title">Rate Your Experience</h6>
-                                            <p>Receive an email notifying you if someone else bids on an item on which you have already placed a bid.</p>
-                                        </label>
+                                        <a href="#pending" data-toggle="tab">Pending</a>
                                     </li>
                                 </ul>
-                            </div>
-                            <div class="alert-widget tab-pane show fade" id="newsletters">
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" id="check6">
-                                        <label for="check6">
-                                            <h6 class="title">Auction News</h6>
-                                            <p>A roundup of the trending news and latest stories in the auction world</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="check7" checked>
-                                        <label for="check7">
-                                            <h6 class="title">Auction Calendar</h6>
-                                            <p>A look at upcoming auctions, personalized just for you</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="check8">
-                                        <label for="check8">
-                                            <h6 class="title">Auction Reports</h6>
-                                            <p>An in-depth look at the results from top-performing auctions Once
-                                                per month Auction Reports</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="check9" checked>
-                                        <label for="check9">
-                                            <h6 class="title">Weekly Email</h6>
-                                            <p>Preview the upcoming week's auctions and see the latest auction news
-                                                from around the globe</p>
-                                        </label>
-                                    </li>
-                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane show active fade" id="current">
+                                    <table class="purchasing-table">
+                                            <thead>
+                                            <th>Item_name</th>
+                                            <th>Your bid<th>
+                                            <th>Won OR Lose </th>
+                                            <th>Auction Status</th>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                                if ($result->num_rows > 0) {
+                                                    // Output data of each row
+                                                    while($row = $result->fetch_assoc()) {
+                                                        // Assuming you want to display the name and starting price
+                                                        echo "<tr>";
+                                                        echo "<td data-purchase='name'>" . htmlspecialchars($row['name']) . "</td>";
+                                                        echo "<td data-purchase='seller_id'>" . htmlspecialchars($row['firstname']) . "</td>";
+                                                        echo "<td data-purchase='category_id'>" . htmlspecialchars($row['category_name']) . "</td>";
+                                                        echo "<td data-purchase='description'>" . htmlspecialchars($row['description']) . "</td>";
+                                                        $imagePath = 'uploads/' . htmlspecialchars($row['image_id']);
+                                                        echo "<td data-purchase='image'><img src='" . $imagePath . "' alt='" . htmlspecialchars($row['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
+                                                        echo "<td data-purchase='starting_price'>" . number_format($row['starting_price'], 2) . "</td>";
+                                                        echo "<td data-purchase='starting_price'>" . htmlspecialchars($row['verify_status'], 2) . "</td>";
+                                                        echo "<td><a href='aucation-item.php?id=".$row['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
+                                                        echo "</tr>";
+                                                    }
+                                                } else {
+                                                    echo "<tr><td colspan='5'>No items found</td></tr>";
+                                                }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane show fade" id="pending">
+                                    <table class="purchasing-table">
+                                            <thead>
+                                            <th>Item_name</th>
+                                            <th>Your bid<th>
+                                            <th>Won OR Lose </th>
+                                            <th>Auction Status</th>
+                                       
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                                if ($resultPending->num_rows > 0) {
+                                                    // Output data of each row
+                                                    while($rowPending = $resultPending->fetch_assoc()) {
+                                                        // Assuming you want to display the name and starting price
+                                                        echo "<tr>";
+                                                        echo "<td data-purchase='name'>" . htmlspecialchars($rowPending['name']) . "</td>";
+                                                        echo "<td data-purchase='seller_id'>" . htmlspecialchars($rowPending['firstname']) . "</td>";
+                                                        echo "<td data-purchase='category_id'>" . htmlspecialchars($rowPending['category_name']) . "</td>";
+                                                        echo "<td data-purchase='description'>" . htmlspecialchars($rowPending['description']) . "</td>";
+                                                        $imagePath = 'uploads/' . htmlspecialchars($rowPending['image_id']);
+                                                        echo "<td data-purchase='image'><img src='" . $imagePath . "' alt='" . htmlspecialchars($rowPending['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
+                                                        echo "<td data-purchase='starting_price'>" . number_format($rowPending['starting_price'], 2) . "</td>";
+                                                        echo "<td data-purchase='starting_price'>" . htmlspecialchars($rowPending['verify_status'], 2) . "</td>";
+                                                        echo "<td><a href='aucation-item.php?id=".$rowPending['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
+                                                        echo "</tr>";
+                                                    }
+                                                } else {
+                                                    echo "<tr><td colspan='5'>No items found</td></tr>";
+                                                }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -562,7 +542,7 @@
                                         <a href="#0"><i class="fas fa-blender-phone"></i>(646) 968-0608</a>
                                     </li>
                                     <li>
-                                        <a href="#0"><i class="fas fa-envelope-open-text"></i><span class="__cf_email__" data-cfemail="f39b969f83b3969d949c879b969e96dd909c9e">[email&#160;protected]</span></a>
+                                        <a href="#0"><i class="fas fa-envelope-open-text"></i><span class="__cf_email__" data-cfemail="08606d6478486d666f677c606d656d266b6765">[email&#160;protected]</span></a>
                                     </li>
                                     <li>
                                         <a href="#0"><i class="fas fa-location-arrow"></i>1201 Broadway Suite</a>
@@ -615,7 +595,6 @@
             </div>
         </footer>
         <!--============= Footer Section Ends Here =============-->
-
 
 
         <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>

@@ -26,27 +26,26 @@
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flaticon/1.0.0/flaticon.css">
+
 
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     </head>
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <div class="overlayer" id="overlayer">
+<!--        <div class="overlayer" id="overlayer">
             <div class="loader">
                 <div class="loader-inner"></div>
             </div>
         </div>
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
-        <div class="overlay"></div>
+        <div class="overlay"></div>-->
         <!--============= ScrollToTop Section Ends Here =============-->
 
 
         <!--============= Header Section Starts Here =============-->
-        <?php
-        include 'Header.php';
-        ?>
+        <?php include 'seller_Header.php'; ?>
         <!--============= Header Section Ends Here =============-->
 
         <!--============= Cart Section Starts Here =============-->
@@ -127,10 +126,10 @@
                         <a href="index.php">Home</a>
                     </li>
                     <li>
-                        <a href="Admin_Dashboard.php">Admin Dashbord</a>
+                        <a href="#0">My Account</a>
                     </li>
                     <li>
-                        <span>Payment Report</span>
+                        <span>Dashboard</span>
                     </li>
                 </ul>
             </div>
@@ -160,95 +159,18 @@
                             </div>
                             <ul class="dashboard-menu">
                                 <li>
-                                    <a href="#0" class="active"><i class="flaticon-dashboard"></i>Dashboard</a>
+                                    <a href="seller_dashbord.php" class="active"><i class="flaticon-dashboard"></i>Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0);" onclick="toggleCategoryOptions()">
-                                        <img src="assets/images/flaticon/list-solid.svg" alt="Manage Category Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;font-size: 2px;">
-                                        Manage Category
-                                        <span id="arrowIcon" style="float: right; color: #ee4730;">&#x25BC;</span> 
-                                    </a>
-                                    <ul id="categoryOptions" style="display: none; margin-left: 50px;">
-                                        <li>
-                                            <a href="All_Category.php">
-                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                All Categoryes
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="Update_Category.php">
-                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                Insert Category
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <script>
-                                    function toggleCategoryOptions() {
-                                        var options = document.getElementById("categoryOptions");
-                                        var arrowIcon = document.getElementById("arrowIcon");
-
-                                        if (options.style.display === "none") {
-                                            options.style.display = "block";
-                                            arrowIcon.innerHTML = "&#x25B2;"; // Change to up arrow
-                                        } else {
-                                            options.style.display = "none";
-                                            arrowIcon.innerHTML = "&#x25BC;"; // Change to down arrow
-                                        }
-                                    }
-
-                                    function toggleReportOptions() {
-                                        var options = document.getElementById("reportOptions");
-                                        var arrowIcon = document.getElementById("reportArrowIcon");
-
-                                        if (options.style.display === "none") {
-                                            options.style.display = "block";
-                                            arrowIcon.innerHTML = "&#x25B2;"; // Change to up arrow
-                                        } else {
-                                            options.style.display = "none";
-                                            arrowIcon.innerHTML = "&#x25BC;"; // Change to down arrow
-                                        }
-                                    }
-                                </script>
-
-                                <li>
-                                    <a href="my-bid.php"><i class="fa-regular fa-circle-check"></i></i>Item Verify</a>
+                                    <a href="s_profile.php"><i class="flaticon-settings"></i>Personal Profile </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0);" onclick="toggleReportOptions()" style="display: flex; align-items: center; justify-content: space-between; text-decoration: none; width: 100%;">
-                                        <div style="display: flex; align-items: center;">
-                                            <img src="assets/images/flaticon/chart-pie-solid.svg" alt="Generate Report Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; ">
-                                            
-                                            Generate Report
-                                        </div>
-                                        <span id="reportArrowIcon" style="color: #ee4730;">&#x25BC;</span>
-                                    </a>
-
-                                    <ul id="reportOptions" style="display: none; margin-left: 50px;">
-                                        <li>
-                                            <a href="auction-Report.php">
-                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                Auction Report
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="payment-Report.php">
-                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                Payment Report
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="user-registration-report.php">
-                                                <img src="assets/images/flaticon/arrow-right-light.svg" alt="Right Arrow Icon" style="width: 15px; height: 15px; vertical-align: middle;">
-                                                User Registration Report
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <a href="s_my-item.php"><i class="flaticon-auction"></i>My Items</a>
                                 </li>
                                 <li>
-                                    <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Manage Payment</a>
+                                    <a href="s_notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
                                 </li>
+                                <li>
                                     <button class="logout" onclick="window.location.href = 'logout.php'">
                                         Logout
                                     </button>
@@ -256,8 +178,13 @@
                             </ul>
                         </div>
                     </div>
+                    <?php
+                        include 'find_ID.php';
+//                        echo find_sellerID("22bmiit117@gmail.com");
+                        $result_auctionItem
+                    ?>
                     <div class="col-lg-8">
-<!--                        <div class="dashboard-widget mb-40">
+                        <div class="dashboard-widget mb-40">
                             <div class="dashboard-title mb-30">
                                 <h5 class="title">My Activity</h5>
                             </div>
@@ -296,9 +223,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
-                        <div class="dashboard-widget">
-                            <h5 class="title mb-10">Purchasing</h5>
+                        </div>
+                        <!--<div class="dashboard-widget">-->
+<!--                            <h5 class="title mb-10">Purchasing</h5>
                             <div class="dashboard-purchasing-tabs">
                                 <ul class="nav-tabs nav">
                                     <li>
@@ -521,7 +448,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -529,9 +456,9 @@
         <!--============= Dashboard Section Ends Here =============-->
 
 
-        <?php
-        include 'Footer.php';
-        ?>
+        <!--============= Footer Section Starts Here =============-->
+        <?php include 'Footer.php'; ?>
+        <!--============= Footer Section Ends Here =============-->
 
 
 

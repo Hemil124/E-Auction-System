@@ -1,6 +1,12 @@
 <?php
-session_start()
-?>
+    session_start();
+    //without login can't open indexpage!!        
+        if (!isset($_SESSION['txtemail']) ) {
+            header("Location: sign-in.php");
+            exit();
+        }
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -185,10 +191,10 @@ session_start()
                                 <div class="text-center pt-4">
                                     <div class="row">
                                         <div class="col-12 col-md-6 mb-2">
-                                            <button type="button" class="btn" onclick="resendOtp()" name="resend">Resend OTP</button>
+                                            <button type="submit" class="btn" name="verify">Verify OTP</button>
                                         </div>
                                         <div class="col-12 col-md-6 mb-2">
-                                            <button type="submit" class="btn" name="verify">Verify OTP</button>
+                                            <button type="button" class="btn" onclick="resendOtp()" name="resend">Resend OTP</button>
                                         </div>
                                     </div>
                                 </div>
@@ -320,19 +326,19 @@ session_start()
                                     $email = $_SESSION['email'];
                                     $pass = $_SESSION['password'];
                                     $currentDate = date('Y-m-d');
-                                    // Check for duplicate contact
-                                    $checkStmt = $conn->prepare("SELECT contact FROM tblbidders WHERE contact = ?");
-                                    $checkStmt->bind_param("s", $mobile);
-                                    $checkStmt->execute();
-                                    $checkStmt->store_result();
+//                                    // Check for duplicate contact
+//                                    $checkStmt = $conn->prepare("SELECT contact FROM tblbidders WHERE contact = ?");
+//                                    $checkStmt->bind_param("s", $mobile);
+//                                    $checkStmt->execute();
+//                                    $checkStmt->store_result();
+//
+//                                    if ($checkStmt->num_rows > 0) {
+//                                        echo "<div class='alert alert-danger'>Contact number already exists.</div>";
+//                                        $checkStmt->close();
+//                                        return;
+//                                    }
 
-                                    if ($checkStmt->num_rows > 0) {
-                                        echo "<div class='alert alert-danger'>Contact number already exists.</div>";
-                                        $checkStmt->close();
-                                        return;
-                                    }
-
-                                    $checkStmt->close();
+//                                    $checkStmt->close();
 
                                     // Insert data
                                     $stmt = $conn->prepare("INSERT INTO tblbidders (firstname, lastname, contact, email, date_of_birth, password, created_date) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -361,18 +367,18 @@ session_start()
                                     $imgContent = $_SESSION['adharimg'];
                                     $currentDate = date('Y-m-d');
                                     // Check for duplicate contact
-                                    $checkStmt = $conn->prepare("SELECT contact FROM tblsellers WHERE contact = ?");
-                                    $checkStmt->bind_param("s", $mobile);
-                                    $checkStmt->execute();
-                                    $checkStmt->store_result();
-
-                                    if ($checkStmt->num_rows > 0) {
-                                        echo "<div class='alert alert-danger'>Contact number already exists.</div>";
-                                        $checkStmt->close();
-                                        return;
-                                    }
-
-                                    $checkStmt->close();
+//                                    $checkStmt = $conn->prepare("SELECT contact FROM tblsellers WHERE contact = ?");
+//                                    $checkStmt->bind_param("s", $mobile);
+//                                    $checkStmt->execute();
+//                                    $checkStmt->store_result();
+//
+//                                    if ($checkStmt->num_rows > 0) {
+//                                        echo "<div class='alert alert-danger'>Contact number already exists.</div>";
+//                                        $checkStmt->close();
+//                                        return;
+//                                    }
+//
+//                                    $checkStmt->close();
 
                                     $stmt = $conn->prepare("INSERT INTO tblsellers (firstname, lastname, contact, email, date_of_birth, password, adhar_number, adhar_img, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                                     $stmt->bind_param("sssssssss", $fname, $lname, $mobile, $email, $dob, $pass, $adhar, $imgContent, $currentDate);

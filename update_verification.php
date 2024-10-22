@@ -8,8 +8,7 @@ if (isset($_POST['id']) && is_numeric($_POST['id']) && isset($_POST['action'])) 
 
     $statuses = [
         'verify' => 'VERIFIED',
-        'reject' => 'REJECTED',
-        'sold' => 'SOLD'
+        'reject' => 'REJECTED'
     ];
 
     if (array_key_exists($_POST['action'], $statuses)) {
