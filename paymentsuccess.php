@@ -3,41 +3,7 @@
 <?php
 session_start();
 ?>
-<?php
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
-// session_start();
 
-// if (!isset($_SESSION['txtemail'])) {
-//     header("Location: sign-in.php");
-//     exit();
-// }
-
-include 'connection.php';
-
-$sql = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
-        FROM tblitem 
-        JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
-        JOIN tblcategory ON tblitem.category_id = tblcategory.id";
-
-$result = $conn->query($sql);
-
-$sqlPending = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
-               FROM tblitem 
-               JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
-               JOIN tblcategory ON tblitem.category_id = tblcategory.id 
-               WHERE tblitem.verify_status = 'PENDING'";
-
-$resultPending = $conn->query($sqlPending);
-
-if (!$result) {
-    die("Query failed: " . $conn->error);
-}
-
-if (!$resultPending) {
-    die("Pending query failed: " . $conn->error);
-}
-?>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,6 +21,7 @@ if (!$resultPending) {
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     </head>
@@ -294,19 +261,6 @@ if (!$resultPending) {
 
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section style-2 pb-lg-400">
-            <div class="container">
-                <ul class="breadcrumb">
-                    <li>
-                        <a href="index.php">Home</a>
-                    </li>
-                    <li>
-                        <a href="#0">Dashboard</a>
-                    </li>
-                    <li>
-                        <span>Admin Item List</span>
-                    </li>
-                </ul>
-            </div>
             <div class="bg_img hero-bg bottom_center" data-background="assets/images/banner/hero-bg.png"></div>
         </div>
         <!--============= Hero Section Ends Here =============-->
@@ -318,93 +272,17 @@ if (!$resultPending) {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="dashboard-widget">
-                            <h5 class="title mb-10">Aucation Item List</h5>
                             <div class="dashboard-purchasing-tabs">
-                                <ul class="nav-tabs nav">
-                                    <li>
-                                        <a href="#current" class="active" data-toggle="tab">Current</a>
-                                    </li>
-                                    <li>
-                                        <a href="#pending" data-toggle="tab">Pending</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane show active fade" id="current">
-                                    <table class="purchasing-table">
-                                            <thead>
-                                            <th>Name</th>
-                                            <th>Seller</th>
-                                            <th>Category</th>
-                                            <th>Description</th>
-                                            <th>Image</th>
-                                            <th>Starting Price</th>
-                                            <th>Verify Status</th>
-                                            <th>View</th>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                                if ($result->num_rows > 0) {
-                                                    // Output data of each row
-                                                    while($row = $result->fetch_assoc()) {
-                                                        // Assuming you want to display the name and starting price
-                                                        echo "<tr>";
-                                                        echo "<td data-purchase='name'>" . htmlspecialchars($row['name']) . "</td>";
-                                                        echo "<td data-purchase='seller_id'>" . htmlspecialchars($row['firstname']) . "</td>";
-                                                        echo "<td data-purchase='category_id'>" . htmlspecialchars($row['category_name']) . "</td>";
-                                                        echo "<td data-purchase='description'>" . htmlspecialchars($row['description']) . "</td>";
-                                                        $imageArray = json_decode($row['image_id'], true);
-                                                        $firstImage = !empty($imageArray) ? 'uploads/' . htmlspecialchars($imageArray[0]) : 'path/to/default/image.png';
-                                                        echo "<td data-purchase='image'><img src='" . $firstImage . "' alt='" . htmlspecialchars($row['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
-                                                        echo "<td data-purchase='starting_price'>" . number_format($row['starting_price'], 2) . "</td>";
-                                                        echo "<td data-purchase='starting_price'>" . htmlspecialchars($row['verify_status'], 2) . "</td>";
-                                                        echo "<td><a href='aucation-item.php?id=".$row['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
-                                                        echo "</tr>";
-                                                    }
-                                                } else {
-                                                    echo "<tr><td colspan='5'>No items found</td></tr>";
-                                                }
-                                            ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane show fade" id="pending">
-                                    <table class="purchasing-table">
-                                            <thead>
-                                            <th>Name</th>
-                                            <th>Seller</th>
-                                            <th>Category</th>
-                                            <th>Description</th>
-                                            <th>Image</th>
-                                            <th>Starting Price</th>
-                                            <th>Verify Status</th>
-                                            <th>View</th>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                                if ($resultPending->num_rows > 0) {
-                                                    // Output data of each row
-                                                    while($rowPending = $resultPending->fetch_assoc()) {
-                                                        // Assuming you want to display the name and starting price
-                                                        echo "<tr>";
-                                                        echo "<td data-purchase='name'>" . htmlspecialchars($rowPending['name']) . "</td>";
-                                                        echo "<td data-purchase='seller_id'>" . htmlspecialchars($rowPending['firstname']) . "</td>";
-                                                        echo "<td data-purchase='category_id'>" . htmlspecialchars($rowPending['category_name']) . "</td>";
-                                                        echo "<td data-purchase='description'>" . htmlspecialchars($rowPending['description']) . "</td>";
-                                                        $imageArray = json_decode($rowPending['image_id'], true);
-                                                        $firstImage = !empty($imageArray) ? 'uploads/' . htmlspecialchars($imageArray[0]) : 'path/to/default/image.png';
-                                                        echo "<td data-purchase='image'><img src='" . $firstImage . "' alt='" . htmlspecialchars($rowPending['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";echo "<td data-purchase='starting_price'>" . number_format($rowPending['starting_price'], 2) . "</td>";
-                                                        echo "<td data-purchase='starting_price'>" . htmlspecialchars($rowPending['verify_status'], 2) . "</td>";
-                                                        echo "<td><a href='aucation-item.php?id=".$rowPending['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
-                                                        echo "</tr>";
-                                                    }
-                                                } else {
-                                                    echo "<tr><td colspan='5'>No items found</td></tr>";
-                                                }
-                                            ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <h2 class="text-center">YOUR PAYMENT HAS BEEN RECEIVED</h2>
+                            <h3 class="text-center">Thank you for your payment, it’s processing</h3>
+            
+                            <p class="text-center">Your bidder number is: <b> <?php echo 'ORDER'.rand(111111,999999); ?> </b></p>
+                            <p class="text-center">You will receive an order confirmation email with details of your order and a link to track your process.</p>
+                            <center>
+                                <div class="btn-group" style="margin-top:50px;">
+                                    <a href="index.php" class="btn btn-lg btn-warning">CONTINUE</a>
                                 </div>
+                            </center>
                             </div>
                         </div>
                     </div>

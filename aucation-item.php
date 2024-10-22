@@ -58,6 +58,26 @@ $conn->close(); // Close the database connection
         <link rel="stylesheet" href="assets/css/main.css">
 
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+        <style>
+            .image-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 500px;
+}
+
+.image-container img {
+    margin-right: 10px;
+    max-height: 200px;
+}
+
+.more-images {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+}
+        </style>
     </head>
 
     <body>
@@ -347,8 +367,27 @@ $conn->close(); // Close the database connection
                                         <td class="text-dark"><?php echo number_format($item['starting_price'], 2); ?></td>
                                     </tr>
                                     <tr>
-                                        <td class="text-muted">Item Image</td>
-                                        <td class="text-dark"><img src="uploads/<?php echo htmlspecialchars($item['image_id']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid" style="margin-top: 5px; max-width: 200px;"></td>
+                                        <td class="text-muted">Item Images</td>
+                                        <td class="text-dark">
+                                            <div class="image-container">
+                                                <?php
+                                                // Decode the JSON array of image filenames
+                                                $imageArray = json_decode($item['image_id'], true);
+                                                
+                                                // Check if the array is not empty
+                                                if (!empty($imageArray)) {
+                                                    // Limit to the first three images
+                                                    $limitedImages = array_slice($imageArray, 0);
+                                                    foreach ($limitedImages as $image) {
+                                                        echo "<img src='uploads/" . htmlspecialchars($image) . "' alt='" . htmlspecialchars($item['name']) . "' class='img-fluid' style='margin-top: 5px; max-width: 200px;'>";
+                                                    }
+                                                    
+                                                } else {
+                                                    echo "No images available.";
+                                                }
+                                                ?>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Bill</td>
@@ -361,7 +400,6 @@ $conn->close(); // Close the database connection
                                                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['id']); ?>">
                                                 <button type="submit" name="action" value="verify" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Verify</button>
                                                 <button type="submit" name="action" value="reject" class="btn btn-danger" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Reject</button>
-                                                <button type="submit" name="action" value="sold" class="btn btn-warning" style="background-color: #ffc107; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Sold</button>
                                             </form>
                                         </td>
                                     </tr>

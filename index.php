@@ -173,6 +173,9 @@ session_start();
                                             <li>
                                                 <a href="admin-item-list.php">Admin Item List</a>
                                             </li>
+                                            <li>
+                                                <a href="checkout.php">Check Out</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
