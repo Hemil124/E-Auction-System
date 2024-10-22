@@ -25,13 +25,13 @@
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <div class="overlayer" id="overlayer">
+<!--        <div class="overlayer" id="overlayer">
             <div class="loader">
                 <div class="loader-inner"></div>
             </div>
         </div>
         <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
-        <div class="overlay"></div>
+        <div class="overlay"></div>-->
         <!--============= ScrollToTop Section Ends Here =============-->
 
 
@@ -78,95 +78,26 @@
                         <ul class="menu ml-auto">
                             <li>
                                 <a href="#0">Home</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="index.php">Home Page One</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-2.php">Home Page Two</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-3.php">Home Page Three</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-4.php">Home Page Four</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-5.php">Home Page Five</a>
-                                    </li>
-                                </ul>
+
+
                             </li>
                             <li>
-                                <a href="product.php">Auction</a>
+                                <a href="additem.php">Manage Item</a>
                             </li>
                             <li>
-                                <a href="#0">Pages</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="#0">Product</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="product.php">Product Page 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="product-2.php">Product Page 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="product-details.php">Product Details</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#0">My Account</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="sign-up.php">Sign Up</a>
-                                            </li>
-                                            <li>
-                                                <a href="sign-in.php">Sign In</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Dashboard</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="dashboard.php">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="profile.php">Personal Profile</a>
-                                            </li>
-                                            <li>
-                                                <a href="my-bid.php">My Bids</a>
-                                            </li>
-                                            <li>
-                                                <a href="winning-bids.php">Winning Bids</a>
-                                            </li>
-                                            <li>
-                                                <a href="notifications.php">My Alert</a>
-                                            </li>
-                                            <li>
-                                                <a href="my-favorites.php">My Favorites</a>
-                                            </li>
-                                            <li>
-                                                <a href="referral.php">Referrals</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="about.php">About Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="faqs.php">Faqs</a>
-                                    </li>
-                                    <li>
-                                        <a href="error.php">404 Error</a>
-                                    </li>
-                                </ul>
+                                <a href="seller_live_Auction_items.php">Live Auction</a>
+
                             </li>
+
+
                             <li>
-                                <a href="contact.php">Contact</a>
+                                <a href="about.php">About Us</a>
                             </li>
+
+
+                        </ul>
+                        </li>
+
                         </ul>
                         <form class="search-form white">
                             <input type="text" placeholder="Search for brand, model....">

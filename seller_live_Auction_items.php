@@ -215,11 +215,9 @@
             </div>
         </div>
         <!--============= Product Auction Section Ends Here =============-->
-
-        <?php
+       <?php
         include 'Footer.php';
         ?>
-
         <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/modernizr-3.6.0.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/plugins.js"></script>
@@ -236,6 +234,4 @@
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/jquery-ui.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/main.js"></script>
     </body>
-
-
 </html>

@@ -45,9 +45,7 @@ session_start();
     </head>
 
     <body>
-        <?php
-        include 'Header.php';
-        ?>
+        <?php include 'seller_Header.php';?>
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section">
             <div class="container">

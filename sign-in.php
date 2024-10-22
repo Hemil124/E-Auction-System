@@ -266,7 +266,7 @@ session_start();
 
                         if (password_verify($userPassword, $datahashedPassword)) {
                             $_SESSION['txtemail'] = $email;
-                            echo '<script>location.replace("index.php")</script>';
+                            echo '<script>location.replace("index-2.php")</script>';
                             exit();
                         } else {
                             echo '<script>alert("Wrong Password");</script>';

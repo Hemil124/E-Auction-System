@@ -26,6 +26,8 @@
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flaticon/1.0.0/flaticon.css">
+
 
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     </head>
@@ -157,22 +159,16 @@
                             </div>
                             <ul class="dashboard-menu">
                                 <li>
-                                    <a href="#0" class="active"><i class="flaticon-dashboard"></i>Dashboard</a>
+                                    <a href="seller_dashbord.php" class="active"><i class="flaticon-dashboard"></i>Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="profile.php"><i class="flaticon-settings"></i>Personal Profile </a>
+                                    <a href="s_profile.php"><i class="flaticon-settings"></i>Personal Profile </a>
                                 </li>
                                 <li>
-                                    <a href="my-bid.php"><i class="flaticon-auction"></i>My Bids</a>
+                                    <a href="s_my-item.php"><i class="flaticon-auction"></i>My Items</a>
                                 </li>
                                 <li>
-                                    <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Winning Bids</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
+                                    <a href="s_notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
                                 </li>
                                 <li>
                                     <button class="logout" onclick="window.location.href = 'logout.php'">
