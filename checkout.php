@@ -70,7 +70,7 @@ session_start();
                                 <input type="text" id="email" placeholder="Your Email ID" name="email"
                                        <?php if (isset($_POST['txtitemname'])) echo 'value="' . htmlspecialchars($_POST['txtitemname']) . '"'; ?> required>
                             </div>
-                            <input type="hidden" value="<?php echo 'OID'.rand(100,1000); ?>" name="orderid">
+                            <input type="hidden" value="<?php echo 'ORDER'.rand(111111,99999); ?>" name="orderid">
                             <input type="hidden" value="<?php echo 1; ?>" name="amount">
                             <div class="form-group mb-30">
                                 <label for="mobile"><i class="fa fa-user"></i></label>

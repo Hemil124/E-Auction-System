@@ -13,8 +13,8 @@ include 'connection.php';
 
 // Get filters from request
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
-$status = isset($_GET['status']) ? $_GET['status'] : '';
-
+//$status = isset($_GET['status']) ? $_GET['status'] : '';
+$status = "mybids";
 if ($status == "Bidder") {
 //$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
     include 'find_ID.php';
@@ -39,6 +39,42 @@ if ($status == "Bidder") {
     if (isset($sellerid)) {
         $sql = "SELECT tblauctionitem.*, tblitem.name, tblitem.seller_id, tblitem.category_id, tblitem.description, tblitem.starting_price FROM tblauctionitem INNER JOIN tblitem ON tblauctionitem.item_id = tblitem.id WHERE tblauctionitem.auction_status = 'active' AND tblitem.seller_id = $sellerid;";
     }
+} elseif ($status == "verified") {
+//    $sellerid = find_sellerID($_SESSION['txtemail']);
+    $sellerid = 3;
+    if (isset($sellerid)) {
+        $sql = "SELECT 
+                tai.* 
+            FROM 
+                tblauctionitem tai
+            JOIN 
+                tblitem ti ON ti.id = tai.item_id
+            WHERE 
+                ti.seller_id = 1
+                AND ti.verify_status = 'verified'";
+    }
+} elseif ($status == "rejected") {
+//    $sellerid = find_sellerID($_SESSION['txtemail']);
+    $sellerid = 3;
+    if (isset($sellerid)) {
+        $sql = "SELECT 
+                tai.* 
+            FROM 
+                tblauctionitem tai
+            JOIN 
+                tblitem ti ON ti.id = tai.item_id
+            WHERE 
+                ti.seller_id = 1
+                AND ti.verify_status = 'rejected'";
+    }
+} elseif ($status == "mybids") {
+    $sql = "SELECT a.*
+FROM tblauctionitem a
+JOIN tblbidderpayment b ON a.id = b.auction_item_id
+WHERE b.bidder_id = 1
+AND b.emd_refund = 'pending'
+AND a.winner_id = b.bidder_id;
+";
 }
 //fetch Upcoming item
 elseif ($status == "Upcoming") {
@@ -77,8 +113,11 @@ if ($result->num_rows > 0) {
 
         // Display auction card
 //        echo '<div class="col-sm-10 col-md-6 col-lg-4">';
-//        echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
-        echo '<div class="col-md-4 col-sm-6 card-container mb-4" style="padding: 47px;">'; // Make sure this is 4 columns wide to display 3 items per row
+        if ($status == "Bidder" || $status == "Seller") {
+            echo '<div class="col-md-4 col-sm-6 card-container mb-4" style="padding: 47px;">'; // Make sure this is 4 columns wide to display 3 items per row
+        } elseif ($status == "verified" || $status == "rejected" || $status == "mybids") {
+            echo '<div class="col-md-6 col-sm-8 card-container mb-6" style="padding: 47px;">'; // Make sure this is 4 columns wide to display 3 items per row
+        }
         echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
         echo '        <div class="auction-thumb">';
         echo '            <a href="product-details.php">';
