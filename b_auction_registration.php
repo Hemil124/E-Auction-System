@@ -20,6 +20,7 @@ session_start();
         <link rel="stylesheet" href="assets/css/nice-select.css">
         <link rel="stylesheet" href="assets/css/owl.min.css">
         <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <script src="assets/js/main2.js" type="text/javascript"></script>
         <link rel="stylesheet" href="assets/css/flaticon.css">
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
@@ -67,7 +68,7 @@ session_start();
                             <!-- Plot/House Number Row -->
                             <div class="form-group mb-30">
                                 <label for="house-number"><i class="fa fa-home"></i> </label>
-                                <input type="text" id="house-number"  placeholder="House/Plot Number" name="txtHouseNumber" required>
+                                <input type="text" id="signup-number"  placeholder="House/Plot Number" name="txtHouseNumber" required>
                             </div>
 
                             <!-- Society/Flat Name Row -->
@@ -170,7 +171,7 @@ session_start();
                             <div class="form-group mb-0">
                                 <div class="row">
                                     <div class="col">
-                                        <button type="submit" class="custom-button" name="btnpayemd" onclick="payNow()">Pay EMD</button>
+                                        <!--<button type="submit" class="custom-button" name="btnpayemd" onclick="payNow()">Pay EMD</button>-->
                                     </div>
                                     <script>
                                         function payNow() {
@@ -204,6 +205,7 @@ session_start();
                                                         "handler": function (response) {
                                                             console.log(response);
                                                             alert('Payment Successful');
+                                                            window.location=""
                                                             var xhr2 = new XMLHttpRequest();
                                                             xhr2.open('POST', 'insert_auction_ragistation_data.php', true);
                                                             xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -233,7 +235,7 @@ session_start();
                                         }
                                     </script>
                                     <div class="col">
-                                        <button type="submit" class="custom-button" name="btnsignup">Sign Up</button>
+                                        <button type="submit" class="custom-button" name="btnsignup" onclick="payNow()" style="margin-right: 290px">Sign Up</button>
                                     </div>
                                 </div>
                             </div>
@@ -300,9 +302,10 @@ session_start();
                             echo "<script>alert('Image size must be between 50 KB and 300 KB.');</script>";
                         } else {
                             if (move_uploaded_file($imageTmpName, $imageFolder)) {
-                                $sql = "UPDATE tblbidders SET address='$address', user_img='$imageData' WHERE id=$id";
+                                $sql = "UPDATE tblbidders SET address='$address' WHERE id=$id";
                                 if (mysqli_query($conn, $sql)) {
-                                    echo "<script>alert('Bidder details updated successfully.');</script>";
+//                                    echo "<script>alert('Bidder details updated successfully.');</script>";
+                                    echo '<script src="call_paynow.js" type="text/javascript"></script>';
                                 } else {
                                     echo "<script>alert('Error updating record: " . mysqli_error($conn) . "');</script>";
                                 }
@@ -342,7 +345,7 @@ session_start();
 //        }
 //        
         ?>
-        <!--<img src="<?php // echo $imgsrc;  ?>" alt='Bidder Image' style='max-width: 300px; max-height: 300px;'>-->
+        <!--<img src="<?php // echo $imgsrc;    ?>" alt='Bidder Image' style='max-width: 300px; max-height: 300px;'>-->
 
 
 
