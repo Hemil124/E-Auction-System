@@ -15,28 +15,19 @@ session_start();
 
 include 'connection.php';
 
-$sql = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
-        FROM tblitem 
-        JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
-        JOIN tblcategory ON tblitem.category_id = tblcategory.id";
+$sql = "select name from tblitem ;
+";
 
 $result = $conn->query($sql);
 
-$sqlPending = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
-               FROM tblitem 
-               JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
-               JOIN tblcategory ON tblitem.category_id = tblcategory.id 
-               WHERE tblitem.verify_status = 'PENDING'";
 
-$resultPending = $conn->query($sqlPending);
+
+
 
 if (!$result) {
     die("Query failed: " . $conn->error);
 }
 
-if (!$resultPending) {
-    die("Pending query failed: " . $conn->error);
-}
 ?>
     <head>
         <meta charset="UTF-8">
@@ -345,14 +336,7 @@ if (!$resultPending) {
                                                         // Assuming you want to display the name and starting price
                                                         echo "<tr>";
                                                         echo "<td data-purchase='name'>" . htmlspecialchars($row['name']) . "</td>";
-                                                        echo "<td data-purchase='seller_id'>" . htmlspecialchars($row['firstname']) . "</td>";
-                                                        echo "<td data-purchase='category_id'>" . htmlspecialchars($row['category_name']) . "</td>";
-                                                        echo "<td data-purchase='description'>" . htmlspecialchars($row['description']) . "</td>";
-                                                        $imagePath = 'uploads/' . htmlspecialchars($row['image_id']);
-                                                        echo "<td data-purchase='image'><img src='" . $imagePath . "' alt='" . htmlspecialchars($row['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
-                                                        echo "<td data-purchase='starting_price'>" . number_format($row['starting_price'], 2) . "</td>";
-                                                        echo "<td data-purchase='starting_price'>" . htmlspecialchars($row['verify_status'], 2) . "</td>";
-                                                        echo "<td><a href='aucation-item.php?id=".$row['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
+                                                      
                                                         echo "</tr>";
                                                     }
                                                 } else {
@@ -379,14 +363,7 @@ if (!$resultPending) {
                                                         // Assuming you want to display the name and starting price
                                                         echo "<tr>";
                                                         echo "<td data-purchase='name'>" . htmlspecialchars($rowPending['name']) . "</td>";
-                                                        echo "<td data-purchase='seller_id'>" . htmlspecialchars($rowPending['firstname']) . "</td>";
-                                                        echo "<td data-purchase='category_id'>" . htmlspecialchars($rowPending['category_name']) . "</td>";
-                                                        echo "<td data-purchase='description'>" . htmlspecialchars($rowPending['description']) . "</td>";
-                                                        $imagePath = 'uploads/' . htmlspecialchars($rowPending['image_id']);
-                                                        echo "<td data-purchase='image'><img src='" . $imagePath . "' alt='" . htmlspecialchars($rowPending['name']) . "' style='width: 50px; height: 50px; border-radius: 50%;'></td>";
-                                                        echo "<td data-purchase='starting_price'>" . number_format($rowPending['starting_price'], 2) . "</td>";
-                                                        echo "<td data-purchase='starting_price'>" . htmlspecialchars($rowPending['verify_status'], 2) . "</td>";
-                                                        echo "<td><a href='aucation-item.php?id=".$rowPending['id']."' class='pass-type' style='cursor: pointer;'><i class='fas fa-eye'></i></a></td>";
+                                                       
                                                         echo "</tr>";
                                                     }
                                                 } else {
