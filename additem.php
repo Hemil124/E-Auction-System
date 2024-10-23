@@ -112,11 +112,14 @@ session_start();
                             </div>
                             <div class="form-group mb-30">
                                 <label for="image-upload"><i class="fa fa-image"></i></label>
-                                <input type="file" id="image-upload" name="txtimage[]" required accept="image/*" multiple onchange="previewImages(event)">
+                               <input type="file" id="image-upload" name="txtimage[]" required accept="image/*" multiple onchange="previewImages(event)">
+                                <small class="form-text text-muted">Please upload a item images.</small>
                             </div>
                             <div class="form-group mb-30">
+                                
                                 <label for="bill-upload"><i class="fa fa-image"></i></label>
-                                <input type="file" id="bill-upload" name="txtbill" required accept="image/*">
+                                <input type="file" id="bill-upload" name="txtbill" placeholder="uplode bill e" required accept="image/*">
+                                <small class="form-text text-muted">Please upload a single image of the bill.</small>
                             </div>
                             <div class="form-group mb-0">
                                 <button type="submit" class="custom-button"  name="btnsubmit">Submit</button>
