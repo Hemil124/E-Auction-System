@@ -140,14 +140,14 @@ session_start();
                             </script>
 
                             <div class="form-group mb-30" id="a">
-                                    <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; margin-left: 120px;">
-                                        <lable>Upload Your Profile Img PDF, PNG, JPEG or JPG formats only
-                                            <input type="file" id="signup-photo" name="photo" accept=".jpg,.jpeg,.png" required style="border: 0px; margin: 0 auto;" onchange="validateFile()">
-                                        </lable>
-                                    </div>
-                                        <span id="file-error" style="color: red; display: none;"></span>
+                                <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; margin-left: 120px;">
+                                    <lable>Upload Your Profile Img PDF, PNG, JPEG or JPG formats only
+                                        <input type="file" id="signup-photo" name="photo" accept=".jpg,.jpeg,.png" required style="border: 0px; margin: 0 auto;" onchange="validateFile()">
+                                    </lable>
+                                </div>
+                                <span id="file-error" style="color: red; display: none;"></span>
                             </div>
-                            
+
                             <script>
                                 function validateFile() {
                                     const fileInput = document.getElementById('signup-photo');
@@ -204,6 +204,20 @@ session_start();
                                                         "handler": function (response) {
                                                             console.log(response);
                                                             alert('Payment Successful');
+                                                            var xhr2 = new XMLHttpRequest();
+                                                            xhr2.open('POST', 'insert_auction_ragistation_data.php', true);
+                                                            xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                                            xhr2.onload = function () {
+                                                                if (xhr2.status === 200) {
+                                                                    alert('Payment details saved successfully.');
+                                                                } else {
+                                                                    alert('Error saving payment details.');
+                                                                }
+                                                            };
+                                                            xhr2.send('auction_item_id=' + encodeURIComponent(auction_item_id) +
+                                                                    '&bidder_id=' + encodeURIComponent(bidder_id) +
+                                                                    '&emd_refund=Applicable' +
+                                                                    '&full_payment=' + encodeURIComponent(amount));
                                                         },
                                                         "theme": {
                                                             "color": "#F37254"
@@ -326,8 +340,9 @@ session_start();
 //        } else {
 //            echo "Error fetching record: " . mysqli_error($conn);
 //        }
-//        ?>
-        <!--<img src="<?php // echo $imgsrc; ?>" alt='Bidder Image' style='max-width: 300px; max-height: 300px;'>-->
+//        
+        ?>
+        <!--<img src="<?php // echo $imgsrc;  ?>" alt='Bidder Image' style='max-width: 300px; max-height: 300px;'>-->
 
 
 

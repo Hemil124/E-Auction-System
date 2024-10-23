@@ -1,67 +1,40 @@
 <?php
-include 'connection.php'; // Make sure you have a working connection to your database
+// Database connection
+include 'connection.php';
 
-// Current time
-$current_time = date('Y-m-d H:i:s');
+// Get current date and time
+$current_datetime = date('Y-m-d H:i:s');
 
-// Query to fetch auctions that need to be activated or canceled
+// Query to find auctions that are still pending or active and check their times
 $sql = "SELECT * FROM tblauctionitem WHERE auction_status IN ('PENDING', 'ACTIVE')";
-
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $auction_id = $row['id'];
-        $start_datetime = $row['start_datetime'];
-        $end_datetime = $row['end_datetime'];
-        $minimum_bidders = $row['minimum_bidders'];
-        $current_bidders = $row['current_bidders']; // Assuming you have a field to count current bidders
-        $auction_status = $row['auction_status'];
+while ($auction = $result->fetch_assoc()) {
+    $auction_id = $auction['id'];
+    $start_datetime = $auction['start_datetime'];
+    $end_datetime = $auction['end_datetime'];
+    $min_bidders = $auction['minimum_bidders'];
 
-        // Check if auction should be activated
-        if ($auction_status == 'PENDING' && $current_time >= $start_datetime) {
-            // Update auction status to ACTIVE
-            $update_sql = "UPDATE tblauctionitem SET auction_status = 'ACTIVE' WHERE id = $auction_id";
-            if ($conn->query($update_sql) === TRUE) {
-                echo "Auction ID $auction_id is now ACTIVE.\n";
-            } else {
-                echo "Error updating auction status for auction ID $auction_id: " . $conn->error . "\n";
-            }
-        }
+    // Check if the start time has been reached and update status to ACTIVE
+    if ($current_datetime >= $start_datetime && $auction['auction_status'] == 'PENDING') {
+        $update_sql = "UPDATE tblauctionitem SET auction_status = 'ACTIVE' WHERE id = $auction_id";
+        $conn->query($update_sql);
+        echo "Auction ID $auction_id has been set to ACTIVE.\n";
+    }
 
-        // Check if auction should be canceled
-        if ($auction_status == 'ACTIVE' && $current_time >= $end_datetime) {
-            if ($current_bidders < $minimum_bidders) {
-                // Not enough bidders, cancel the auction
-                $update_sql = "UPDATE tblauctionitem SET auction_status = 'CANCELED' WHERE id = $auction_id";
-                if ($conn->query($update_sql) === TRUE) {
-                    echo "Auction ID $auction_id has been CANCELED due to insufficient bidders.\n";
-                } else {
-                    echo "Error updating auction status for auction ID $auction_id: " . $conn->error . "\n";
-                }
-            } else {
-                // Auction is completed, determine winner
-                $winner_sql = "SELECT bidder_id FROM tblbid WHERE auction_item_id = $auction_id ORDER BY bid_value DESC LIMIT 1";
-                $winner_result = $conn->query($winner_sql);
-                if ($winner_result->num_rows > 0) {
-                    $winner_row = $winner_result->fetch_assoc();
-                    $winner_id = $winner_row['bidder_id'];
-                    
-                    // Update auction status and set winner
-                    $update_sql = "UPDATE tblauctionitem SET auction_status = 'COMPLETED', winner_id = $winner_id WHERE id = $auction_id";
-                    if ($conn->query($update_sql) === TRUE) {
-                        echo "Auction ID $auction_id has been COMPLETED. Winner is Bidder ID $winner_id.\n";
-                    } else {
-                        echo "Error updating auction status for auction ID $auction_id: " . $conn->error . "\n";
-                    }
-                }
-            }
+    // Check if the end time has been reached
+    if ($current_datetime >= $end_datetime) {
+        // Check how many bidders are registered
+        $result_registered = mysqli_query($conn, "SELECT COUNT(*) as bidders FROM tblbidderpayment WHERE auction_item_id = $auction_id AND emd_refund = 'notApplicable' AND full_payment = 'notApplicable'");
+        $registered_users = mysqli_fetch_assoc($result_registered);
+        $num_bidders = $registered_users['bidders'];
+
+        // If the number of registered bidders is less than the minimum, set auction status to CANCELED
+        if ($num_bidders < $min_bidders) {
+            $update_sql = "UPDATE tblauctionitem SET auction_status = 'CANCELED' WHERE id = $auction_id";
+            $conn->query($update_sql);
+            echo "Auction ID $auction_id has been CANCELED due to insufficient bidders.\n";
         }
     }
-} else {
-    echo "No auctions found for update.\n";
 }
-
-// Close the database connection
-$conn->close();
 ?>
