@@ -28,6 +28,7 @@
         <link rel="stylesheet" href="C:\xampp\htdocs\E-Auction-System/assets/css/main.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <script src="../E-Auction-System/assets/js/yscountdown.min.js" type="text/javascript"></script><!-- For Auction Start End Coundown -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     </head>
@@ -150,39 +151,64 @@
                         <input  type="text" placeholder="Item Name" id="item-search">
                         <button type="submit"><i class="fas fa-search" id="search-button"></i></button>
                     </form>
+<!--                 Timer code   <script>
+                        // PHP Variables
+                        let startDate = "<?php echo $autionItem_details['start_datetime']; ?>"; // Fetch start date from PHP
+                        let endDate = "<?php echo $autionItem_details['end_datetime']; ?>"; // Fetch end date from PHP
+
+                        // Initialize the countdown only if the element exists
+                        if (document.querySelector("#bid_counter")) { // Correct way to check for existence
+                            // Create a new countdown instance
+                            let counterElement = document.querySelector("#bid_counter");
+                            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                                let message = "";
+                                if (finished) {
+                                    message = "Expired";
+                                } else {
+                                    let re_days = remaining.totalDays;
+                                    let re_hours = remaining.hours;
+                                    message += re_days + "d  : ";
+                                    message += re_hours + "h  : ";
+                                    message += remaining.minutes + "m  : ";
+                                    message += remaining.seconds + "s";
+                                }
+                                counterElement.textContent = message;
+                            });
+                        }
+                    </script>-->
                     <script>
                         $(document).ready(function () {
-                        $('#item-search').on('keyup', function () {
-                        fetchFilteredAuctions();
-                        });
-                        // Event listener for search button
-                        $('#search-button').on('click', function () {
-                        fetchFilteredAuctions();
-                        });
-                        // Function to fetch filtered auctions
-                        function fetchFilteredAuctions() {
-                        var itemName = $('#item-search').val(); // Get searched item name
-                        var status = "Seller";
-                        // Send AJAX request to PHP script
-                        $.ajax({
-                        url: 'fetch_item_cards.php',
-                                type: 'GET',
-                                data: {
-                                status: status,
+                            $('#item-search').on('keyup', function () {
+                                fetchFilteredAuctions();
+                            });
+                            // Event listener for search button
+                            $('#search-button').on('click', function () {
+                                fetchFilteredAuctions();
+                            });
+                            // Function to fetch filtered auctions
+                            function fetchFilteredAuctions() {
+                                var itemName = $('#item-search').val(); // Get searched item name
+                                var status = "Seller";
+                                // Send AJAX request to PHP script
+                                $.ajax({
+                                    url: 'fetch_item_cards.php',
+                                    type: 'GET',
+                                    data: {
+                                        status: status,
                                         itemName: itemName
-                                },
-                                success: function (response) {
-                                // Update the auction results container with the filtered items
-                                $('#auction-results').html(response);
-                                },
-                                error: function (xhr, status, error) {
-                                console.error('Error: ' + error);
-                                }
-                        });
-                        }
+                                    },
+                                    success: function (response) {
+                                        // Update the auction results container with the filtered items
+                                        $('#auction-results').html(response);
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error: ' + error);
+                                    }
+                                });
+                            }
 
-                        // Fetch all auctions on page load
-                        fetchFilteredAuctions();
+                            // Fetch all auctions on page load
+                            fetchFilteredAuctions();
                         });
                     </script>
                     <style>
@@ -215,10 +241,11 @@
             </div>
         </div>
         <!--============= Product Auction Section Ends Here =============-->
-       <?php
+        <?php
         include 'Footer.php';
         ?>
-        <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
+        <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/modernizr-3.6.0.min.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/plugins.js"></script>
         <script src="C:\xampp\htdocs\E-Auction-System/assets/js/bootstrap.min.js"></script>

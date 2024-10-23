@@ -270,10 +270,10 @@ session_start();
         if (isset($_GET['item_id'])) {
             $item_id = $_GET['item_id'];
 //        $item_id = 4;
-        //fetch Item name For Hero Section
-        include 'connection.php';
-        $query_item = mysqli_query($conn, 'select * from tblitem where id=' . $item_id . '');
-        $item_details = mysqli_fetch_assoc($query_item);
+            //fetch Item name For Hero Section
+            include 'connection.php';
+            $query_item = mysqli_query($conn, 'select * from tblitem where id=' . $item_id . '');
+            $item_details = mysqli_fetch_assoc($query_item);
         }
         ?>
 
@@ -461,30 +461,24 @@ session_start();
                                     <!--//For Countdown-->
                                     <script>
                                         // PHP Variables
+                                        let startDate = "<?php echo $autionItem_details['start_datetime']; ?>"; // Fetch start date from PHP
                                         let endDate = "<?php echo $autionItem_details['end_datetime']; ?>"; // Fetch end date from PHP
 
                                         // Initialize the countdown only if the element exists
                                         if (document.querySelector("#bid_counter")) { // Correct way to check for existence
                                             // Create a new countdown instance
                                             let counterElement = document.querySelector("#bid_counter");
-                                            let submitButton = document.getElementById("submit-bid");
-                                            let expiredMessage = document.getElementById("auction-expired-message");
+                                            let submitButton = document.querySelector("button[type='submit']"); // Get the submit button
 
                                             let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
                                                 let message = "";
                                                 if (finished) {
                                                     message = "Expired";
 
-                                                    // Disable the submit button when time expires
+                                                    // Disable the submit button when the auction is finished
                                                     submitButton.disabled = true;
-
-                                                    // Show the expired auction message when hovered
-                                                    submitButton.addEventListener('mouseover', function () {
-                                                        expiredMessage.style.display = "inline";
-                                                    });
-                                                    submitButton.addEventListener('mouseout', function () {
-                                                        expiredMessage.style.display = "none";
-                                                    });
+                                                    submitButton.style.cursor = 'not-allowed'; // Show cursor as not allowed
+                                                    submitButton.setAttribute('title', 'Auction is Completed'); // Add hover message
 
                                                 } else {
                                                     let re_days = remaining.totalDays;
@@ -493,11 +487,16 @@ session_start();
                                                     message += re_hours + "h  : ";
                                                     message += remaining.minutes + "m  : ";
                                                     message += remaining.seconds + "s";
+
+                                                    // Make sure the button is enabled before the auction ends
+                                                    submitButton.disabled = false;
+                                                    submitButton.removeAttribute('title'); // Remove the hover message
                                                 }
                                                 counterElement.textContent = message;
                                             });
                                         }
                                     </script>
+
                                     <!--For Fetch values Active Bidders and Current Price every 3 second-->
                                     <script>
                                         $(document).ready(function () {

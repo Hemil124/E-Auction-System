@@ -1,4 +1,4 @@
-<!-- This Pase Give Seller Live Auction Item Details Seller Can View Live Auction Details -->
+<!<!-- This Page For Upcoming Auction Item Details  using this page Bidder can Ragister For Auction-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -79,27 +79,37 @@
                         </div>
                         <ul class="menu ml-auto">
                             <li>
-                                <a href="#0">Home</a>
-
-
+                                <a href="index-3.php">Home</a>
+                                <!--                                <ul class="submenu">
+                                                                    <li>
+                                                                        <a href="index.php">Home Page One</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-2.php">Home Page Two</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-3.php">Home Page Three</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-4.php">Home Page Four</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-5.php">Home Page Five</a>
+                                                                    </li>
+                                                                </ul>-->
                             </li>
                             <li>
-                                <a href="additem.php">Manage Item</a>
+                                <a href="bidder_upcoming_auctions.php">Upcoming Items</a>
                             </li>
                             <li>
-                                <a href="seller_live_Auction_items.php">Live Auction</a>
-
+                                <a href="#0">Live Auction</a><!-- Add Link -->
                             </li>
-
-
                             <li>
                                 <a href="about.php">About Us</a>
                             </li>
-
-
-                        </ul>
-                        </li>
-
+                            <li>
+                                <a href="contact.php">Contact</a>
+                            </li>
                         </ul>
                         <form class="search-form white">
                             <input type="text" placeholder="Search for brand, model....">
@@ -315,10 +325,10 @@
                             ?>
                             <ul class="price-table mb-30">
                                 <li class="header">
-                                    <h5 class="current">Current Price</h5>
+                                    <h5 class="current">Starting Price</h5>
                                     <h3 class="price"><?php
-                                        if (isset($bid_details)) {
-                                            echo $bid_details['current_bid'];
+                                        if (isset($item_details)) {
+                                            echo $item_details['starting_price'];
                                         }
                                         ?></h3>
                                 </li>
@@ -335,10 +345,10 @@
                                         ?></h5>
                                 </li>
                                 <li>
-                                    <span class="details">First Bid Value</span>
+                                    <span class="details">Reserve Price</span>
                                     <h5 class="info"><?php
-                                        if (isset($bid_details)) {
-                                            echo $bid_details['bid_value'];
+                                        if (isset($autionItem_details)) {
+                                            echo $autionItem_details['reserve_price'];
                                         }
                                         ?></h5>
                                 </li>
@@ -349,87 +359,74 @@
                     <div class="col-lg-4">
                         <div class="product-sidebar-area">
                             <div class="product-single-sidebar mb-3">
-                                <h6 class="title">This Auction Ends in:</h6>
-                                <div class="countdown">
-                                    <div id="bid_counter"></div>
-                                    <!--//For Countdown-->
-                                    <script>
-                                        // PHP Variables
-                                        let startDate = "<?php echo $autionItem_details['start_datetime']; ?>"; // Fetch start date from PHP
-                                        let endDate = "<?php echo $autionItem_details['end_datetime']; ?>"; // Fetch end date from PHP
+                                <!--<h6 class="title">This Auction Ends in:</h6>-->
+                                <!--<div class="countdown">-->
+                                <!--<div id="bid_counter"></div>-->
+                                <!--//For Countdown-->
+                                <script>
+                                    // PHP Variables
+                                    let startDate = "<?php echo $autionItem_details['start_datetime']; ?>"; // Fetch start date from PHP
+                                    let endDate = "<?php echo $autionItem_details['end_datetime']; ?>"; // Fetch end date from PHP
 
-                                        // Initialize the countdown only if the element exists
-                                        if (document.querySelector("#bid_counter")) { // Correct way to check for existence
-                                            // Create a new countdown instance
-                                            let counterElement = document.querySelector("#bid_counter");
-                                            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
-                                                let message = "";
-                                                if (finished) {
-                                                    message = "Expired";
-                                                } else {
-                                                    let re_days = remaining.totalDays;
-                                                    let re_hours = remaining.hours;
-                                                    message += re_days + "d  : ";
-                                                    message += re_hours + "h  : ";
-                                                    message += remaining.minutes + "m  : ";
-                                                    message += remaining.seconds + "s";
+                                    // Initialize the countdown only if the element exists
+                                    if (document.querySelector("#bid_counter")) { // Correct way to check for existence
+                                        // Create a new countdown instance
+                                        let counterElement = document.querySelector("#bid_counter");
+                                        let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                                            let message = "";
+                                            if (finished) {
+                                                message = "Expired";
+                                            } else {
+                                                let re_days = remaining.totalDays;
+                                                let re_hours = remaining.hours;
+                                                message += re_days + "d  : ";
+                                                message += re_hours + "h  : ";
+                                                message += remaining.minutes + "m  : ";
+                                                message += remaining.seconds + "s";
+                                            }
+                                            counterElement.textContent = message;
+                                        });
+                                    }
+                                </script>
+                                <!--For Fetch values Active Bidders and Current Price every 3 second-->
+                                <script>
+                                    $(document).ready(function () {
+                                        // Function to fetch latest auction details
+                                        function fetchLatestAuctionDetails() {
+                                            var itemId = "<?php echo $autionItem_details['item_id']; ?>"; // Get the item ID from PHP
+
+                                            $.ajax({
+                                                url: 'seller_fetch_values.php', // URL to the PHP script
+                                                type: 'GET',
+                                                data: {
+                                                    item_id: itemId // Send the item ID to the server
+                                                },
+                                                success: function (response) {
+                                                    var data = JSON.parse(response); // Parse the JSON response
+
+                                                    // Update Current Price
+//                                                        $('.price').text(data.current_bid);
+
+                                                    // Update Active Bidders
+                                                    $('.active-bidders-count').text(data.active_bidders);
+
+                                                    // Update Total Bids
+//                                                        $('.total-bids-count').text(data.total_bids);
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    console.error("Error fetching latest auction details:", error);
                                                 }
-                                                counterElement.textContent = message;
                                             });
                                         }
-                                    </script>
-                                    <!--For Fetch values Active Bidders and Current Price every 3 second-->
-                                    <script>
-                                        $(document).ready(function () {
-                                            // Function to fetch latest auction details
-                                            function fetchLatestAuctionDetails() {
-                                                var itemId = "<?php echo $autionItem_details['item_id']; ?>"; // Get the item ID from PHP
 
-                                                $.ajax({
-                                                    url: 'seller_fetch_values.php', // URL to the PHP script
-                                                    type: 'GET',
-                                                    data: {
-                                                        item_id: itemId // Send the item ID to the server
-                                                    },
-                                                    success: function (response) {
-                                                        var data = JSON.parse(response); // Parse the JSON response
+                                        // Call the function immediately, and then every 1 seconds
+                                        fetchLatestAuctionDetails();
+                                        setInterval(fetchLatestAuctionDetails, 1000); // 1000ms = 1 seconds
+                                    });
+                                </script>
 
-                                                        // Update Current Price
-                                                        $('.price').text(data.current_bid);
-
-                                                        // Update Active Bidders
-                                                        $('.active-bidders-count').text(data.active_bidders);
-
-                                                        // Update Total Bids
-                                                        $('.total-bids-count').text(data.total_bids);
-                                                    },
-                                                    error: function (xhr, status, error) {
-                                                        console.error("Error fetching latest auction details:", error);
-                                                    }
-                                                });
-                                            }
-
-                                            // Call the function immediately, and then every 1 seconds
-                                            fetchLatestAuctionDetails();
-                                            setInterval(fetchLatestAuctionDetails, 1000); // 1000ms = 1 seconds
-                                        });
-                                    </script>
-
-                                </div>
+                                <!--</div>-->
                                 <div class="side-counter-area">
-                                    <div class="side-counter-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/product/icon1.png" alt="product">
-                                        </div>
-                                        <div class="content">
-                                            <h3 class="count-title"><span class="counter active-bidders-count"><?php
-                                                    if (isset($bid_details)) {
-                                                        echo $bid_details['active_bidders'];
-                                                    }
-                                                    ?></span></h3>
-                                            <p>Active Bidders</p>
-                                        </div>
-                                    </div>
                                     <div class="side-counter-item">
                                         <div class="thumb">
                                             <img src="assets/images/product/icon2.png" alt="product">
@@ -443,22 +440,13 @@
                                             <p>Ragister User For Auction</p>
                                         </div>
                                     </div>
-                                    <div class="side-counter-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/product/icon3.png" alt="product">
-                                        </div>
-                                        <div class="content">
-                                            <h3 class="count-title"><span class="counter total-bids-count"><?php
-                                                    if (isset($bid_details)) {
-                                                        echo $bid_details['bids'];
-                                                    }
-                                                    ?></span></h3>
-                                            <p>Total Bids</p>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
-                            <!--                            <a href="#0" class="cart-link">View Shipping, Payment & Auction Policies</a>-->
+                            <button type="submit" value="btnBid" class="custom-button" onclick="window.location.href = 'b_auction_registration.php';">
+                                Register For Auction
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -472,18 +460,6 @@
                                     <img src="assets/images/product/tab1.png" alt="product">
                                 </div>
                                 <div class="content">Description</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#history" data-toggle="tab">
-                                <div class="thumb">
-                                    <img src="assets/images/product/tab3.png" alt="product">
-                                </div>
-                                <div class="content">Bid History (<?php
-                                    if (isset($bid_details)) {
-                                        echo $bid_details['bids'];
-                                    }
-                                    ?>)</div>
                             </a>
                         </li>
                         <li>
@@ -553,73 +529,6 @@
                                                                     <p>When applicable for a given ASSET, BUYER bears responsibility for determining motor vehicle registration requirements in the applicable jurisdiction as well as costs, including any fees, registration fees, taxes, etc., owed as a result of BUYER registering an ASSET; for example, BUYER bears sole responsibility for all title/registration/smog and other such fees.</p>
                                                                     <p>BUYER is responsible for all storage fees at time of pick-up. See above under IMPORTANT PICK-UP TIMES for specific requirements for this asset, but generally assets must be picked up within 2 business days of payment otherwise additional storage fees will be applied.</p>
                                                                 </div>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade show" id="history">
-                        <div class="history-wrapper">
-                            <div class="item">
-                                <h5 class="title">Bid History</h5>
-                                <div class="history-table-area">
-                                    <table class="history-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Bidder</th>
-                                                <th>date</th>
-                                                <th>time</th>
-                                                <th>unit price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $result = mysqli_query($conn, "SELECT b.bid_value, b.bid_datetime, bd.firstname, bd.user_img FROM tblbid AS b JOIN tblbidders AS bd ON b.bidder_id = bd.id WHERE b.auction_item_id = 1 ORDER BY b.bid_datetime DESC");
-                                            if (mysqli_num_rows($result) > 0) {
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    // Format bid date and time
-                                                    $bidderName = $row['firstname'];
-                                                    $bidDateTime = new DateTime($row['bid_datetime']);
-                                                    $bidDate = $bidDateTime->format('m/d/Y');
-                                                    $bidTime = $bidDateTime->format('h:i:s A');
-                                                    if (isset($row['user_img'])) {
-                                                        $imageData = base64_encode($row['user_img']);
-                                                        $bidderImage = 'data:image/jpeg;base64,' . $imageData;
-                                                    } else {
-                                                        // Use a placeholder image if there's no image in the database
-                                                        $bidderImage = '/assets/images/history/05.png';
-                                                        echo '<script>alert(' . $bidderImage . ')</script>';
-                                                    }
-                                                    $bidValue = "$" . number_format($row['bid_value'], 2);
-
-                                                    // Output table row
-                                                    echo "
-        <tr>
-            <td data-history='bidder'>
-                <div class='user-info'>
-                    <div class='thumb'>
-                        <img src='$bidderImage' alt='history'>
-                    </div>
-                    <div class='content'>
-                        $bidderName
-                    </div>
-                </div>
-            </td>
-            <td data-history='date'>$bidDate</td>
-            <td data-history='time'>$bidTime</td>
-            <td data-history='unit price'>$bidValue</td>
-        </tr>
-        ";
-                                                }
-                                            } else {
-                                                // Output message when no bids are available
-                                                echo "<tr><td colspan='4'>No bids found for this item.</td></tr>";
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                    <div class="text-center mb-3 mt-4">
-                                        <a href="#0" class="button-3">Load More</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

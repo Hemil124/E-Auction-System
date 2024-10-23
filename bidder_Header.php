@@ -100,7 +100,7 @@
                                 <a href="bidder_upcoming_auctions.php">Upcoming Items</a>
                             </li>
                             <li>
-                                <a href="#0">Live Auction</a><!-- Add Link -->
+                                <a href="bidder_live_Auction_items.php">Live Auction</a><!-- Add Link -->
                             </li>
                             <li>
                                 <a href="about.php">About Us</a>
