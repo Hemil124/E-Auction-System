@@ -14,7 +14,7 @@ include 'connection.php';
 // Get filters from request
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
 //$status = isset($_GET['status']) ? $_GET['status'] : '';
-$status = "verified";
+$status = "mybids";
 if ($status == "Bidder") {
 //$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
     include 'find_ID.php';
@@ -67,6 +67,14 @@ if ($status == "Bidder") {
                 ti.seller_id = 1
                 AND ti.verify_status = 'rejected'";
     }
+} elseif ($status == "mybids") {
+    $sql = "SELECT a.*
+FROM tblauctionitem a
+JOIN tblbidderpayment b ON a.id = b.auction_item_id
+WHERE b.bidder_id = 1
+AND b.emd_refund = 'pending'
+AND a.winner_id = b.bidder_id;
+";
 }
 // Build the SQL query based on the filters
 // Add condition for item name search
@@ -103,7 +111,7 @@ if ($result->num_rows > 0) {
 //        echo '<div class="col-sm-10 col-md-6 col-lg-4">';
         if ($status == "Bidder" || $status == "Seller") {
             echo '<div class="col-md-4 col-sm-6 card-container mb-4" style="padding: 47px;">'; // Make sure this is 4 columns wide to display 3 items per row
-        } elseif ($status == "verified" || $status == "rejected") {
+        } elseif ($status == "verified" || $status == "rejected" || $status == "mybids") {
             echo '<div class="col-md-6 col-sm-8 card-container mb-6" style="padding: 47px;">'; // Make sure this is 4 columns wide to display 3 items per row
         }
         echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
