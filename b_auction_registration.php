@@ -205,7 +205,7 @@ session_start();
                                                         "handler": function (response) {
                                                             console.log(response);
                                                             alert('Payment Successful');
-                                                            window.location=""
+                                                            window.location="index-2.php";
                                                             var xhr2 = new XMLHttpRequest();
                                                             xhr2.open('POST', 'insert_auction_ragistation_data.php', true);
                                                             xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
