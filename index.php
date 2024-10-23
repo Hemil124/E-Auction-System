@@ -176,6 +176,9 @@ session_start();
                                             <li>
                                                 <a href="checkout.php">Check Out</a>
                                             </li>
+                                            <li>
+                                                <a href="bidderhistory.php">bidder_history</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
