@@ -144,17 +144,44 @@
                 <div class="row justify-content-center">
                     <div class="col-sm-10 col-md-7 col-lg-4">
                         <div class="dashboard-widget mb-30 mb-lg-0">
+                            <?php
+                            include 'connection.php';
+                            if (!$conn) {
+                                die("Connection failed: " . mysqli_connect_error());
+                            }
+                            $seller_id = 1;
+                            $sql = "SELECT * FROM tblsellers WHERE id = $seller_id";
+                            $result = mysqli_query($conn, $sql);
+                            if ($row = mysqli_fetch_assoc($result)) {
+                                $fullname = $row['firstname'] . ' ' . $row['lastname'];
+                                $contact = $row['contact'];
+                                $email = $row['email'];
+                                $dob = date("d-m-Y", strtotime($row['date_of_birth']));
+                                $address = $row['address'];
+                                $user_img = $row['user_img'];
+                                $imageData = base64_encode($row['user_img']);
+                                $imageSrc = "data:image/jpeg;base64," . $imageData;
+                            } else {
+                                echo "No data found!";
+                            }
+
+                            mysqli_close($conn);
+                            ?>
                             <div class="user">
                                 <div class="thumb-area">
                                     <div class="thumb">
-                                        <img src="assets/images/dashboard/user.png" alt="user">
+                                        <?php if ($row['user_img']) { ?>
+                                            <img src="<?php echo $imageSrc; ?>" alt="user">
+                                        <?php } else { ?>
+                                            <img src="assets/images/dashboard/user.png" alt="default user">
+                                        <?php } ?>
                                     </div>
                                     <label for="profile-pic" class="profile-pic-edit"><i class="flaticon-pencil"></i></label>
                                     <input type="file" id="profile-pic" class="d-none">
                                 </div>
                                 <div class="content">
-                                    <h5 class="title"><a href="#0">Percy Reed</a></h5>
-                                    <span class="username"><a href="https://pixner.net/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7812171016381f15191114561b1715">[email&#160;protected]</a></span>
+                                    <h5 class="title"><a href="#0"><?php echo $fullname; ?></a></h5>
+                                    <span class="username"><?php echo $email; ?></span>
                                 </div>
                             </div>
                             <ul class="dashboard-menu">
