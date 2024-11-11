@@ -67,41 +67,42 @@ $apikey = "rzp_test_XWlaG4tu0mE7VT";
                             <p>We're happy for you participant in auction!</p>
                         </div>
                 <div class="panel-body">
-
-                            <input type="hidden" class="form-control" id="amount" name="amount" value="<?php echo $_POST['amount']; ?>" readonly>
+<?php $amount=$_GET['a'];?>
+                    <form>
+                            <input type="hidden" class="form-control" id="amount" name="amount" value="<?phpecho $amount; ?>" readonly>
                         <div class="form-group">
                             <label for="amount">Amount (INR):</label>
-                            <input type="text" class="form-control" id="amount" name="amount" value="<?php echo $_POST['amount']; ?>" readonly>
+                            <input type="text" class="form-control" id="amount" name="amount" value="<?php echo $amount; ?>" disabled>
                         </div>
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" value="<?php echo $_POST['name']; ?>" readonly>
+                            <input type="text" class="form-control" id="name" name="name" value="<?php // echo $_POST['name']; ?>" readonly>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $_POST['email']; ?>" readonly>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php // echo $_POST['email']; ?>" readonly>
                         </div>
                         <div class="form-group">
                             <label for="mobile">Mobile:</label>
-                            <input type="text" class="form-control" id="mobile" name="mobile" value="<?php echo $_POST['mobile']; ?>" readonly>
-                        </div>
-                        <input type="hidden" name="orderid" value="<?php echo $_POST['orderid']; ?>">
-                        <input type="hidden" custom="Hidden Element" name="hidden">
-                            
+                            <input type="text" class="form-control" id="mobile" name="mobile" value="<?php // echo $_POST['mobile']; ?>" readonly>
+                        </div>-->
+                        <!--<input type="hidden" name="orderid" value="<?php //  echo $_POST['orderid']; ?>">-->
+                        <!--<input type="hidden" custom="Hidden Element" name="hidden">-->
+                    </form>
                         <form action="paymentsuccess.php" method="POST">
                             <script
                                 src="https://checkout.razorpay.com/v1/checkout.js"
                                 data-key="<?php echo $apikey; ?>"
-                                data-amount="<?php echo $_POST['amount']*100; ?>" 
+                                data-amount="<?php echo $amount*100; ?>" 
                                 data-currency="INR"
-                                data-id="<?php echo $_POST['orderid']; ?>"
+                                data-id="<?php // echo $_POST['orderid']; ?>"
                                 data-buttontext="Pay with Razorpay"
                                 data-name="E-Auction-System"
                                 data-description="This is Winner Bidder's Payment"
                                 data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpDsjczm3UEG7H7NY6YPk4NT4MM2HI8nMgqw&s"
-                                data-prefill.name="<?php echo $_POST['name']; ?>"
-                                data-prefill.email="<?php echo $_POST['email']; ?>"
-                                data-prefill.contact="<?php echo $_POST['mobile']; ?>"
+                                data-prefill.name="<?php // echo $_POST['name']; ?>"
+                                data-prefill.email="<?php // echo $_POST['email']; ?>"
+                                data-prefill.contact="<?php // echo $_POST['mobile']; ?>"
                                 data-theme.color="#0e90e4">
                             </script>
                 </div>

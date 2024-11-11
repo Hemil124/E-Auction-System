@@ -5950,7 +5950,7 @@ div[class*=auction] .custom-button {
     border-radius: 20px;
 }
 .slide-top-item .slide-inner img {
-    width: 30%;
+    width: 100%;
 }
 @media (max-width: 575px) {
     .slide-top-item {

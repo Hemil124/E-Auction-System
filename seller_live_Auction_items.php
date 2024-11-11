@@ -47,7 +47,7 @@
 
         <!--============= Header Section Starts Here =============-->
         <?php
-        include 'Header.php';
+        include 'seller_Header.php';
         ?>
         <!--============= Header Section Ends Here =============-->
 
@@ -125,7 +125,7 @@
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.php">Home</a>
+                        <a href="index-2.php">Home</a>
                     </li>
                     <li>
                         <!--<a href="#0">My Account</a>-->

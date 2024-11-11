@@ -61,7 +61,7 @@
                                 <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
                             </li>                        
                             <li>
-                                <a href="sign-in.php" class="user-button"><i class="flaticon-user"></i></a>
+                                <a href="seller_dashbord.php" class="user-button"><i class="flaticon-user"></i></a>
                             </li>                        
                         </ul>
                     </div>

@@ -28,21 +28,22 @@ function payNow() {
                 "order_id": response.order_id,
                 "handler": function (response) {
                     console.log(response);
-                    alert('Payment Successful');
-                    var xhr2 = new XMLHttpRequest();
-                    xhr2.open('POST', 'insert_auction_ragistation_data.php', true);
-                    xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr2.onload = function () {
-                        if (xhr2.status === 200) {
-                            alert('Payment details saved successfully.');
-                        } else {
-                            alert('Error saving payment details.');
-                        }
-                    };
-                    xhr2.send('auction_item_id=' + encodeURIComponent(auction_item_id) +
-                            '&bidder_id=' + encodeURIComponent(bidder_id) +
-                            '&emd_refund=Applicable' +
-                            '&full_payment=' + encodeURIComponent(amount));
+                    alert('Ragistation Succesfully');
+                    window.location = "index-3.php";
+//                    var xhr2 = new XMLHttpRequest();
+//                    xhr2.open('POST', 'insert_auction_ragistation_data.php', true);
+//                    xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//                    xhr2.onload = function () {
+//                        if (xhr2.status === 200) {
+//                            alert('Payment details saved successfully.');
+//                        } else {
+//                            alert('Error saving payment details.');
+//                        }
+//                    };
+//                    xhr2.send('auction_item_id=' + encodeURIComponent(auction_item_id) +
+//                            '&bidder_id=' + encodeURIComponent(bidder_id) +
+//                            '&emd_refund=Applicable' +
+//                            '&full_payment=' + encodeURIComponent(amount));
                 },
                 "theme": {
                     "color": "#F37254"

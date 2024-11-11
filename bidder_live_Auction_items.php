@@ -124,7 +124,7 @@
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.php">Home</a>
+                        <a href="index-3.php">Home</a>
                     </li>
                     <li>
                         <!--<a href="#0">My Account</a>-->

@@ -344,13 +344,13 @@ session_start();
                     $email = $_POST['txtemail'];
                     include 'connection.php';
                     $email_check_bidder = mysqli_query($conn,"select email,contact from tblbidders");
-                    $result_bidder = mysqli_num_rows($result_seller);
+                    $result_bidder = mysqli_num_rows($email_check_bidder);
 
                     $email_check_seller = mysqli_query($conn, "select email,contact,adhar_number from tblsellers");
-                    $result_seller = mysqli_num_rows($result_seller);
+                    $result_seller = mysqli_num_rows($email_check_seller);
 
                     $email_check_admin =  mysqli_query($conn, "select email from tbladmin");
-                    $result_admin =mysqli_num_rows($result_admin);
+                    $result_admin =mysqli_num_rows($email_check_admin);
 
                     if ($result_bidder[0] ==  $_POST['txtemail']|| $result_seller[0] ==  $_POST['txtemail'] ||$result_admin[0] ==  $_POST['txtemail']) {
                         echo '<script>alert("Email ID is already exist.")</script>';

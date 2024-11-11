@@ -57,7 +57,7 @@ $_SESSION['txtemail'] = "22bmiit142@gmail.com";
                         <a href="my-bid.php"><i class="flaticon-auction"></i>My Bids</a>
                     </li>-->
                     <li>
-                        <a href="winning-bids.php"><i class="flaticon-best-seller"></i>Winning Bids</a>
+                        <a href="b_winning_items.php"><i class="flaticon-best-seller"></i>Winning Bids</a>
                     </li>
                     <li>
                         <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>

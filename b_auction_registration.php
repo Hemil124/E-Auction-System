@@ -13,6 +13,7 @@ session_start();
               integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>E-Auction</title>
+        
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/all.min.css">
@@ -30,11 +31,12 @@ session_start();
         <link href="assets/css/nice-select.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">  
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
     <body>
         <?php
-        include 'Header.php';
+        include 'bidder_Header.php';
         ?>
         <!--============= Hero Section Starts Here =============-->
         <div class="hero-section">
@@ -204,22 +206,22 @@ session_start();
                                                         "order_id": response.order_id,
                                                         "handler": function (response) {
                                                             console.log(response);
-                                                            alert('Payment Successful');
-                                                            window.location="index-2.php";
-                                                            var xhr2 = new XMLHttpRequest();
-                                                            xhr2.open('POST', 'insert_auction_ragistation_data.php', true);
-                                                            xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                                                            xhr2.onload = function () {
-                                                                if (xhr2.status === 200) {
-                                                                    alert('Payment details saved successfully.');
-                                                                } else {
-                                                                    alert('Error saving payment details.');
-                                                                }
-                                                            };
-                                                            xhr2.send('auction_item_id=' + encodeURIComponent(auction_item_id) +
-                                                                    '&bidder_id=' + encodeURIComponent(bidder_id) +
-                                                                    '&emd_refund=Applicable' +
-                                                                    '&full_payment=' + encodeURIComponent(amount));
+                                                            alert('Auction Ragistation Succesfully');
+                                                            window.location = "index-2.php";
+//                                                            var xhr2 = new XMLHttpRequest();
+//                                                            xhr2.open('POST', 'insert_auction_ragistation_data.php', true);
+//                                                            xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//                                                            xhr2.onload = function () {
+//                                                                if (xhr2.status === 200) {
+//                                                                    alert('Payment details saved successfully.');
+//                                                                } else {
+//                                                                    alert('Error saving payment details.');
+//                                                                }
+//                                                            };
+//                                                            xhr2.send('auction_item_id=' + encodeURIComponent(auction_item_id) +
+//                                                                    '&bidder_id=' + encodeURIComponent(bidder_id) +
+//                                                                    '&emd_refund=Applicable' +
+//                                                                    '&full_payment=' + encodeURIComponent(amount));
                                                         },
                                                         "theme": {
                                                             "color": "#F37254"
@@ -235,7 +237,7 @@ session_start();
                                         }
                                     </script>
                                     <div class="col">
-                                        <button type="submit" class="custom-button" name="btnsignup" onclick="payNow()" style="margin-right: 290px">Sign Up</button>
+                                        <button type="submit" class="custom-button" name="btnsignup"  style="margin-right: 290px">Sign Up</button>
                                     </div>
                                 </div>
                             </div>
@@ -267,8 +269,10 @@ session_start();
 //            }
             if (isset($_POST['btnsignup'])) {
                 // Assuming bidder's ID is passed from a hidden input field further we wany to fetch the value 
-                $id = 1;
-
+                include 'find_ID.php';
+//                find_bidderID($email)
+                $id = 2;
+                $auction_item_id = $_GET['auction_item_id'];
                 $houseNumber = trim($_POST['txtHouseNumber']);
                 $societyName = trim($_POST['txtSocietyName']);
                 $area = trim($_POST['txtArea']);
@@ -287,6 +291,9 @@ session_start();
                     $cityRow = mysqli_fetch_assoc($cityResult);
                     $cityName = $cityRow['name'];
 
+                    $result_bid = mysqli_query($conn, "SELECT MAX(bid_value) AS current_bid FROM tblbid WHERE auction_item_id = " . $auction_item_id);
+                    $bid_details = mysqli_fetch_assoc($result_bid);
+
                     $address = $houseNumber . ', ' . $societyName . ', ' . $area . ', ' . $cityName . ', ' . $stateName;
 
                     // Handle the image upload
@@ -302,10 +309,15 @@ session_start();
                             echo "<script>alert('Image size must be between 50 KB and 300 KB.');</script>";
                         } else {
                             if (move_uploaded_file($imageTmpName, $imageFolder)) {
+//                                 echo "<script>alert('da.');</script>";
                                 $sql = "UPDATE tblbidders SET address='$address' WHERE id=$id";
-                                if (mysqli_query($conn, $sql)) {
+                                $sql1 = "INSERT INTO tblbidderpayment (auction_item_id, bidder_id, emd_refund, full_payment) 
+        VALUES ('$auction_item_id', '$id', 'notApplicable', 'notApplicable')";
+                                $sql3 = "UPDATE `tblauctionitem` SET `auction_status` = 'ACTIVE' WHERE `id` = $auction_item_id";
+
+                                if (mysqli_query($conn, $sql) && mysqli_query($conn, $sql1) && mysqli_query($conn, $sql3)) {
 //                                    echo "<script>alert('Bidder details updated successfully.');</script>";
-                                    echo '<script src="call_paynow.js" type="text/javascript"></script>';
+                                    echo '               <script src="call_paynow.js" type="text/javascript"></script>';
                                 } else {
                                     echo "<script>alert('Error updating record: " . mysqli_error($conn) . "');</script>";
                                 }
@@ -345,7 +357,7 @@ session_start();
 //        }
 //        
         ?>
-        <!--<img src="<?php // echo $imgsrc;    ?>" alt='Bidder Image' style='max-width: 300px; max-height: 300px;'>-->
+        <!--<img src="<?php // echo $imgsrc;      ?>" alt='Bidder Image' style='max-width: 300px; max-height: 300px;'>-->
 
 
 

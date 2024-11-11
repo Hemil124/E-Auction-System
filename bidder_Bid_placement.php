@@ -34,13 +34,13 @@ session_start();
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <!--        <div class="overlayer" id="overlayer">
+                <div class="overlayer" id="overlayer">
                     <div class="loader">
                         <div class="loader-inner"></div>
                     </div>
                 </div>
                 <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
-                <div class="overlay"></div>-->
+                <div class="overlay"></div>
         <!--============= ScrollToTop Section Ends Here =============-->
 
 
@@ -70,7 +70,7 @@ session_start();
                                 <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount">08</span></a>
                             </li>                        
                             <li>
-                                <a href="sign-in.php" class="user-button"><i class="flaticon-user"></i></a>
+                                <a href="bidder_deshboard.php" class="user-button"><i class="flaticon-user"></i></a>
                             </li>                        
                         </ul>
                     </div>
@@ -86,95 +86,36 @@ session_start();
                         </div>
                         <ul class="menu ml-auto">
                             <li>
-                                <a href="#0">Home</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="index.php">Home Page One</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-2.php">Home Page Two</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-3.php">Home Page Three</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-4.php">Home Page Four</a>
-                                    </li>
-                                    <li>
-                                        <a href="index-5.php">Home Page Five</a>
-                                    </li>
-                                </ul>
+                                <a href="index-3.php">Home</a>
+                                <!--                                <ul class="submenu">
+                                                                    <li>
+                                                                        <a href="index.php">Home Page One</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-2.php">Home Page Two</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-3.php">Home Page Three</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-4.php">Home Page Four</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="index-5.php">Home Page Five</a>
+                                                                    </li>
+                                                                </ul>-->
                             </li>
                             <li>
-                                <a href="product.php">Auction</a>
+                                <a href="bidder_upcoming_auctions.php">Upcoming Items</a>
                             </li>
                             <li>
-                                <a href="#0">Pages</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="#0">Product</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="product.php">Product Page 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="product-2.php">Product Page 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="product-details.php">Product Details</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#0">My Account</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="sign-up.php">Sign Up</a>
-                                            </li>
-                                            <li>
-                                                <a href="sign-in.php">Sign In</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#0">Dashboard</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="dashboard.php">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="profile.php">Personal Profile</a>
-                                            </li>
-                                            <li>
-                                                <a href="my-bid.php">My Bids</a>
-                                            </li>
-                                            <li>
-                                                <a href="winning-bids.php">Winning Bids</a>
-                                            </li>
-                                            <li>
-                                                <a href="notifications.php">My Alert</a>
-                                            </li>
-                                            <li>
-                                                <a href="my-favorites.php">My Favorites</a>
-                                            </li>
-                                            <li>
-                                                <a href="referral.php">Referrals</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="about.php">About Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="faqs.php">Faqs</a>
-                                    </li>
-                                    <li>
-                                        <a href="error.php">404 Error</a>
-                                    </li>
-                                </ul>
+                                <a href="bidder_live_Auction_items.php">Live Auction</a><!-- Add Link -->
                             </li>
                             <li>
-                                <a href="contact.php">Contact</a>
+                                <a href="about.php">About Us</a>
+                            </li>
+                            <li>
+                                <a href="test.php">Contact</a>
                             </li>
                         </ul>
                         <form class="search-form">
@@ -282,7 +223,7 @@ session_start();
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.php">Home</a>
+                        <a href="index-3.php">Home</a>
                     </li>
                     <li>
                         <a href="seller_live_Auction.php">Live Auction Items</a>
@@ -306,21 +247,22 @@ session_start();
                 <div class="product-details-slider-top-wrapper">
                     <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                         <?php
-                        // Fetch images from the database
-                        $result_img = mysqli_query($conn, "SELECT img FROM tblimg WHERE item_id=$item_id");
+                        $imageArray = json_decode($item_details['image_id'], true);
 
-                        while ($row_img = mysqli_fetch_assoc($result_img)) {
-                            // Convert BLOB to base64
-                            $imageData = base64_encode($row_img['img']);
-                            $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-                            ?>
-                            <div class="slide-top-item">
-                                <div class="slide-inner">
-                                    <!-- Main image carousel (sync1) -->
-                                    <img src="<?php echo $imageSrc; ?>" alt="product">
+                        // Check if the array is not empty
+                        if (!empty($imageArray)) {
+                            // Limit to the first three images
+                            $limitedImages = array_slice($imageArray, 0);
+                            foreach ($limitedImages as $image) {
+                                ?>
+                                <div class="slide-top-item">
+                                    <div class="slide-inner">
+                                        <!-- Main image carousel (sync1) -->
+                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            }
                         }
                         ?>
                     </div>
@@ -329,21 +271,22 @@ session_start();
                 <div class="product-details-slider-wrapper">
                     <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
                         <?php
-                        // Loop through the same images again for the thumbnail carousel
-                        $result_img = mysqli_query($conn, "SELECT img FROM tblimg WHERE item_id=$item_id");
+                        $imageArray = json_decode($item_details['image_id'], true);
 
-                        while ($row_img = mysqli_fetch_assoc($result_img)) {
-                            // Convert BLOB to base64 again for thumbnails
-                            $imageData = base64_encode($row_img['img']);
-                            $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-                            ?>
-                            <div class="slide-bottom-item">
-                                <div class="slide-inner">
-                                    <!-- Thumbnail carousel (sync2) -->
-                                    <img src="<?php echo $imageSrc; ?>" alt="product thumbnail">
+                        // Check if the array is not empty
+                        if (!empty($imageArray)) {
+                            // Limit to the first three images
+                            $limitedImages = array_slice($imageArray, 0);
+                            foreach ($limitedImages as $image) {
+                                ?>
+                                <div class="slide-top-item">
+                                    <div class="slide-inner">
+                                        <!-- Main image carousel (sync1) -->
+                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            }
                         }
                         ?>
                     </div>
@@ -423,31 +366,58 @@ session_start();
                                     <div class="search-icon">
                                         <img src="assets/images/product/search-icon.png" alt="product">
                                     </div>
-                                    <input type="text" placeholder="Enter you bid amount" name="txtValue" value="<?php echo $bid_details['current_bid'] + $autionItem_details['increment_value']; ?>" disabled style="font-size: 150%; color: #43b055;" title="Can't Change Value">
-                                    <button type="submit" value="btnBid" class="custom-button">Submit a bid</button>
+                                    <input type="text" placeholder="Enter your bid amount" value="<?php echo $bid_details['current_bid'] + $autionItem_details['increment_value']; ?>" disabled style="font-size: 150%; color: #43b055;" title="Can't Change Value">
+
+                                    <!-- Hidden input to capture the bid value -->
+                                    <input type="hidden" name="hiddenBidValue" value="<?php echo $bid_details['current_bid'] + $autionItem_details['increment_value']; ?>">
+
+                                    <button type="submit" name="btnBid" value="<?php echo $bid_details['current_bid'] + $autionItem_details['increment_value']; ?>" class="custom-button">Submit a bid</button>
+
                                     <!-- Hidden message displayed when auction expires -->
                                     <span id="auction-expired-message" style="display: none; color: red;">Auction is Completed</span>
-
-                                    <?php
-                                    if (isset($_GET['btnBid'])) {
-//                                        include 'connection.php';
-//                                        include 'find_ID.php';
-//
-//                                        // Fetch the bidder ID
-//                                        $bidder_id = find_bidderID($_SESSION['txtemail']); // Assuming the user's email is stored in the session
-//                                        // Fetch the auction item ID and bid value from the form
-//                                        $auction_item_id = $autionItem_details['id'];
-//                                        $bid_value = $_POST['txtValue']; // Assuming bid value is entered by user
-//                                        // Get the current datetime for the bid
-//                                        $bid_datetime = date('Y-m-d H:i:s');
-//
-//                                        // Insert the bid into the tblbid table
-//                                        $sql = mysqli_query($conn,"INSERT INTO tblbid (auction_item_id, bidder_id, bid_value, bid_datetime) VALUES ('$auction_item_id', '$bidder_id', '$bid_value', '$bid_datetime')");
-//                                    
-//                                        
-                                    }
-                                    ?>
                                 </form>
+
+                                <?php
+                                if (isset($_POST['btnBid'])) {
+                                    // Print all POST data to check if the hiddenBidValue is being sent
+                                    echo "<pre>";
+//                                    print_r($_POST);
+                                    echo "</pre>";
+
+                                    $bidder_id = 1;  // Dummy value for the bidder ID
+                                    $auction_item_id = $autionItem_details['id'];
+
+                                    // Check if the hiddenBidValue exists and is set
+                                    if (isset($_POST['hiddenBidValue'])) {
+                                        $bid_value = $_POST['hiddenBidValue'];
+//                                        echo "<script>alert('Bid value $bid_value')</script>";
+                                    } else {
+//                                        echo '<script>alert("Bid value not received.");</script>';
+                                        exit; // Exit if bid value is not available
+                                    }
+
+                                    $bid_datetime = date('Y-m-d H:i:s');
+
+                                    // Build the SQL query
+                                    $sql = "INSERT INTO tblbid (auction_item_id, bidder_id, bid_value, bid_datetime) 
+            VALUES ('$auction_item_id', '$bidder_id', '$bid_value', '$bid_datetime')";
+
+                                    // Print the SQL query to debug
+//                                    echo "<pre>SQL Query: $sql</pre>";
+
+                                    if (mysqli_query($conn, $sql)) {
+//                                        echo '<script>alert("Bid inserted successfully!");</script>';
+                                        echo "<meta http-equiv='refresh' content='0'>";
+                                    } else {
+                                        // Print the error in case the query fails
+                                        echo '<script>alert("Error: ' . mysqli_error($conn) . '");</script>';
+                                    }
+                                }
+                                ?>
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -500,26 +470,27 @@ session_start();
                                     <!--For Fetch values Active Bidders and Current Price every 3 second-->
                                     <script>
                                         $(document).ready(function () {
-                                            // Function to fetch latest auction details
+                                            // Function to fetch the latest auction details
                                             function fetchLatestAuctionDetails() {
-                                                var itemId = "<?php echo $autionItem_details['item_id']; ?>"; // Get the item ID from PHP
+                                                var itemId = "<?php echo $auctionItem_details['item_id']; ?>"; // Correct the typo 'autionItem_details' to 'auctionItem_details'
 
                                                 $.ajax({
-                                                    url: 'seller_fetch_values.php', // URL to the PHP script
+                                                    url: 'seller_fetch.php', // Ensure this URL points to your PHP file that fetches auction details
                                                     type: 'GET',
-                                                    data: {
-                                                        item_id: itemId // Send the item ID to the server
-                                                    },
+                                                    data: {item_id: itemId}, // Send the item ID to the server
                                                     success: function (response) {
-                                                        var data = JSON.parse(response); // Parse the JSON response
+                                                        var data = JSON.parse(response); // Parse the JSON response from the server
 
                                                         // Update Current Price
                                                         $('.price').text(data.current_bid);
 
-                                                        // Update Active Bidders
+                                                        // Update Next Bid Value in the Bid Input Field
+                                                        $('#bidAmount').val(data.next_bid); // Assuming #bidAmount is the bid input field
+
+                                                        // Update Active Bidders Count (Assuming you have a class for it)
                                                         $('.active-bidders-count').text(data.active_bidders);
 
-                                                        // Update Total Bids
+                                                        // Update Total Bids Count (Assuming you have a class for it)
                                                         $('.total-bids-count').text(data.total_bids);
                                                     },
                                                     error: function (xhr, status, error) {
@@ -528,11 +499,12 @@ session_start();
                                                 });
                                             }
 
-                                            // Call the function immediately, and then every 1 seconds
+                                            // Call the function immediately and then every 1 second
                                             fetchLatestAuctionDetails();
-                                            setInterval(fetchLatestAuctionDetails, 1000); // 1000ms = 1 seconds
+                                            setInterval(fetchLatestAuctionDetails, 1000); // 1000ms = 1 second
                                         });
                                     </script>
+
 
                                 </div>
                                 <div class="side-counter-area">
@@ -691,7 +663,7 @@ session_start();
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $result = mysqli_query($conn, "SELECT b.bid_value, b.bid_datetime, bd.firstname, bd.user_img FROM tblbid AS b JOIN tblbidders AS bd ON b.bidder_id = bd.id WHERE b.auction_item_id = 1 ORDER BY b.bid_datetime DESC");
+                                            $result = mysqli_query($conn, "SELECT b.bid_value, b.bid_datetime, bd.firstname, bd.user_img FROM tblbid AS b JOIN tblbidders AS bd ON b.bidder_id = bd.id WHERE b.auction_item_id = 2 ORDER BY b.bid_datetime DESC");
                                             if (mysqli_num_rows($result) > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     // Format bid date and time

@@ -216,7 +216,7 @@
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.php">Home</a>
+                        <a href="index-3.php">Home</a>
                     </li>
                     <li>
                         <a href="seller_live_Auction.php">Live Auction Items</a>
@@ -239,23 +239,23 @@
             <div class="container">
                 <div class="product-details-slider-top-wrapper">
                     <div class="product-details-slider owl-theme owl-carousel" id="sync1">
-                        <?php
-                        include 'connection.php';
-                        // Fetch images from the database
-                        $result_img = mysqli_query($conn, "SELECT img FROM tblimg WHERE item_id=$item_id");
+                       <?php
+                        $imageArray = json_decode($item_details['image_id'], true);
 
-                        while ($row_img = mysqli_fetch_assoc($result_img)) {
-                            // Convert BLOB to base64
-                            $imageData = base64_encode($row_img['img']);
-                            $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-                            ?>
-                            <div class="slide-top-item">
-                                <div class="slide-inner">
-                                    <!-- Main image carousel (sync1) -->
-                                    <img src="<?php echo $imageSrc; ?>" alt="product">
+                        // Check if the array is not empty
+                        if (!empty($imageArray)) {
+                            // Limit to the first three images
+                            $limitedImages = array_slice($imageArray, 0);
+                            foreach ($limitedImages as $image) {
+                                ?>
+                                <div class="slide-top-item">
+                                    <div class="slide-inner">
+                                        <!-- Main image carousel (sync1) -->
+                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            }
                         }
                         ?>
                     </div>
@@ -263,22 +263,23 @@
 
                 <div class="product-details-slider-wrapper">
                     <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
-                        <?php
-                        // Loop through the same images again for the thumbnail carousel
-                        $result_img = mysqli_query($conn, "SELECT img FROM tblimg WHERE item_id=$item_id");
+                       <?php
+                        $imageArray = json_decode($item_details['image_id'], true);
 
-                        while ($row_img = mysqli_fetch_assoc($result_img)) {
-                            // Convert BLOB to base64 again for thumbnails
-                            $imageData = base64_encode($row_img['img']);
-                            $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-                            ?>
-                            <div class="slide-bottom-item">
-                                <div class="slide-inner">
-                                    <!-- Thumbnail carousel (sync2) -->
-                                    <img src="<?php echo $imageSrc; ?>" alt="product thumbnail">
+                        // Check if the array is not empty
+                        if (!empty($imageArray)) {
+                            // Limit to the first three images
+                            $limitedImages = array_slice($imageArray, 0);
+                            foreach ($limitedImages as $image) {
+                                ?>
+                                <div class="slide-top-item">
+                                    <div class="slide-inner">
+                                        <!-- Main image carousel (sync1) -->
+                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            }
                         }
                         ?>
                     </div>
@@ -443,7 +444,7 @@
 
                                 </div>
                             </div>
-                            <button type="submit" value="btnBid" class="custom-button" onclick="window.location.href = 'b_auction_registration.php';">
+                            <button type="submit" value="btnBid" class="custom-button" onclick="window.location.href = 'b_auction_registration.php?auction_item_id=<?php echo $autionItem_details['id'];?>';">
                                 Register For Auction
                             </button>
 

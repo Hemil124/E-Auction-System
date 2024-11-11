@@ -22,4 +22,5 @@ function find_bidderID($email)
         return null;
     }
 }
+
 ?>

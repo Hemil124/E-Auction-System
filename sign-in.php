@@ -312,7 +312,7 @@ session_start();
 //                        echo "<script>alert('$userPassword');</script>";
 //                        echo "<script>alert('password_verify($userPassword, $datahashedPassword)');</script>";
 
-                        if ($password_verify($userPassword, $datahashedPassword)) {
+                        if (password_verify($userPassword, $datahashedPassword)) {
                             $_SESSION['txtemail'] = $email;
                             echo '<script>location.replace("index.php")</script>';
                             exit();

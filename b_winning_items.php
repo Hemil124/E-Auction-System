@@ -124,7 +124,7 @@
             <div class="container">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.php">Home</a>
+                        <a href="index-3.php">Home</a>
                     </li>
                     <li>
                         <a href="#0">My Account</a>
@@ -143,75 +143,7 @@
         <section class="dashboard-section padding-bottom mt--240 mt-lg--440 pos-rel">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-sm-10 col-md-7 col-lg-4">
-                        <div class="dashboard-widget mb-30 mb-lg-0 sticky-menu">
-                            <?php
-                            include 'connection.php';
-                            if (!$conn) {
-                                die("Connection failed: " . mysqli_connect_error());
-                            }
-                            $seller_id = 1;
-                            $sql = "SELECT * FROM tblsellers WHERE id = $seller_id";
-                            $result = mysqli_query($conn, $sql);
-                            if ($row = mysqli_fetch_assoc($result)) {
-                                $fullname = $row['firstname'] . ' ' . $row['lastname'];
-                                $contact = $row['contact'];
-                                $email = $row['email'];
-                                $dob = date("d-m-Y", strtotime($row['date_of_birth']));
-                                $address = $row['address'];
-                                $user_img = $row['user_img'];
-                                $imageData = base64_encode($row['user_img']);
-                                $imageSrc = "data:image/jpeg;base64," . $imageData;
-                            } else {
-                                echo "No data found!";
-                            }
-
-                            mysqli_close($conn);
-                            ?>
-                            <div class="user">
-                                <div class="thumb-area">
-                                    <div class="thumb">
-                                        <?php if ($row['user_img']) { ?>
-                                            <img src="<?php echo $imageSrc; ?>" alt="user">
-                                        <?php } else { ?>
-                                            <img src="assets/images/dashboard/user.png" alt="default user">
-                                        <?php } ?>
-                                    </div>
-                                    <label for="profile-pic" class="profile-pic-edit"><i class="flaticon-pencil"></i></label>
-                                    <input type="file" id="profile-pic" class="d-none">
-                                </div>
-                                <div class="content">
-                                    <h5 class="title"><a href="#0"><?php echo $fullname; ?></a></h5>
-                                    <span class="username"><?php echo $email; ?></span>
-                                </div>
-                            </div>
-                            <ul class="dashboard-menu">
-                                <li>
-                                    <a href="seller_dashbord.php"><i class="flaticon-dashboard"></i>Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="s_profile.php">
-                                        <img src="assets/images/sellerDashbord/profile-icon.png" alt="Personal Profile Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 2px;">
-                                        Personal Profile
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="s_my-item.php" class="active">
-                                        <img src="assets/images/sellerDashbord/add-product.png" alt="My Items Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 2px;">
-                                        My Items
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="s_notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
-                                </li>
-                                <li>
-                                    <button class="logout" onclick="window.location.href = 'logout.php'">
-                                        Logout
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <?php include 'bidder_dashboard_sidebar.php'; ?>
                     <div class="col-lg-8">
 
                         <script>
