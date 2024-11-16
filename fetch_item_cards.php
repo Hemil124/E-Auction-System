@@ -1,25 +1,26 @@
 <?php
 
-//session_start();
-//without login can't open indexpage!!        
-//        if (!isset($_SESSION['txtemail']) ) {
-//            header("Location: sign-in.php");
-//            exit();
-//        }
-?>
-<?php
+session_start();
+//Find Seller Id        
+        if (!isset($_SESSION['semail']) ) 
+        {
+            include 'find_ID';
+            $sellerid=find_sellerID($_SESSION['semail']);
+        }
 
 include 'connection.php';
 
 // Get filters from request
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : '';
+$bidder_id = 2;
+//$sellerid = 1;
 //$status = "mybids";
 if ($status == "Bidder") {
 //$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
     include 'find_ID.php';
 //    $bidder_id=find_bidderID($_SESSION['txtemail']);
-    $bidder_id = 2;
+
     if (isset($bidder_id)) {
         $sql = "
     SELECT 
@@ -34,14 +35,10 @@ if ($status == "Bidder") {
     ";
     }
 } elseif ($status == "Seller") {
-//    $sellerid = find_sellerID($_SESSION['txtemail']);
-    $sellerid = 1;
     if (isset($sellerid)) {
         $sql = "SELECT tblauctionitem.*, tblitem.name, tblitem.seller_id, tblitem.category_id, tblitem.description, tblitem.starting_price FROM tblauctionitem INNER JOIN tblitem ON tblauctionitem.item_id = tblitem.id WHERE tblauctionitem.auction_status = 'active' AND tblitem.seller_id = $sellerid;";
     }
 } elseif ($status == "verified") {
-//    $sellerid = find_sellerID($_SESSION['txtemail']);
-    $sellerid = 3;
     if (isset($sellerid)) {
         $sql = "SELECT 
                 tai.* 
@@ -50,12 +47,10 @@ if ($status == "Bidder") {
             JOIN 
                 tblitem ti ON ti.id = tai.item_id
             WHERE 
-                ti.seller_id = 1
+                ti.seller_id = $sellerid
                 AND ti.verify_status = 'verified'";
     }
 } elseif ($status == "rejected") {
-//    $sellerid = find_sellerID($_SESSION['txtemail']);
-    $sellerid = 3;
     if (isset($sellerid)) {
         $sql = "SELECT 
                 tai.* 
@@ -64,14 +59,14 @@ if ($status == "Bidder") {
             JOIN 
                 tblitem ti ON ti.id = tai.item_id
             WHERE 
-                ti.seller_id = 1
+                ti.seller_id = $sellerid
                 AND ti.verify_status = 'rejected'";
     }
 } elseif ($status == "mybids") {
     $sql = "SELECT a.*
 FROM tblauctionitem a
 JOIN tblbidderpayment b ON a.id = b.auction_item_id
-WHERE b.bidder_id = 2
+WHERE b.bidder_id = $bidder_id
 AND a.winner_id = b.bidder_id;
 ";
 }
@@ -170,9 +165,10 @@ if ($result->num_rows > 0) {
             echo '                <a href="bidder_Bid_placement.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">View Details</a>';
         } elseif ($status == "Upcoming") {
             echo '                <a href="bidder_Item_Details.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button" >View Details</a>';
-        }
-        elseif ($status == "mybids") {
-            echo '                <a href="payscript.php?a=' . htmlspecialchars($row3['current_bid']) . '" class="custom-button" >Full Payment</a>';
+        } elseif ($status == "mybids") {
+            echo '                <a href="payscript.php?a=' . htmlspecialchars($row3['current_bid']) .
+                                  '&auctionitem_id=' . htmlspecialchars($row['id']) .
+                                  '" class="custom-button">Full Payment</a>';
         }
         echo '            </div>';
         echo '        </div>';
@@ -182,5 +178,4 @@ if ($result->num_rows > 0) {
 } else {
     echo "No auctions found.";
 }
-
 ?>

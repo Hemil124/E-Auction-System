@@ -67,7 +67,8 @@ $apikey = "rzp_test_XWlaG4tu0mE7VT";
                             <p>We're happy for you participant in auction!</p>
                         </div>
                 <div class="panel-body">
-<?php $amount=$_GET['a'];?>
+<?php $amount=$_GET['a'];
+$auction_item_id=$_GET['auctionitem_id'];?>
                     <form>
                             <input type="hidden" class="form-control" id="amount" name="amount" value="<?phpecho $amount; ?>" readonly>
                         <div class="form-group">
@@ -90,6 +91,7 @@ $apikey = "rzp_test_XWlaG4tu0mE7VT";
                         <!--<input type="hidden" custom="Hidden Element" name="hidden">-->
                     </form>
                         <form action="paymentsuccess.php" method="POST">
+                             <input type="hidden" name="auction_item_id" value="<?php echo htmlspecialchars($auction_item_id); ?>">
                             <script
                                 src="https://checkout.razorpay.com/v1/checkout.js"
                                 data-key="<?php echo $apikey; ?>"
@@ -105,6 +107,7 @@ $apikey = "rzp_test_XWlaG4tu0mE7VT";
                                 data-prefill.contact="<?php // echo $_POST['mobile']; ?>"
                                 data-theme.color="#0e90e4">
                             </script>
+                        </form>
                 </div>
 
                             <input type="hidden" custom="Hidden Element" name="hidden">

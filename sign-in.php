@@ -143,7 +143,7 @@ session_start();
                     <div class="left-side">
                         <div class="section-header" data-aos="zoom-out-down" data-aos-duration="1200">
                             <h2 class="title">HI, THERE</h2>
-                            <p>You can log in to your E-Auction account here.</p>
+                            <p>You can Sign in to your E-Auction account here.</p>
                         </div>
                         <!--                        <ul class="login-with">
                         
@@ -265,7 +265,7 @@ session_start();
 //                        echo "<script>alert('$t');</script>";
 
                         if (password_verify($userPassword, $datahashedPassword)) {
-                            $_SESSION['txtemail'] = $email;
+                            $_SESSION['semail'] = $email;
                             echo '<script>location.replace("index-2.php")</script>';
                             exit();
                         } else {
@@ -286,7 +286,7 @@ session_start();
                         exit();
                     } else {
                         if (password_verify($userPassword, $datahashedPassword)) {
-                            $_SESSION['txtemail'] = $email;
+                            $_SESSION['bemail'] = $email;
                             echo '<script>location.replace("index-3.php")</script>';
                             exit();
                         } else {
@@ -313,7 +313,7 @@ session_start();
 //                        echo "<script>alert('password_verify($userPassword, $datahashedPassword)');</script>";
 
                         if (password_verify($userPassword, $datahashedPassword)) {
-                            $_SESSION['txtemail'] = $email;
+                            $_SESSION['aemail'] = $email;
                             echo '<script>location.replace("index.php")</script>';
                             exit();
                         } else {

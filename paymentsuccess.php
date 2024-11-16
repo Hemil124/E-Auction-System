@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-session_start();
-?>
+    <?php
+    session_start();
+    $auction_item_id = $_POST['auction_item_id'];
+
+//    include 'Genrate_Bill/Send_bill.php';
+//echo "<script type='text/javascript'>
+//        alert('Auction Item ID: " . htmlspecialchars($auction_item_id) . "');
+//      </script>";
+    ?>
+
 
     <head>
         <meta charset="UTF-8">
@@ -22,11 +29,31 @@ session_start();
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     </head>
 
     <body>
+        <script>
+            $(document).ready(function () {
+                // Pass the PHP variable to JavaScript
+                var auctionItemId = <?php echo json_encode($auction_item_id); ?>;
+//                auctionItemId=25;
+//                alert(auctionItemId);
+                $.ajax({
+                    url: 'Genrate_Bill/Send_bill.php',
+                    type: 'GET',
+                    data: {auction_item_id: auctionItemId}, // Use the dynamic auction item ID here
+                    success: function (data) {
+                        console.log('PDF Sended to Email');
+                        console.log(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error: ' + status + ': ' + error);
+                    }
+                });
+            });
+        </script>
         <!--============= ScrollToTop Section Starts Here =============-->
         <div class="overlayer" id="overlayer">
             <div class="loader">
@@ -126,16 +153,16 @@ session_start();
                     <div class="col-lg-8">
                         <div class="dashboard-widget">
                             <div class="dashboard-purchasing-tabs">
-                            <h2 class="text-center">YOUR PAYMENT HAS BEEN RECEIVED</h2>
-                            <h3 class="text-center">Thank you for your payment, it’s processing</h3>
-            
-                            <p class="text-center">Your bidder number is: <b> <?php echo 'ORDER'.rand(111111,999999); ?> </b></p>
-                            <p class="text-center">You will receive an order confirmation email with details of your order and a link to track your process.</p>
-                            <center>
-                                <div class="btn-group" style="margin-top:50px;">
-                                    <a href="index-3.php" class="btn btn-lg btn-warning">CONTINUE</a>
-                                </div>
-                            </center>
+                                <h2 class="text-center">YOUR PAYMENT HAS BEEN RECEIVED</h2>
+                                <h3 class="text-center">Thank you for your payment, it’s processing</h3>
+
+                                <p class="text-center">Your bidder number is: <b> <?php echo 'ORDER' . $order_Id; ?> </b></p>
+                                <p class="text-center">You will receive an order confirmation email with details of your order and a link to track your process.</p>
+                                <center>
+                                    <div class="btn-group" style="margin-top:50px;">
+                                        <a href="index-3.php" class="btn btn-lg btn-warning">CONTINUE</a>
+                                    </div>
+                                </center>
                             </div>
                         </div>
                     </div>
