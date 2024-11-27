@@ -4,8 +4,9 @@ session_start();
 //Find Seller Id        
         if (!isset($_SESSION['semail']) ) 
         {
-            include 'find_ID';
-            $sellerid=find_sellerID($_SESSION['semail']);
+//            include 'find_ID.php';
+//            $sellerid=find_sellerID($_SESSION['semail']);
+//            echo "<script>console.log($sellerid);</script>";
         }
 
 include 'connection.php';
@@ -14,11 +15,12 @@ include 'connection.php';
 $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 $bidder_id = 2;
-//$sellerid = 1;
+$sellerid = 1;
 //$status = "mybids";
+//Wrong Query Change the QUery
 if ($status == "Bidder") {
 //$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
-    include 'find_ID.php';
+//    include 'find_ID.php';
 //    $bidder_id=find_bidderID($_SESSION['txtemail']);
 
     if (isset($bidder_id)) {
