@@ -1,12 +1,12 @@
 <!-- This Pase Give Seller Live Auction Item Details Seller Can View Live Auction Details -->
 <?php
-    session_start();
-    //without login can't open indexpage!!        
-        if (!isset($_SESSION['semail']) ) {
-            header("Location: sign-in.php");
-            exit();
-        }
-    ?>
+session_start();
+//without login can't open indexpage!!        
+if (!isset($_SESSION['semail'])) {
+//            header("Location: sign-in.php");
+//            exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -238,22 +238,29 @@
                 <div class="product-details-slider-top-wrapper">
                     <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                         <?php
-                        $imageArray = json_decode($item_details['image_id'], true);
+                        // Database connection
+                        
 
-                        // Check if the array is not empty
-                        if (!empty($imageArray)) {
-                            // Limit to the first three images
-                            $limitedImages = array_slice($imageArray, 0);
-                            foreach ($limitedImages as $image) {
+                        // Fetch images from tblimg for the current item_id
+                        $item_id = intval($item_details['item_id']); // Sanitize item_id
+                        $query = "SELECT img FROM tblimg WHERE item_id = $item_id";
+                        $result = $conn->query($query);
+
+                        // Check if images exist
+                        if ($result && $result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $imageData = base64_encode($row['img']); // Encode binary data to base64
                                 ?>
                                 <div class="slide-top-item">
                                     <div class="slide-inner">
                                         <!-- Main image carousel (sync1) -->
-                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                        <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" alt="product">
                                     </div>
                                 </div>
                                 <?php
                             }
+                        } else {
+                            echo "<p>No images available for this product.</p>";
                         }
                         ?>
                     </div>
@@ -262,23 +269,23 @@
                 <div class="product-details-slider-wrapper">
                     <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
                         <?php
-                        $imageArray = json_decode($item_details['image_id'], true);
+                        // Re-run the query for thumbnails
+                        $result = $conn->query($query);
 
-                        // Check if the array is not empty
-                        if (!empty($imageArray)) {
-                            // Limit to the first three images
-                            $limitedImages = array_slice($imageArray, 0);
-                            foreach ($limitedImages as $image) {
+                        if ($result && $result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $imageData = base64_encode($row['img']); // Encode binary data to base64
                                 ?>
                                 <div class="slide-top-item">
                                     <div class="slide-inner">
-                                        <!-- Main image carousel (sync1) -->
-                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                        <!-- Thumbnail image carousel (sync2) -->
+                                        <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" alt="product">
                                     </div>
                                 </div>
                                 <?php
                             }
                         }
+
                         ?>
                     </div>
 
@@ -290,6 +297,8 @@
                         <i class="fas fa-angle-right"></i>
                     </span>
                 </div>
+
+
 
                 <div class="row mt-40-60-80">
                     <div class="col-lg-8">
@@ -310,6 +319,7 @@
                                 </ul>
                             </div>
                             <?php
+                            
                             //fetch AuctionItem table values
                             $result_auctionItem = mysqli_query($conn, 'SELECT * from tblauctionitem where item_id=' . $item_details['id'] . ';');
                             $autionItem_details = mysqli_fetch_assoc($result_auctionItem);
@@ -349,266 +359,265 @@
                                         if (isset($bid_details)) {
                                             if (isset($bid_details['bid_value'])) {
                                                 echo $bid_details['bid_value'];
-                                                } else{
-                                                
+                                            } else {
+
                                                 if (isset($item_details)) {
                                                     echo $item_details['starting_price'];
                                                 }
-                                               
-                                                }
-                                                }
-                                                ?></h5>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="product-sidebar-area">
-                                    <div class="product-single-sidebar mb-3">
-                                        <h6 class="title">This Auction Ends in:</h6>
-                                        <div class="countdown">
-                                            <div id="bid_counter"></div>
-                                            <!--//For Countdown-->
-                                            <script>
-                                                // PHP Variables
-                                                let startDate = "<?php echo $autionItem_details['start_datetime']; ?>"; // Fetch start date from PHP
-                                                let endDate = "<?php echo $autionItem_details['end_datetime']; ?>"; // Fetch end date from PHP
-
-                                                // Initialize the countdown only if the element exists
-                                                if (document.querySelector("#bid_counter")) { // Correct way to check for existence
-                                                    // Create a new countdown instance
-                                                    let counterElement = document.querySelector("#bid_counter");
-                                                    let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
-                                                        let message = "";
-                                                        if (finished) {
-                                                            message = "Expired";
-                                                        } else {
-                                                            let re_days = remaining.totalDays;
-                                                            let re_hours = remaining.hours;
-                                                            message += re_days + "d  : ";
-                                                            message += re_hours + "h  : ";
-                                                            message += remaining.minutes + "m  : ";
-                                                            message += remaining.seconds + "s";
-                                                        }
-                                                        counterElement.textContent = message;
-                                                    });
-                                                }
-                                            </script>
-                                            <!--For Fetch values Active Bidders and Current Price every 3 second-->
-                                            <script>
-                                                $(document).ready(function () {
-                                                    // Function to fetch latest auction details
-                                                    function fetchLatestAuctionDetails() {
-                                                        var itemId = "<?php echo $autionItem_details['item_id']; ?>"; // Get the item ID from PHP
-
-                                                        $.ajax({
-                                                            url: 'seller_fetch_values.php', // URL to the PHP script
-                                                            type: 'GET',
-                                                            data: {
-                                                                item_id: itemId // Send the item ID to the server
-                                                            },
-                                                            success: function (response) {
-                                                                var data = JSON.parse(response); // Parse the JSON response
-
-                                                                // Update Current Price
-                                                                $('.price').text(data.current_bid);
-
-                                                                // Update Active Bidders
-                                                                $('.active-bidders-count').text(data.active_bidders);
-
-                                                                // Update Total Bids
-                                                                $('.total-bids-count').text(data.total_bids);
-                                                            },
-                                                            error: function (xhr, status, error) {
-                                                                console.error("Error fetching latest auction details:", error);
-                                                            }
-                                                        });
-                                                    }
-
-                                                    // Call the function immediately, and then every 1 seconds
-                                                    fetchLatestAuctionDetails();
-                                                    setInterval(fetchLatestAuctionDetails, 1000); // 1000ms = 1 seconds
-                                                });
-                                            </script>
-
-                                        </div>
-                                        <div class="side-counter-area">
-                                            <div class="side-counter-item">
-                                                <div class="thumb">
-                                                    <img src="assets/images/product/icon1.png" alt="product">
-                                                </div>
-                                                <div class="content">
-                                                    <h3 class="count-title"><span class="counter active-bidders-count"><?php
-                                        if (isset($bid_details)) {
-                                            echo $bid_details['active_bidders'];
+                                            }
                                         }
-                                                ?></span></h3>
-                                                    <p>Active Bidders</p>
-                                                </div>
-                                            </div>
-                                            <div class="side-counter-item">
-                                                <div class="thumb">
-                                                    <img src="assets/images/product/icon2.png" alt="product">
-                                                </div>
-                                                <div class="content">
-                                                    <h3 class="count-title"><span class="counter"><?php
-                                                    if (isset($ragisterUsers)) {
-                                                        echo $ragisterUsers['bidders'];
-                                                    }
-                                                ?></span></h3>
-                                                    <p>Ragister User For Auction</p>
-                                                </div>
-                                            </div>
-                                            <div class="side-counter-item">
-                                                <div class="thumb">
-                                                    <img src="assets/images/product/icon3.png" alt="product">
-                                                </div>
-                                                <div class="content">
-                                                    <h3 class="count-title"><span class="counter total-bids-count"><?php
-                                                    if (isset($bid_details)) {
-                                                        echo $bid_details['bids'];
-                                                    }
-                                                ?></span></h3>
-                                                    <p>Total Bids</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--                            <a href="#0" class="cart-link">View Shipping, Payment & Auction Policies</a>-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-tab-menu-area mb-40-60 mt-70-100">
-                        <div class="container">
-                            <ul class="product-tab-menu nav nav-tabs">
-                                <li>
-                                    <a href="#details" class="active" data-toggle="tab">
-                                        <div class="thumb">
-                                            <img src="assets/images/product/tab1.png" alt="product">
-                                        </div>
-                                        <div class="content">Description</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#history" data-toggle="tab">
-                                        <div class="thumb">
-                                            <img src="assets/images/product/tab3.png" alt="product">
-                                        </div>
-                                        <div class="content">Bid History (<?php
-                                                    if (isset($bid_details)) {
-                                                        echo $bid_details['bids'];
-                                                    }
-                                                ?>)</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#questions" data-toggle="tab">
-                                        <div class="thumb">
-                                            <img src="assets/images/product/tab4.png" alt="product">
-                                        </div>
-                                        <div class="content">Questions </div>
-                                    </a>
+                                        ?></h5>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="container">
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="details">
-                                <div class="tab-details-content">
-                                    <div class="header-area">
-                                        <h3 class="title"><?php echo $item_details['name']; ?></h3>
-                                        <div class="item">
-                                            <?php echo $item_details['description']; ?>
+
+                    <div class="col-lg-4">
+                        <div class="product-sidebar-area">
+                            <div class="product-single-sidebar mb-3">
+                                <h6 class="title">This Auction Ends in:</h6>
+                                <div class="countdown">
+                                    <div id="bid_counter"></div>
+                                    <!--//For Countdown-->
+                                    <script>
+                                        // PHP Variables
+                                        let startDate = "<?php echo $autionItem_details['start_datetime']; ?>"; // Fetch start date from PHP
+                                        let endDate = "<?php echo $autionItem_details['end_datetime']; ?>"; // Fetch end date from PHP
+
+                                        // Initialize the countdown only if the element exists
+                                        if (document.querySelector("#bid_counter")) { // Correct way to check for existence
+                                            // Create a new countdown instance
+                                            let counterElement = document.querySelector("#bid_counter");
+                                            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                                                let message = "";
+                                                if (finished) {
+                                                    message = "Expired";
+                                                } else {
+                                                    let re_days = remaining.totalDays;
+                                                    let re_hours = remaining.hours;
+                                                    message += re_days + "d  : ";
+                                                    message += re_hours + "h  : ";
+                                                    message += remaining.minutes + "m  : ";
+                                                    message += remaining.seconds + "s";
+                                                }
+                                                counterElement.textContent = message;
+                                            });
+                                        }
+                                    </script>
+                                    <!--For Fetch values Active Bidders and Current Price every 3 second-->
+                                    <script>
+                                        $(document).ready(function () {
+                                            // Function to fetch latest auction details
+                                            function fetchLatestAuctionDetails() {
+                                                var itemId = "<?php echo $autionItem_details['item_id']; ?>"; // Get the item ID from PHP
+
+                                                $.ajax({
+                                                    url: 'seller_fetch_values.php', // URL to the PHP script
+                                                    type: 'GET',
+                                                    data: {
+                                                        item_id: itemId // Send the item ID to the server
+                                                    },
+                                                    success: function (response) {
+                                                        var data = JSON.parse(response); // Parse the JSON response
+
+                                                        // Update Current Price
+                                                        $('.price').text(data.current_bid);
+
+                                                        // Update Active Bidders
+                                                        $('.active-bidders-count').text(data.active_bidders);
+
+                                                        // Update Total Bids
+                                                        $('.total-bids-count').text(data.total_bids);
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.error("Error fetching latest auction details:", error);
+                                                    }
+                                                });
+                                            }
+
+                                            // Call the function immediately, and then every 1 seconds
+                                            fetchLatestAuctionDetails();
+                                            setInterval(fetchLatestAuctionDetails, 1000); // 1000ms = 1 seconds
+                                        });
+                                    </script>
+
+                                </div>
+                                <div class="side-counter-area">
+                                    <div class="side-counter-item">
+                                        <div class="thumb">
+                                            <img src="assets/images/product/icon1.png" alt="product">
                                         </div>
-                                        <!--                                <div class="item">
-                                                                            <h5 class="subtitle">NYC Fleet / DCAS units may be located at either of two locations:</h5>
-                                                                            <ul>
-                                                                                <li>Brooklyn, NY (1908 Shore Parkway)</li>
-                                                                                <li>Medford, NY (66 Peconic Ave)</li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <div class="item">
-                                                                            <h5 class="subtitle">This unit is located at:</h5>
-                                                                            <ul>
-                                                                                <li>Kenben Industries Ltd.</li>
-                                                                                <li>1908 Shore Parkway</li>
-                                                                                <li>Brooklyn, NY 11214</li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <div class="item">
-                                                                            <h5 class="subtitle">Acceptance of condition - buyer inspection/preview</h5>
-                                                                            <p>Vehicles and equipment often display significant wear and tear. Assets are sold AS IS with no warranty, express or implied, and we highly recommend previewing them before bidding. The preview period is the only opportunity to inspect an asset to verify condition and suitability. No refunds, adjustments or returns will be entertained. </p>
-                                                                            <p>Vehicle preview inspections of the vehicle can be done at the below location on Monday and Tuesday from 10am - 2pm. See Preview Rules Here.</p>                                
-                                                                            <ul>
-                                                                                <li>Kenben Industries Ltd.</li>
-                                                                                <li>1908 Shore Parkway</li>
-                                                                                <li>Brooklyn, NY 11214</li>
-                                                                            </ul>
-                                                                            <p>BUYER is responsible for all storage fees at time of pick-up. See above under IMPORTANT PICK-UP TIMES for specific requirements for this asset, but generally assets must be picked up within 2 business days of payment otherwise additional storage fees will be applied.</p>
-                                                                        </div>
-                                                                        <div class="item">
-                                                                            <h5 class="subtitle">Legal Notice</h5>
-                                                                            <p>Vehicles may not be driven off the lot except with a dealer plate affixed. By law, vehicles are not permitted to be parked on or to drive on the streets of New York without registration and plates registered to the vehicle. If the buyer cannot obtain the required registration and plates prior to pick up, they should have the vehicle towed at their own expense. The buyer should have the vehicle towed at their own expense.</p>
-                                                                            <p>Condition: Untested - Sold As-Is</p>
-                                                                            <p>Employees of Sbidu, its subcontractors and affiliated companies, employees of the NYC Government and those bidding on behalf of PropertyRoom.com, its subcontractors and affiliated companies and employees of the NYC Government are not permitted to bid on or purchase NYC Fleet/DCAS assets. </p>
-                                                                        </div>
-                                                                        <div class="item">
-                                                                            <h5 class="subtitle">Condition</h5>
-                                                                            <p>This ASSET is being listed on behalf of a law enforcement agency or other partner ("SELLER") by PropertyRoom.com on a Sold AS IS, WHERE IS, WITH ALL FAULTS basis, with no representation or warranty from PropertyRoom.com or SELLER. In many cases, the car, boat, truck, motorcycle, aircraft, mowers/tractors, etc. ("ASSET") sold on PropertyRoom.com comes from seizure or forfeiture, and the SELLER typically does not possess use-based knowledge of the ASSET. Further, PropertyRoom.com does not physically inspect the ASSET and cannot attest to actual working conditions. PropertyRoom.com and SELLER gather information about the ASSET from authoritative sources; still, errors may appear from time to time in the listing. PropertyRoom.com cautions any website user, shopper, bidder, etc. ("BUYER") to attempt to confirm, with us, information material to a bidding/purchasing decision.</p>
-                                                                        </div>
-                                                                        <div class="item">
-                                                                            <h5 class="subtitle">Bidding</h5>
-                                                                            <p>At this time Sbidu only accepts bidders from the United States, Canada and Mexico on Vehicles and Heavy Industrial Equipment. The Bid Now button will appear on auctions where you are qualified to place a bid.</p>
-                                                                        </div>
-                                                                        <div class="item">
-                                                                            <h5 class="subtitle">Buyer Responsibility</h5>
-                                                                            <p>The BUYER will receive an email notification from PropertyRoom.com following the close of an auction. After fraud verification and payment settlement, we will email the BUYER instructions for retrieving the ASSET from the Will-Call Location listed above.</p>
-                                                                            <p>All applicable shipping, logistics, transportation, customs, fees, taxes, export/import activities and all associated costs are the sole responsibility of the BUYER. No shipping, customs, export or import assistance is available from Sbidu.</p>
-                                                                            <p>When applicable for a given ASSET, BUYER bears responsibility for determining motor vehicle registration requirements in the applicable jurisdiction as well as costs, including any fees, registration fees, taxes, etc., owed as a result of BUYER registering an ASSET; for example, BUYER bears sole responsibility for all title/registration/smog and other such fees.</p>
-                                                                            <p>BUYER is responsible for all storage fees at time of pick-up. See above under IMPORTANT PICK-UP TIMES for specific requirements for this asset, but generally assets must be picked up within 2 business days of payment otherwise additional storage fees will be applied.</p>
-                                                                        </div>-->
+                                        <div class="content">
+                                            <h3 class="count-title"><span class="counter active-bidders-count"><?php
+                                                    if (isset($bid_details)) {
+                                                        echo $bid_details['active_bidders'];
+                                                    }
+                                                    ?></span></h3>
+                                            <p>Active Bidders</p>
+                                        </div>
+                                    </div>
+                                    <div class="side-counter-item">
+                                        <div class="thumb">
+                                            <img src="assets/images/product/icon2.png" alt="product">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="count-title"><span class="counter"><?php
+                                                    if (isset($ragisterUsers)) {
+                                                        echo $ragisterUsers['bidders'];
+                                                    }
+                                                    ?></span></h3>
+                                            <p>Ragister User For Auction</p>
+                                        </div>
+                                    </div>
+                                    <div class="side-counter-item">
+                                        <div class="thumb">
+                                            <img src="assets/images/product/icon3.png" alt="product">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="count-title"><span class="counter total-bids-count"><?php
+                                                    if (isset($bid_details)) {
+                                                        echo $bid_details['bids'];
+                                                    }
+                                                    ?></span></h3>
+                                            <p>Total Bids</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade show" id="history">
-                                <div class="history-wrapper">
-                                    <div class="item">
-                                        <h5 class="title">Bid History</h5>
-                                        <div class="history-table-area">
-                                            <table class="history-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Bidder</th>
-                                                        <th>date</th>
-                                                        <th>time</th>
-                                                        <th>unit price</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    $result = mysqli_query($conn, "SELECT b.bid_value, b.bid_datetime, bd.firstname, bd.user_img FROM tblbid AS b JOIN tblbidders AS bd ON b.bidder_id = bd.id WHERE b.auction_item_id = 1 ORDER BY b.bid_datetime DESC");
-                                                    if (mysqli_num_rows($result) > 0) {
-                                                        while ($row = mysqli_fetch_assoc($result)) {
-                                                            // Format bid date and time
-                                                            $bidderName = $row['firstname'];
-                                                            $bidDateTime = new DateTime($row['bid_datetime']);
-                                                            $bidDate = $bidDateTime->format('m/d/Y');
-                                                            $bidTime = $bidDateTime->format('h:i:s A');
-                                                            if (isset($row['user_img'])) {
-                                                                $imageData = base64_encode($row['user_img']);
-                                                                $bidderImage = 'data:image/jpeg;base64,' . $imageData;
-                                                            } else {
-                                                                // Use a placeholder image if there's no image in the database
-                                                                $bidderImage = '/assets/images/history/05.png';
-                                                                echo '<script>alert(' . $bidderImage . ')</script>';
-                                                            }
-                                                            $bidValue = "$" . number_format($row['bid_value'], 2);
+                            <!--                            <a href="#0" class="cart-link">View Shipping, Payment & Auction Policies</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-tab-menu-area mb-40-60 mt-70-100">
+                <div class="container">
+                    <ul class="product-tab-menu nav nav-tabs">
+                        <li>
+                            <a href="#details" class="active" data-toggle="tab">
+                                <div class="thumb">
+                                    <img src="assets/images/product/tab1.png" alt="product">
+                                </div>
+                                <div class="content">Description</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#history" data-toggle="tab">
+                                <div class="thumb">
+                                    <img src="assets/images/product/tab3.png" alt="product">
+                                </div>
+                                <div class="content">Bid History (<?php
+                                    if (isset($bid_details)) {
+                                        echo $bid_details['bids'];
+                                    }
+                                    ?>)</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#questions" data-toggle="tab">
+                                <div class="thumb">
+                                    <img src="assets/images/product/tab4.png" alt="product">
+                                </div>
+                                <div class="content">Questions </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="details">
+                        <div class="tab-details-content">
+                            <div class="header-area">
+                                <h3 class="title"><?php echo $item_details['name']; ?></h3>
+                                <div class="item">
+                                    <?php echo $item_details['description']; ?>
+                                </div>
+                                <!--                                <div class="item">
+                                                                    <h5 class="subtitle">NYC Fleet / DCAS units may be located at either of two locations:</h5>
+                                                                    <ul>
+                                                                        <li>Brooklyn, NY (1908 Shore Parkway)</li>
+                                                                        <li>Medford, NY (66 Peconic Ave)</li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <h5 class="subtitle">This unit is located at:</h5>
+                                                                    <ul>
+                                                                        <li>Kenben Industries Ltd.</li>
+                                                                        <li>1908 Shore Parkway</li>
+                                                                        <li>Brooklyn, NY 11214</li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <h5 class="subtitle">Acceptance of condition - buyer inspection/preview</h5>
+                                                                    <p>Vehicles and equipment often display significant wear and tear. Assets are sold AS IS with no warranty, express or implied, and we highly recommend previewing them before bidding. The preview period is the only opportunity to inspect an asset to verify condition and suitability. No refunds, adjustments or returns will be entertained. </p>
+                                                                    <p>Vehicle preview inspections of the vehicle can be done at the below location on Monday and Tuesday from 10am - 2pm. See Preview Rules Here.</p>                                
+                                                                    <ul>
+                                                                        <li>Kenben Industries Ltd.</li>
+                                                                        <li>1908 Shore Parkway</li>
+                                                                        <li>Brooklyn, NY 11214</li>
+                                                                    </ul>
+                                                                    <p>BUYER is responsible for all storage fees at time of pick-up. See above under IMPORTANT PICK-UP TIMES for specific requirements for this asset, but generally assets must be picked up within 2 business days of payment otherwise additional storage fees will be applied.</p>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <h5 class="subtitle">Legal Notice</h5>
+                                                                    <p>Vehicles may not be driven off the lot except with a dealer plate affixed. By law, vehicles are not permitted to be parked on or to drive on the streets of New York without registration and plates registered to the vehicle. If the buyer cannot obtain the required registration and plates prior to pick up, they should have the vehicle towed at their own expense. The buyer should have the vehicle towed at their own expense.</p>
+                                                                    <p>Condition: Untested - Sold As-Is</p>
+                                                                    <p>Employees of Sbidu, its subcontractors and affiliated companies, employees of the NYC Government and those bidding on behalf of PropertyRoom.com, its subcontractors and affiliated companies and employees of the NYC Government are not permitted to bid on or purchase NYC Fleet/DCAS assets. </p>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <h5 class="subtitle">Condition</h5>
+                                                                    <p>This ASSET is being listed on behalf of a law enforcement agency or other partner ("SELLER") by PropertyRoom.com on a Sold AS IS, WHERE IS, WITH ALL FAULTS basis, with no representation or warranty from PropertyRoom.com or SELLER. In many cases, the car, boat, truck, motorcycle, aircraft, mowers/tractors, etc. ("ASSET") sold on PropertyRoom.com comes from seizure or forfeiture, and the SELLER typically does not possess use-based knowledge of the ASSET. Further, PropertyRoom.com does not physically inspect the ASSET and cannot attest to actual working conditions. PropertyRoom.com and SELLER gather information about the ASSET from authoritative sources; still, errors may appear from time to time in the listing. PropertyRoom.com cautions any website user, shopper, bidder, etc. ("BUYER") to attempt to confirm, with us, information material to a bidding/purchasing decision.</p>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <h5 class="subtitle">Bidding</h5>
+                                                                    <p>At this time Sbidu only accepts bidders from the United States, Canada and Mexico on Vehicles and Heavy Industrial Equipment. The Bid Now button will appear on auctions where you are qualified to place a bid.</p>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <h5 class="subtitle">Buyer Responsibility</h5>
+                                                                    <p>The BUYER will receive an email notification from PropertyRoom.com following the close of an auction. After fraud verification and payment settlement, we will email the BUYER instructions for retrieving the ASSET from the Will-Call Location listed above.</p>
+                                                                    <p>All applicable shipping, logistics, transportation, customs, fees, taxes, export/import activities and all associated costs are the sole responsibility of the BUYER. No shipping, customs, export or import assistance is available from Sbidu.</p>
+                                                                    <p>When applicable for a given ASSET, BUYER bears responsibility for determining motor vehicle registration requirements in the applicable jurisdiction as well as costs, including any fees, registration fees, taxes, etc., owed as a result of BUYER registering an ASSET; for example, BUYER bears sole responsibility for all title/registration/smog and other such fees.</p>
+                                                                    <p>BUYER is responsible for all storage fees at time of pick-up. See above under IMPORTANT PICK-UP TIMES for specific requirements for this asset, but generally assets must be picked up within 2 business days of payment otherwise additional storage fees will be applied.</p>
+                                                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="history">
+                        <div class="history-wrapper">
+                            <div class="item">
+                                <h5 class="title">Bid History</h5>
+                                <div class="history-table-area">
+                                    <table class="history-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Bidder</th>
+                                                <th>date</th>
+                                                <th>time</th>
+                                                <th>unit price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $result = mysqli_query($conn, "SELECT b.bid_value, b.bid_datetime, bd.firstname, bd.user_img FROM tblbid AS b JOIN tblbidders AS bd ON b.bidder_id = bd.id WHERE b.auction_item_id = 1 ORDER BY b.bid_datetime DESC");
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    // Format bid date and time
+                                                    $bidderName = $row['firstname'];
+                                                    $bidDateTime = new DateTime($row['bid_datetime']);
+                                                    $bidDate = $bidDateTime->format('m/d/Y');
+                                                    $bidTime = $bidDateTime->format('h:i:s A');
+                                                    if (isset($row['user_img'])) {
+                                                        $imageData = base64_encode($row['user_img']);
+                                                        $bidderImage = 'data:image/jpeg;base64,' . $imageData;
+                                                    } else {
+                                                        // Use a placeholder image if there's no image in the database
+                                                        $bidderImage = '/assets/images/history/05.png';
+                                                        echo '<script>alert(' . $bidderImage . ')</script>';
+                                                    }
+                                                    $bidValue = "$" . number_format($row['bid_value'], 2);
 
-                                                            // Output table row
-                                                            echo "
+                                                    // Output table row
+                                                    echo "
         <tr>
             <td data-history='bidder'>
                 <div class='user-info'>
@@ -625,12 +634,12 @@
             <td data-history='unit price'>$bidValue</td>
         </tr>
         ";
-                                                        }
-                                                    } else {
-                                                        // Output message when no bids are available
-                                                        echo "<tr><td colspan='4'>No bids found for this item.</td></tr>";
-                                                    }
-                                                    ?>
+                                                }
+                                            } else {
+                                                // Output message when no bids are available
+                                                echo "<tr><td colspan='4'>No bids found for this item.</td></tr>";
+                                            }
+                                            ?>
                                         </tbody>
                                     </table>
                                     <div class="text-center mb-3 mt-4">

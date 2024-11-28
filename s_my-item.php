@@ -3,10 +3,10 @@
     <?php
     session_start();
     //without login can't open indexpage!!        
-        if (!isset($_SESSION['semail']) ) {
-            header("Location: sign-in.php");
-            exit();
-        }
+    if (!isset($_SESSION['semail'])) {
+//            header("Location: sign-in.php");
+//            exit();
+    }
     ?>
 
     <head>
@@ -218,10 +218,10 @@
                             </div>
                             <ul class="button-area nav nav-tabs">
                                 <li>
-                                    <a href="#verified" data-toggle="tab" class="custom-button" id="verified-button">Verified</a>
+                                    <a href="#verified" data-toggle="" class="custom-button" id="verified-button">Verified</a>
                                 </li>
                                 <li>
-                                    <a href="#rejected" data-toggle="tab" class="custom-button" id="rejected-button">Rejected</a>
+                                    <a href="#rejected" data-toggle="" class="custom-button" id="rejected-button">Rejected</a>
                                 </li>
                             </ul>
                         </div>
@@ -231,8 +231,12 @@
                                 // Fetch verified items
                                 $('#verified-button').click(function (event) {
                                     event.preventDefault(); // Prevent default link behavior
+
+                                    // Toggle tab-pane classes
+                                    $('#verified-content').parent().addClass('show active').removeClass('fade');
+                                    $('#rejected-content').parent().removeClass('show active').addClass('fade');
+
                                     $.ajax({
-//                                        url: 's_my-item_fetch_cards.php', // PHP file to handle the request
                                         url: 'fetch_item_cards.php', // PHP file to handle the request
                                         type: 'GET',
                                         data: {status: 'verified'}, // Send 'verified' as a parameter
@@ -248,8 +252,12 @@
                                 // Fetch rejected items
                                 $('#rejected-button').click(function (event) {
                                     event.preventDefault(); // Prevent default link behavior
+
+                                    // Toggle tab-pane classes
+                                    $('#rejected-content').parent().addClass('show active').removeClass('fade');
+                                    $('#verified-content').parent().removeClass('show active').addClass('fade');
+
                                     $.ajax({
-//                                        url: 's_my-item_fetch_cards.php', // PHP file to handle the request
                                         url: 'fetch_item_cards.php', // PHP file to handle the request
                                         type: 'GET',
                                         data: {status: 'rejected'}, // Send 'rejected' as a parameter
@@ -262,29 +270,30 @@
                                     });
                                 });
                             });
+
                         </script>
                         <style>
 
-                        .auction-item-2 {
-                            /*display: block !important;*/
-                            opacity: 1 !important;
-                            /*visibility: visible !important;*/
-                            /*                            height: auto !important;
-                                                        width: 100% !important;*/
-                        }
-                        .auction-item-2 {
-                            margin-bottom: 30px; /* Vertical space between the cards */
-                        }
+                            .auction-item-2 {
+                                /*display: block !important;*/
+                                opacity: 1 !important;
+                                /*visibility: visible !important;*/
+                                /*                            height: auto !important;
+                                                            width: 100% !important;*/
+                            }
+                            .auction-item-2 {
+                                margin-bottom: 30px; /* Vertical space between the cards */
+                            }
 
-                        .card-container {
-                            padding: 15px; /* Horizontal space between cards */
-                        }
+                            .card-container {
+                                padding: 15px; /* Horizontal space between cards */
+                            }
 
-                        #auction-results {
-                            margin-right: -15px;
-                            margin-left: -15px;
-                        }
-                    </style>
+                            #auction-results {
+                                margin-right: -15px;
+                                margin-left: -15px;
+                            }
+                        </style>
 
                         <div class="tab-content">
                             <div class="tab-pane fade show active" >

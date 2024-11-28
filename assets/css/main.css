@@ -5951,6 +5951,8 @@ div[class*=auction] .custom-button {
 }
 .slide-top-item .slide-inner img {
     width: 100%;
+    max-height: 500px;
+    object-fit:cover; 
 }
 @media (max-width: 575px) {
     .slide-top-item {

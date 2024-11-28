@@ -2,8 +2,8 @@
     session_start();
 //    without login can't open indexpage!!        
         if (!isset($_SESSION['semail']) ) {
-            header("Location: sign-in.php");
-            exit();
+//            header("Location: sign-in.php");
+//            exit();
         }
     ?>
 <!DOCTYPE html>
