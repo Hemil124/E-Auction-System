@@ -102,7 +102,7 @@
                                 <a href="bidder_upcoming_auctions.php">Upcoming Items</a>
                             </li>
                             <li>
-                                <a href="#0">Live Auction</a><!-- Add Link -->
+                                <a href="bidder_live_Auction_items.php">Live Auction</a><!-- Add Link -->
                             </li>
                             <li>
                                 <a href="about.php">About Us</a>
@@ -239,23 +239,38 @@
             <div class="container">
                 <div class="product-details-slider-top-wrapper">
                     <div class="product-details-slider owl-theme owl-carousel" id="sync1">
-                       <?php
-                        $imageArray = json_decode($item_details['image_id'], true);
+                        <?php
+                        // Database connection
+                        if (isset($_GET['item_id'])) {
+                            $item_id = $_GET['item_id'];
+                        }
 
-                        // Check if the array is not empty
-                        if (!empty($imageArray)) {
-                            // Limit to the first three images
-                            $limitedImages = array_slice($imageArray, 0);
-                            foreach ($limitedImages as $image) {
+                        // Fetch images from tblimg for the current item_id
+                        $query = "SELECT img FROM tblimg WHERE item_id = $item_id";
+                        $result = $conn->query($query);
+
+                        // Check if images exist
+                        if ($result && $result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $imageData = base64_encode($row['img']); // Encode binary data to base64
                                 ?>
                                 <div class="slide-top-item">
                                     <div class="slide-inner">
                                         <!-- Main image carousel (sync1) -->
-                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                        <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" alt="product">
                                     </div>
                                 </div>
                                 <?php
                             }
+                        } else {
+                            // Fallback to default image
+                            ?>
+                            <div class="slide-top-item">
+                                <div class="slide-inner">
+                                    <img src="assets/images/product/default_product.png" alt="default product">
+                                </div>
+                            </div>
+                            <?php
                         }
                         ?>
                     </div>
@@ -263,23 +278,31 @@
 
                 <div class="product-details-slider-wrapper">
                     <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
-                       <?php
-                        $imageArray = json_decode($item_details['image_id'], true);
+                        <?php
+                        // Re-run the query for thumbnails
+                        $result = $conn->query($query);
 
-                        // Check if the array is not empty
-                        if (!empty($imageArray)) {
-                            // Limit to the first three images
-                            $limitedImages = array_slice($imageArray, 0);
-                            foreach ($limitedImages as $image) {
+                        if ($result && $result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $imageData = base64_encode($row['img']); // Encode binary data to base64
                                 ?>
                                 <div class="slide-top-item">
                                     <div class="slide-inner">
-                                        <!-- Main image carousel (sync1) -->
-                                        <img src="uploads/<?php echo $image; ?>" alt="product">
+                                        <!-- Thumbnail image carousel (sync2) -->
+                                        <img src="data:image/jpeg;base64,<?php echo $imageData; ?>" alt="product">
                                     </div>
                                 </div>
                                 <?php
                             }
+                        } else {
+                            // Fallback to default thumbnail
+                            ?>
+                            <div class="slide-top-item">
+                                <div class="slide-inner">
+                                    <img src="assets/images/product/default_product.png" alt="default product">
+                                </div>
+                            </div>
+                            <?php
                         }
                         ?>
                     </div>
@@ -292,7 +315,6 @@
                         <i class="fas fa-angle-right"></i>
                     </span>
                 </div>
-
                 <div class="row mt-40-60-80">
                     <div class="col-lg-8">
                         <div class="product-details-content">

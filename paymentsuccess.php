@@ -4,7 +4,7 @@
     session_start();
     $auction_item_id = $_POST['auction_item_id'];
 
-//    include 'Genrate_Bill/Send_bill.php';
+    include 'Genrate_Bill/Send_bill.php';
 //echo "<script type='text/javascript'>
 //        alert('Auction Item ID: " . htmlspecialchars($auction_item_id) . "');
 //      </script>";

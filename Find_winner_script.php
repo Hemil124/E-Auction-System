@@ -30,63 +30,114 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 </html>-->
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Auction Activation</title>
-    <script>
-        // Function to check if the auction should be active
-        function checkAuctionStatus(start_datetime, auction_id,end_datetime) {
-            // Get the current date and time in the same format as in the database
-            var currentDate = new Date();
-            var currentTimestamp = currentDate.getTime();
-            var startTimestamp = new Date(start_datetime).getTime();
-             var endTimestamp = new Date(end_datetime).getTime();
-            // Compare current time with auction start time
-            if (currentTimestamp >= startTimestamp) {
-                // Call the PHP function to update auction status to 'ACTIVE'
-                updateAuctionStatus(auction_id);
+    <head>
+        <title>Auction Activation</title>
+        <script>
+            // Function to check if the auction should be active or closed
+            function checkAuctionStatus(start_datetime, auction_id, end_datetime, emd_date, auction_status, reserve_price, min_bidders) {
+                var currentDate = new Date();
+                var currentTimestamp = currentDate.getTime();
+                var startTimestamp = new Date(start_datetime).getTime();
+                var endTimestamp = new Date(end_datetime).getTime();
+                var emdTimestamp = new Date(emd_date).getTime();
+//                console.log('checkAuctionStatus');
+//                console.log(currentTimestamp);
+//                console.log(startTimestamp);
+//                console.log(auction_status);
+
+
+                // Activate auction if the start time has been reached
+                if (currentTimestamp >= startTimestamp && auction_status === 'PENDING') {
+                    updateAuctionStatus(auction_id, "ACTIVE");
+//                    consol.log('Active');
+                }
+
+                // Check if EMD date has passed for a pending auction
+                if (currentTimestamp > emdTimestamp && auction_status === 'PENDING') {
+                    handleEmdDatePassed(auction_id, min_bidders, reserve_price);
+                }
+
+                // Close auction if end time has been reached
+                if (currentTimestamp >= endTimestamp && auction_status === 'ACTIVE') {
+                    closeAuction(auction_id, reserve_price);
+                }
             }
-        }
 
-        // AJAX call to update the auction status in the database
-        function updateAuctionStatus(auction_id) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "update_auction_status.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log("Auction " + auction_id + " is now ACTIVE.");
-                }
-            };
-            xhr.send("auction_id=" + auction_id);
-        }
+            // Function to update auction status
+            function updateAuctionStatus(auction_id, status) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "update_auction_status.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log("Auction " + auction_id + " status updated to " + status + ".");
+                    }
+                };
+                xhr.send("auction_id=" + auction_id + "&status=" + status);
+            }
 
-        // Function to fetch auction data from the database
-        function fetchAuctions() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "fetch_auction_data.php", true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var auctions = JSON.parse(xhr.responseText);
-                    auctions.forEach(function (auction) {
-                        checkAuctionStatus(auction.start_datetime, auction.id,auction.end_datetime );
-                    });
-                }
-            };
-            xhr.send();
-        }
+            // Function to handle cases where EMD date has passed
+            function handleEmdDatePassed(auction_id, min_bidders, reserve_price) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "handle_emd_date_passed.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log(xhr.responseText);
+                    }
+                };
+                xhr.send("auction_id=" + auction_id + "&min_bidders=" + min_bidders + "&reserve_price=" + reserve_price);
+            }
 
-        // Call this function every second to check auction status
-        function monitorAuctions() {
-            fetchAuctions();  // Fetch auction data and then check statuses
-        }
+            // Function to close the auction
+            function closeAuction(auction_id, reserve_price) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "close_auction.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log(xhr.responseText);
+                    }
+                };
+                xhr.send("auction_id=" + auction_id + "&reserve_price=" + reserve_price);
+            }
 
-        // Run the check every second (1000 ms)
-        setInterval(monitorAuctions, 1000);
-    </script>
-</head>
-<body>
+            // Function to fetch auction data from the database
+            function fetchAuctions() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "fetch_auction_data.php", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var auctions = JSON.parse(xhr.responseText);
+                        auctions.forEach(function (auction) {
+                            checkAuctionStatus(
+                                    auction.start_datetime,
+                                    auction.id,
+                                    auction.end_datetime,
+                                    auction.emd_date,
+                                    auction.auction_status,
+                                    auction.reserve_price,
+                                    auction.min_bidders
+                                    );
+                        });
+                    }
+                };
+                xhr.send();
+            }
 
-<!-- HTML Content -->
+            // Call this function every second to check auction status
+            function monitorAuctions() {
+                fetchAuctions(); // Fetch auction data and then check statuses
+            }
 
-</body>
+            // Run the check every second (1000 ms)
+            setInterval(monitorAuctions, 1000);
+        </script>
+
+    </head>
+    <body>
+
+        <!-- HTML Content -->
+
+    </body>
 </html>

@@ -180,14 +180,15 @@
                             <div class="dashboard-purchasing-tabs">
                                 <ul class="nav-tabs nav">
                                     <li>
-                                        <a href="#current" class="active" data-toggle="tab">Current</a>
+                                        <a href="#pending" class="active" data-toggle="tab">Pending</a>
                                     </li>
                                     <li>
-                                        <a href="#pending" data-toggle="tab">Pending</a>
+                                        <a href="#current" data-toggle="tab">Verified</a>
                                     </li>
+                                    
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane show active fade" id="current">
+                                    <div class="tab-pane show fade" id="current">
                                         <table class="purchasing-table">
                                             <thead>
                                             <th>Name</th>
@@ -225,7 +226,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="tab-pane show fade" id="pending">
+                                    <div class="tab-pane show active fade" id="pending">
                                         <table class="purchasing-table">
                                             <thead>
                                             <th>Name</th>
