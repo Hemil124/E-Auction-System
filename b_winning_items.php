@@ -50,7 +50,7 @@
         <!--============= Header Section Ends Here =============-->
 
         <!--============= Cart Section Starts Here =============-->
-        <div class="cart-sidebar-area">
+<!--        <div class="cart-sidebar-area">
             <div class="top-content">
                 <a href="index.php" class="logo">
                     <img src="assets/images/logo/logo2.png" alt="logo">
@@ -115,7 +115,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!--============= Cart Section Ends Here =============-->
 
 

@@ -63,7 +63,7 @@ $_SESSION['txtemail'] = "22bmiit142@gmail.com";
                         <a href="notifications.php"><i class="flaticon-alarm"></i>My Alerts</a>
                     </li>
                     <li>
-                        <a href="my-favorites.php"><i class="flaticon-star"></i>My Favorites</a>
+                        <a href="bidder_myfavorites.php"><i class="flaticon-star"></i>My Favorites</a>
                     </li>
                     <li>
                         <button class="logout" onclick="window.location.href = 'logout.php'">
