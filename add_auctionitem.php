@@ -78,75 +78,47 @@ if (!isset($_SESSION['semail'])) {
                             <p>We're happy for your item participants in auction!</p>
                         </div>
                         <form class="login-form" method="post" action="" enctype="multipart/form-data" id="itemForm">
-                            
-                            <p>Item Name:</p>
+                            <p>Start Date Time:</p>
                             <div class="form-group mb-30">
-                                <label for="itemname"><i class="fa fa-user"></i></label>
-                                <input type="text" id="itemname" placeholder="Item Name" name="txtitemname"
-                                       <?php if (isset($_POST['txtitemname'])) echo 'value="' . htmlspecialchars($_POST['txtitemname']) . '"'; ?> required>
+                                <label for="start_datetime"><i class="fa fa-calendar"></i> </label>
+                                <input type="datetime-local" id="start_datetime" name="txtstart_datetime" required>
                             </div>
-                            <p>Select Category:</p>
-                            <div class="form-group mb-30" id="a">
-                                <div class="row">
-                                    <!--                                    <div class="col-sm-6">
-                                                                            <label for="sellerid"><i class="fa fa-user"></i></label>
-                                                                            <input type="tel" id="sellerid" placeholder="Seller Id" name="txtsellerid"
-                                    <?php // if (isset($_POST['txtsellerid'])) echo 'value="' . htmlspecialchars($_POST['txtsellerid']) . '"'; ?> required>
-                                                                        </div>-->
+                            <p>End Date Time:</p>
+                            <div class="form-group mb-30">
+                                <label for="end_datetime"><i class="fa fa-calendar"></i> </label>
+                                <input type="datetime-local" id="end_datetime" name="txtend_datetime" required>
+                            </div>
+                            <p>Reserve Price:</p>
+                            <div class="form-group mb-30">
+                                <label for="reserve_price"style='font-size:20px;'>&#8377</label>
+                                <input type="number" id="reserve_price" placeholder="Reserve Price" name="txtreserve_price" required>
+                            </div>
+                            <p>Emd Due Date:</p>
+                            <div class="form-group mb-30">
+                                <label for="emd_date"><i class="fa fa-calendar"></i></label>
+                                <input type="date" id="emd_date" name="txtemd_date" required>
+                            </div>
 
-                                    <div class="col-sm-12">
-                                        <div class="form-group mb-0">
-                                            <select id="category-id" name="txtcategoryid" required>
-                                                <option value="">Select a Category</option>
-                                                <?php
-                                                $categories = getCategories();
-                                                foreach ($categories as $category) {
-                                                    echo '<option value="' . htmlspecialchars($category['id']) . '">' . htmlspecialchars($category['name']) . '</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>Item Description:</p>
+                            <p>Emd Amount:</p>
                             <div class="form-group mb-30">
-                                <!--<label for="description"><i class="fa fa-user"></i></label>-->
-                                <textarea type="text" id="description" placeholder="Description" name="txtdescription"
-                                          <?php if (isset($_POST['txtdescription'])) echo 'value="' . htmlspecialchars($_POST['txtdescription']) . '"'; ?> required></textarea>
+                                <label for="emd_amount" style='font-size:20px;'>&#8377</label>
+                                <input type="number" id="emd_amount" placeholder="EMD Amount" name="txtemd_amount" required>
                             </div>
-                            <p>Starting Price:</p>
-                            <div class="form-group mb-30">
-                                <label for="startingprice"><i class="fa fa-user"></i></label>
-                                <input type="text" id="startingprice" placeholder="Starting Price" name="txtstartingprice"
-                                       <?php if (isset($_POST['txtstartingprice'])) echo 'value="' . htmlspecialchars($_POST['txtstartingprice']) . '"'; ?> required>
-                            </div>
-                            <script>
-                                document.getElementById('startingprice').addEventListener('input', function (e) {
-                                    this.value = this.value.replace(/\D/g, '');
-                                });
-                                document.getElementById('itemForm').addEventListener('submit', function (event) {
-                                    const startDate = document.getElementById('start_datetime').value;
-                                    const endDate = document.getElementById('end_datetime').value;
 
-                                    if (new Date(startDate) > new Date(endDate)) {
-                                        alert('End date cannot be earlier than the start date.');
-                                        event.preventDefault(); // Prevent form submission
-                                    }
-                                });
-                            </script>
+                            <p>Minimum Bidder:</p>
                             <div class="form-group mb-30">
-                                <label for="image-upload"><i class="fa fa-image"></i></label>
-                                <input type="file" id="image-upload" name="txtimage[]" required accept="image/*" multiple onchange="previewImages(event)">
-                                <small class="form-text text-muted">Please upload a item images.</small>
+                                <label for="minimum_bidders"><i class="fa fa-users"></i></label>
+                                <input type="number" id="minimum_bidders" placeholder="Minimum Bidders" name="txtminimum_bidders" required>
                             </div>
-                            <div class="form-group mb-30">
 
-                                <label for="bill-upload"><i class="fa fa-image"></i></label>
-                                <input type="file" id="bill-upload" name="txtbill" placeholder="uplode bill e" required accept="image/*">
-                                <small class="form-text text-muted">Please upload a single image of the bill.</small>
+                            <p>Increment Value:</p>
+                            <div class="form-group mb-30">
+                                <label for="increment_value"><i class="fa fa-arrow-up"></i> </label>
+                                <input type="number" id="increment_value" placeholder="Increment Value" name="txtincrement_value" required>
                             </div>
-                           
+                            <div class="form-group mb-0">
+                                <button type="submit" class="custom-button"  name="btnsubmit">Submit</button>
+                            </div>
                         </form>
                     </div>
                     <div class="right-side cl-white">
@@ -357,9 +329,9 @@ if (!isset($_SESSION['semail'])) {
 
         <!--============= Account Section Ends Here =============-->
         <!--footer-->
-<?php
-include 'Footer.php';
-?>
+        <?php
+        include 'Footer.php';
+        ?>
 
         <!--============= Footer Section Ends Here =============-->
 
