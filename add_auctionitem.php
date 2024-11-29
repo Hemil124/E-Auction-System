@@ -133,150 +133,71 @@ if (!isset($_SESSION['semail'])) {
         <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['btnsubmit'])) {
-                itemSubmit();
+                auctionItemSubmit();
             }
         }
 
-        function getCategories() {
+//
+//        function getCategories() {
+//            include 'connection.php';
+//            $categories = [];
+//
+//            $sql = "SELECT id, name FROM tblCategory";
+//            $result = $conn->query($sql);
+//
+//            if ($result->num_rows > 0) {
+//                while ($row = $result->fetch_assoc()) {
+//                    $categories[] = $row;
+//                }
+//            }
+//
+//            $conn->close();
+//            return $categories;
+//        }
+
+        function auctionItemSubmit() {
             include 'connection.php';
-            $categories = [];
+            // Check if item ID is set in session
+            if (!isset($_SESSION['item_id'])) {
+                echo '<script>alert("No item found. Please add an item first.")</script>';
+                return;
+            }
+            include 'find_ID.php';
+//        $seller_id = find_sellerID($_SESSION['txtemail']);
+            $seller_id = find_sellerID("22bmiit117@gmail.com");
 
-            $sql = "SELECT id, name FROM tblCategory";
-            $result = $conn->query($sql);
+            // tblauctionitem fields
+            $item_id = $_SESSION['item_id'];
+            $start_datetime = $_POST['txtstart_datetime'];
+            $end_datetime = $_POST['txtend_datetime'];
+            $reserve_price = $_POST['txtreserve_price'];
+            $emd_date = $_POST['txtemd_date'];
+            $emd_amount = $_POST['txtemd_amount'];
+            $minimum_bidders = $_POST['txtminimum_bidders'];
+            $increment_value = $_POST['txtincrement_value'];
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $categories[] = $row;
-                }
+            // Server-side validation for date
+            if (strtotime($start_datetime) > strtotime($end_datetime)) {
+                echo '<script>alert("End date cannot be earlier than the start date.")</script>';
+                return; // Stop execution if validation fails
             }
 
-            $conn->close();
-            return $categories;
-        }
-
-        function itemSubmit() {
-            if (isset($_POST['btnsubmit'])) {
-                include 'find_ID.php';
-//        $seller_id = find_sellerID($_SESSION['txtemail']);
-                $seller_id = find_sellerID("22bmiit117@gmail.com");
-                // tblitem fields
-                $item_name = $_POST['txtitemname'];
-                $category_id = $_POST['txtcategoryid'];
-                $description = $_POST['txtdescription'];
-                $starting_price = $_POST['txtstartingprice'];
-                $imageFiles = $_FILES['txtimage'];
-                $bill = $_FILES['txtbill'];
-
-                // tblauctionitem fields
-                $start_datetime = $_POST['txtstart_datetime'];
-                $end_datetime = $_POST['txtend_datetime'];
-                $reserve_price = $_POST['txtreserve_price'];
-                $emd_date = $_POST['txtemd_date'];
-                $emd_amount = $_POST['txtemd_amount'];
-                $minimum_bidders = $_POST['txtminimum_bidders'];
-                $increment_value = $_POST['txtincrement_value'];
-
-                // Server-side validation for date
-                if (strtotime($start_datetime) > strtotime($end_datetime)) {
-                    echo '<script>alert("End date cannot be earlier than the start date.")</script>';
-                    return; // Stop execution if validation fails
-                }
-
-                // Image and bill upload logic (existing code)
-                $imageNames = [];
-                $target_dir_image = "uploads/";
-
-                for ($i = 0; $i < count($imageFiles['name']); $i++) {
-                    $imageFileType = strtolower(pathinfo($imageFiles["name"][$i], PATHINFO_EXTENSION));
-                    $random_filename_image = time() . rand(1000, 9999) . '.' . $imageFileType;
-                    $target_file_image = $target_dir_image . $random_filename_image;
-
-                    $check = getimagesize($imageFiles["tmp_name"][$i]);
-                    if ($check === false) {
-                        echo '<script>alert("File is not an image.")</script>';
-                        continue;
-                    }
-
-                    if (file_exists($target_file_image)) {
-                        echo '<script>alert("Sorry, image already exists.")</script>';
-                        continue;
-                    }
-
-                    if ($imageFiles["size"][$i] > 500000) {
-                        echo '<script>alert("Sorry, your image is too large.")</script>';
-                        continue;
-                    }
-
-                    if (!in_array($imageFileType, ['jpg', 'png', 'jpeg'])) {
-                        echo '<script>alert("Sorry, only JPG, JPEG, & PNG files are allowed.")</script>';
-                        continue;
-                    }
-
-                    if (move_uploaded_file($imageFiles["tmp_name"][$i], $target_file_image)) {
-                        $imageNames[] = $random_filename_image;
-                    } else {
-                        echo '<script>alert("Sorry, there was an error uploading your image.")</script>';
-                    }
-                }
-
-                $target_dir_bill = "billuploads/";
-                $billFileType = strtolower(pathinfo($bill["name"], PATHINFO_EXTENSION));
-                $random_filename_bill = time() . rand(1000, 9999) . '.' . $billFileType;
-                $target_file_bill = $target_dir_bill . $random_filename_bill;
-
-                if (file_exists($target_file_bill)) {
-                    echo '<script>alert("Sorry, bill already exists.")</script>';
-                    return;
-                }
-
-                if ($bill["size"] > 500000) {
-                    echo '<script>alert("Sorry, your bill is too large.")</script>';
-                    return;
-                }
-
-                if (!in_array($billFileType, ['jpg', 'png', 'jpeg'])) {
-                    echo '<script>alert("Sorry, only JPG, JPEG, & PNG files are allowed.")</script>';
-                    return;
-                }
-
-                if (!move_uploaded_file($bill["tmp_name"], $target_file_bill)) {
-                    echo '<script>alert("Sorry, there was an error uploading your bill.")</script>';
-                    return;
-                }
-
-                $images_json = json_encode($imageNames);
-
-                // Step 1: Insert into tblitem
-                include 'connection.php';
-                $query_item = "INSERT INTO tblitem (name, seller_id, category_id, description, starting_price, image_id, verification_certificate) 
-                       VALUES (?, ?, ?, ?, ?, ?, ?)";
-                $stmt_item = mysqli_prepare($conn, $query_item);
-                mysqli_stmt_bind_param($stmt_item, "sssssss", $item_name, $seller_id, $category_id, $description, $starting_price, $images_json, $random_filename_bill);
-
-                if (mysqli_stmt_execute($stmt_item)) {
-                    // Get the last inserted ID from tblitem
-                    $item_id = mysqli_insert_id($conn);
-
-                    // Step 2: Insert into tblauctionitem
-                    $query_auction = "INSERT INTO tblauctionitem (item_id, start_datetime, end_datetime, reserve_price, emd_date, emd_amount, minimum_bidders, increment_value, auction_status) 
+            // Step 1: Insert into tblitem
+            // Step 2: Insert into tblauctionitem
+            $query_auction = "INSERT INTO tblauctionitem (item_id, start_datetime, end_datetime, reserve_price, emd_date, emd_amount, minimum_bidders, increment_value, auction_status) 
                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')";
-                    $stmt_auction = mysqli_prepare($conn, $query_auction);
-                    mysqli_stmt_bind_param($stmt_auction, "isssdsid", $item_id, $start_datetime, $end_datetime, $reserve_price, $emd_date, $emd_amount, $minimum_bidders, $increment_value);
+            $stmt_auction = mysqli_prepare($conn, $query_auction);
+            mysqli_stmt_bind_param($stmt_auction, "isssdsid", $item_id, $start_datetime, $end_datetime, $reserve_price, $emd_date, $emd_amount, $minimum_bidders, $increment_value);
 
-                    if (mysqli_stmt_execute($stmt_auction)) {
-                        echo '<script type="text/javascript"> 
+            if (mysqli_stmt_execute($stmt_auction)) {
+                echo '<script type="text/javascript"> 
                       alert("Item and Auction added successfully!"); 
                       window.location.href = "index-2.php"; 
                       </script>';
-                    } else {
-                        echo '<script>alert("Error adding auction!")</script>';
-                    }
-                } else {
-                    echo '<script>alert("Error adding item!")</script>';
-                }
-
-                $conn->close();
+            } else {
+                echo '<script>alert("Error adding auction!")</script>';
             }
+            $conn->close();
         }
         ?>
         <script>

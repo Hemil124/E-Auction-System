@@ -1,44 +1,5 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-//    $('.favorite-icon').on('click', function (e) {
-//        e.preventDefault(); // Prevent default anchor click behavior
-//        var itemId = $(this).data('item-id');
-//        var bidderId = $(this).data('bidder-id');
-//        var $icon = $(this).find('i');
-//
-//        // Check if the item is already favorited by checking the icon class
-//        if ($icon.hasClass('far')) {
-//            // Not favorited, so insert into favorites
-//            $.ajax({
-//                url: 'insert_favorites.php',
-//                type: 'POST',
-//                data: {
-//                    action: 'add',
-//                    item_id: itemId,
-//                    bidder_id: bidderId
-//                },
-//                success: function (response) {
-//                    // Change icon to checked
-//                    $icon.removeClass('far').addClass('fas'); // Change to filled star
-//                }
-//            });
-//        } else {
-//            // Already favorited, so remove from favorites
-//            $.ajax({
-//                url: 'insert_favorites.php',
-//                type: 'POST',
-//                data: {
-//                    action: 'remove',
-//                    item_id: itemId,
-//                    bidder_id: bidderId
-//                },
-//                success: function (response) {
-//                    // Change icon to unchecked
-//                    $icon.removeClass('fas').addClass('far'); // Change to empty star
-//                }
-//            });
-//        }
-//    });
     $('.favorite-icon').on('click', function (e) {
         e.preventDefault(); // Prevent default anchor click behavior
         var itemId = $(this).data('item-id');
@@ -272,6 +233,9 @@ if ($result->num_rows > 0) {
             echo '                <a href="payscript.php?a=' . htmlspecialchars($row3['current_bid']) .
             '&auctionitem_id=' . htmlspecialchars($row['id']) .
             '" class="custom-button">Full Payment</a>';
+        }
+        elseif ($status == "verified") {
+            echo '                <a href="add_auctionitem.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">Enter Auction Details</a>';
         }
         echo '            </div>';
         echo '        </div>';

@@ -78,7 +78,7 @@ if (!isset($_SESSION['semail'])) {
                             <p>We're happy for your item participants in auction!</p>
                         </div>
                         <form class="login-form" method="post" action="" enctype="multipart/form-data" id="itemForm">
-                            
+
                             <p>Item Name:</p>
                             <div class="form-group mb-30">
                                 <label for="itemname"><i class="fa fa-user"></i></label>
@@ -135,18 +135,28 @@ if (!isset($_SESSION['semail'])) {
                                     }
                                 });
                             </script>
+                            <p>Item Images Upload:</p>
                             <div class="form-group mb-30">
-                                <label for="image-upload"><i class="fa fa-image"></i></label>
-                                <input type="file" id="image-upload" name="txtimage[]" required accept="image/*" multiple onchange="previewImages(event)">
-                                <small class="form-text text-muted">Please upload a item images.</small>
+                                <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; margin-left: 120px;">
+                                    <lable>Please upload a item images.
+                                        <input type="file" id="image-upload" name="txtimage[]" required accept="image/*" multiple onchange="previewImages(event)"style="border: 0px; margin: 0 auto;">
+                                    </lable>
+                                </div>
+                                <div class="col-sm-4"></div>
                             </div>
-                            <div class="form-group mb-30">
 
-                                <label for="bill-upload"><i class="fa fa-image"></i></label>
-                                <input type="file" id="bill-upload" name="txtbill" placeholder="uplode bill e" required accept="image/*">
-                                <small class="form-text text-muted">Please upload a single image of the bill.</small>
+                            <p>Bill Images Upload:</p>
+                            <div class="form-group mb-30">
+                                <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; margin-left: 120px;">
+                                    <lable>Please upload a single image of the bill.
+                                        <input type="file" id="bill-upload" name="txtbill" placeholder="uplode bill e" required accept="image/*" style="border: 0px; margin: 0 auto;">
+                                    </lable>
+                                </div>
+                                <div class="col-sm-4"></div>
                             </div>
-                           
+                            <div class="form-group mb-0">
+                                <button type="submit" class="custom-button"  name="btnnext">Next ---></button>
+                            </div>
                         </form>
                     </div>
                     <div class="right-side cl-white">
@@ -160,7 +170,7 @@ if (!isset($_SESSION['semail'])) {
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['btnsubmit'])) {
+            if (isset($_POST['btnnext'])) {
                 itemSubmit();
             }
         }
@@ -183,7 +193,9 @@ if (!isset($_SESSION['semail'])) {
         }
 
         function itemSubmit() {
-            if (isset($_POST['btnsubmit'])) {
+            if (isset($_FILES['txtimage']) && isset($_FILES['txtbill'])) {
+                include 'connection.php';
+//            if (isset($_POST['btnsubmit'])) {
                 include 'find_ID.php';
 //        $seller_id = find_sellerID($_SESSION['txtemail']);
                 $seller_id = find_sellerID("22bmiit117@gmail.com");
@@ -196,25 +208,25 @@ if (!isset($_SESSION['semail'])) {
                 $bill = $_FILES['txtbill'];
 
                 // tblauctionitem fields
-                $start_datetime = $_POST['txtstart_datetime'];
-                $end_datetime = $_POST['txtend_datetime'];
-                $reserve_price = $_POST['txtreserve_price'];
-                $emd_date = $_POST['txtemd_date'];
-                $emd_amount = $_POST['txtemd_amount'];
-                $minimum_bidders = $_POST['txtminimum_bidders'];
-                $increment_value = $_POST['txtincrement_value'];
-
+//                $start_datetime = $_POST['txtstart_datetime'];
+//                $end_datetime = $_POST['txtend_datetime'];
+//                $reserve_price = $_POST['txtreserve_price'];
+//                $emd_date = $_POST['txtemd_date'];
+//                $emd_amount = $_POST['txtemd_amount'];
+//                $minimum_bidders = $_POST['txtminimum_bidders'];
+//                $increment_value = $_POST['txtincrement_value'];
                 // Server-side validation for date
-                if (strtotime($start_datetime) > strtotime($end_datetime)) {
-                    echo '<script>alert("End date cannot be earlier than the start date.")</script>';
-                    return; // Stop execution if validation fails
-                }
-
+//                if (strtotime($start_datetime) > strtotime($end_datetime)) {
+//                    echo '<script>alert("End date cannot be earlier than the start date.")</script>';
+//                    return; // Stop execution if validation fails
+//                }
                 // Image and bill upload logic (existing code)
                 $imageNames = [];
                 $target_dir_image = "uploads/";
 
-                for ($i = 0; $i < count($imageFiles['name']); $i++) {
+                for ($i = 0;
+                        $i < count($imageFiles['name']);
+                        $i++) {
                     $imageFileType = strtolower(pathinfo($imageFiles["name"][$i], PATHINFO_EXTENSION));
                     $random_filename_image = time() . rand(1000, 9999) . '.' . $imageFileType;
                     $target_file_image = $target_dir_image . $random_filename_image;
@@ -281,85 +293,91 @@ if (!isset($_SESSION['semail'])) {
                 $stmt_item = mysqli_prepare($conn, $query_item);
                 mysqli_stmt_bind_param($stmt_item, "sssssss", $item_name, $seller_id, $category_id, $description, $starting_price, $images_json, $random_filename_bill);
 
+//                if (mysqli_stmt_execute($stmt_item)) {
+//                    // Get the last inserted ID from tblitem
+//                    $item_id = mysqli_insert_id($conn);
+//echo '<script>alert(" sc".$item_id)</script>';                    
+//// Store item ID in session
+//                    $_SESSION['item_id'] = $item_id;
+//                    // Redirect to auction item page
+//                    header("Location: add_auctionitem.php");
+//                    exit();
+//                } else {
+//                    echo '<script>alert("Error adding item!")</script>';
+//                }
                 if (mysqli_stmt_execute($stmt_item)) {
-                    // Get the last inserted ID from tblitem
                     $item_id = mysqli_insert_id($conn);
-
-                    // Step 2: Insert into tblauctionitem
-                    $query_auction = "INSERT INTO tblauctionitem (item_id, start_datetime, end_datetime, reserve_price, emd_date, emd_amount, minimum_bidders, increment_value, auction_status) 
-                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')";
-                    $stmt_auction = mysqli_prepare($conn, $query_auction);
-                    mysqli_stmt_bind_param($stmt_auction, "isssdsid", $item_id, $start_datetime, $end_datetime, $reserve_price, $emd_date, $emd_amount, $minimum_bidders, $increment_value);
-
-                    if (mysqli_stmt_execute($stmt_auction)) {
-                        echo '<script type="text/javascript"> 
-                      alert("Item and Auction added successfully!"); 
-                      window.location.href = "index-2.php"; 
+//                    $_SESSION['item_id'] = $item_id;
+                    echo '<script>alert("Item added successfully! ID: ")</script>';
+//                    // Redirect after successful insertion
+                    echo '<script "> 
+                    window.location.href = "index-2.php"; 
                       </script>';
-                    } else {
-                        echo '<script>alert("Error adding auction!")</script>';
-                    }
+//                    header("Location: add_auctionitem.php");
+                    exit();
                 } else {
-                    echo '<script>alert("Error adding item!")</script>';
+                    echo '<script>alert("Error adding item: ' . $conn->error . '")</script>';
                 }
 
                 $conn->close();
+            } else {
+                echo '<script>alert("Please upload all required files.")</script>';
             }
         }
-        ?>
-        <script>
-            function previewImages(event) {
-                const imagePreviewContainer = document.getElementById('image-preview-container');
-                imagePreviewContainer.innerHTML = '';
-                const files = event.target.files;
+            ?>
+            <script>
+                function previewImages(event) {
+                    const imagePreviewContainer = document.getElementById('image-preview-container');
+                    imagePreviewContainer.innerHTML = '';
+                    const files = event.target.files;
 
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const imageContainer = document.createElement('div');
-                        imageContainer.style.position = 'relative';
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const imageContainer = document.createElement('div');
+                            imageContainer.style.position = 'relative';
 
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.style.width = '100%';
-                        img.style.height = 'auto';
-                        img.style.marginBottom = '10px';
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.width = '100%';
+                            img.style.height = 'auto';
+                            img.style.marginBottom = '10px';
 
-                        const removeButton = document.createElement('button');
-                        removeButton.innerHTML = '✖';
-                        removeButton.style.position = 'absolute';
-                        removeButton.style.top = '0px';
-                        removeButton.style.left = '0px';
-                        removeButton.style.background = 'red';
-                        removeButton.style.color = 'white';
-                        removeButton.style.border = 'none';
-                        removeButton.style.cursor = 'pointer';
-                        removeButton.style.zIndex = '5';
-                        removeButton.style.fontSize = '16px';
-                        removeButton.style.padding = '15';
-                        removeButton.style.width = 'auto';
-                        removeButton.style.height = 'auto';
-                        removeButton.style.lineHeight = 'normal';
+                            const removeButton = document.createElement('button');
+                            removeButton.innerHTML = '✖';
+                            removeButton.style.position = 'absolute';
+                            removeButton.style.top = '0px';
+                            removeButton.style.left = '0px';
+                            removeButton.style.background = 'red';
+                            removeButton.style.color = 'white';
+                            removeButton.style.border = 'none';
+                            removeButton.style.cursor = 'pointer';
+                            removeButton.style.zIndex = '5';
+                            removeButton.style.fontSize = '16px';
+                            removeButton.style.padding = '15';
+                            removeButton.style.width = 'auto';
+                            removeButton.style.height = 'auto';
+                            removeButton.style.lineHeight = 'normal';
 
-                        removeButton.addEventListener('click', function () {
-                            imagePreviewContainer.removeChild(imageContainer);
-                        });
+                            removeButton.addEventListener('click', function () {
+                                imagePreviewContainer.removeChild(imageContainer);
+                            });
 
-                        imageContainer.appendChild(removeButton);
-                        imageContainer.appendChild(img);
-                        imagePreviewContainer.appendChild(imageContainer);
+                            imageContainer.appendChild(removeButton);
+                            imageContainer.appendChild(img);
+                            imagePreviewContainer.appendChild(imageContainer);
+                        }
+                        reader.readAsDataURL(file);
                     }
-                    reader.readAsDataURL(file);
                 }
-            }
-        </script>
+            </script>
 
-        <!--============= Account Section Ends Here =============-->
-        <!--footer-->
-<?php
-include 'Footer.php';
-?>
+            <!--============= Account Section Ends Here =============-->
+            <!--footer-->
+            <?php
+            include 'Footer.php';
+            ?>
 
         <!--============= Footer Section Ends Here =============-->
 
