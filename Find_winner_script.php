@@ -40,10 +40,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 var startTimestamp = new Date(start_datetime).getTime();
                 var endTimestamp = new Date(end_datetime).getTime();
                 var emdTimestamp = new Date(emd_date).getTime();
-//                console.log('checkAuctionStatus');
-//                console.log(currentTimestamp);
-//                console.log(startTimestamp);
-//                console.log(auction_status);
+                console.log(currentTimestamp);
+                console.log(endTimestamp);
+                console.log(auction_id);
+                console.log(auction_status);
 
 
                 // Activate auction if the start time has been reached
@@ -59,6 +59,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
                 // Close auction if end time has been reached
                 if (currentTimestamp >= endTimestamp && auction_status === 'ACTIVE') {
+                    alert('close');
                     closeAuction(auction_id, reserve_price);
                 }
             }

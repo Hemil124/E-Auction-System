@@ -158,16 +158,16 @@ if (!isset($_SESSION['semail'])) {
         function auctionItemSubmit() {
             include 'connection.php';
             // Check if item ID is set in session
-            if (!isset($_SESSION['item_id'])) {
+            if (!isset($_GET['item_id'])) {
                 echo '<script>alert("No item found. Please add an item first.")</script>';
                 return;
             }
             include 'find_ID.php';
 //        $seller_id = find_sellerID($_SESSION['txtemail']);
-            $seller_id = find_sellerID("22bmiit117@gmail.com");
+            $seller_id = 1;
 
             // tblauctionitem fields
-            $item_id = $_SESSION['item_id'];
+            $item_id = $_GET['item_id'];
             $start_datetime = $_POST['txtstart_datetime'];
             $end_datetime = $_POST['txtend_datetime'];
             $reserve_price = $_POST['txtreserve_price'];

@@ -138,6 +138,11 @@
                             margin-right: -15px;
                             margin-left: -15px;
                         }
+                        .custom-button
+                        {
+                            margin-left: 52px;
+                            margin-top: 15px;
+                        }
                     </style>
 
                 </div>

@@ -8,18 +8,19 @@ use PHPMailer\PHPMailer\Exception;
 require 'C:/xampp/htdocs/E-Auction-System/PHPMailer-master/src/PHPMailer.php';
 require 'C:/xampp/htdocs/E-Auction-System/PHPMailer-master/src/Exception.php';
 require 'C:/xampp/htdocs/E-Auction-System/PHPMailer-master/src/SMTP.php';
-
+//$_POST['auction_id']=32;
+//$_POST['reserve_price']=500;
 if (isset($_POST['auction_id']) && isset($_POST['reserve_price'])) {
     $auction_id = $_POST['auction_id'];
     $reserve_price = $_POST['reserve_price'];
 
     // Fetch the highest bid and the second-highest bid
-    $result_highest_bid = $conn->query("SELECT bidder_id, bid_value, bid_timestamp FROM tblbid WHERE auction_item_id = $auction_id ORDER BY bid_value DESC, bid_timestamp ASC LIMIT 2");
+    $result_highest_bid = $conn->query("SELECT bidder_id, bid_value, bid_datetime FROM tblbid WHERE auction_item_id = $auction_id ORDER BY bid_value DESC, bid_datetime ASC LIMIT 2");
     
     $result = mysqli_query($conn, "Select * from  tblauctionitem where id=$auction_id");
     $auctionItem_details = mysqli_fetch_assoc($result);
 
-    $itemId = $auctionItem_details['item_id '];
+    $itemId = $auctionItem_details['item_id'];
 
     $result1 = mysqli_query($conn, "select * from tblitem where id=$itemId");
     $item_details = mysqli_fetch_assoc($result1);
@@ -45,7 +46,7 @@ if (isset($_POST['auction_id']) && isset($_POST['reserve_price'])) {
             // Check if the highest bid and second highest bid are the same
             if ($highest_bid == $second_highest_bid) {
                 // If the bids are the same, check their timestamps
-                if ($highest_bidder['bid_timestamp'] == $second_highest_bidder['bid_timestamp']) {
+                if ($highest_bidder['bid_datetime'] == $second_highest_bidder['bid_datetime']) {
                     // If the timestamps are the same, select the bidder with the smallest bidder_id (FIFO)
                     if ($highest_bidder_id < $second_highest_bidder_id) {
                         $winner_bidder_id = $highest_bidder_id;
@@ -54,7 +55,7 @@ if (isset($_POST['auction_id']) && isset($_POST['reserve_price'])) {
                     }
                 } else {
                     // Select the bid placed first by timestamp
-                    $winner_bidder_id = ($highest_bidder['bid_timestamp'] < $second_highest_bidder['bid_timestamp']) ? $highest_bidder_id : $second_highest_bidder_id;
+                    $winner_bidder_id = ($highest_bidder['bid_datetime'] < $second_highest_bidder['bid_datetime']) ? $highest_bidder_id : $second_highest_bidder_id;
                 }
             } else {
                 // If the highest bid is greater than the second-highest, the highest bidder is the winner
@@ -62,7 +63,7 @@ if (isset($_POST['auction_id']) && isset($_POST['reserve_price'])) {
             }
 
             // Update the auction status to COMPLETED and set winner ID
-            $update_auction_sql = "UPDATE tblauctionitem SET auction_status = 'COMPLETED', winner_id = ? WHERE id = ?";
+            $update_auction_sql = "UPDATE tblauctionitem SET auction_status = 'CLOSED', winner_id = ? WHERE id = ?";
             $stmt = $conn->prepare($update_auction_sql);
             $stmt->bind_param("ii", $winner_bidder_id, $auction_id);
             $stmt->execute();
@@ -95,9 +96,9 @@ if (isset($_POST['auction_id']) && isset($_POST['reserve_price'])) {
             $result = mysqli_query($conn, "select * from tblbidders where id=$winner_bidder_id");
             $bidder_details = mysqli_fetch_assoc($result);
 
-            $reason = "Dear ".$bidrde_details['firstname'].",
+            $reason = "Dear ".$bidder_details['firstname'].",
 We are pleased to inform you that you have won the auction for ".$iname." with your bid of ".$highest_bid."";
-            sendEmail($bidrde_details['email'], $status, $reason, $iname);
+            sendEmail($bidder_details['email'], "WINNER", $reason, $iname);
         } else {
             // Reserve price not met, cancel the auction
             $update_auction_sql = "UPDATE tblauctionitem SET auction_status = 'CANCELED' WHERE id = ?";

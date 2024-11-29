@@ -359,7 +359,8 @@ session_start();
                                     <h5 class="current">Current Price</h5>
                                     <h3 class="price"><?php
                                         if (isset($bid_details)) {
-                                            echo $bid_details['current_bid'];
+                                            $current_price= $item_details['starting_price']+$bid_details['current_bid'];
+                                            echo $current_price;
                                         }
                                         ?></h3>
                                 </li>
@@ -389,7 +390,7 @@ session_start();
                                     <div class="search-icon">
                                         <img src="assets/images/product/search-icon.png" alt="product">
                                     </div>
-                                    <input type="text" placeholder="Enter your bid amount" value="<?php echo $bid_details['current_bid'] + $autionItem_details['increment_value']; ?>" disabled style="font-size: 150%; color: #43b055;" title="Can't Change Value">
+                                    <input type="text" placeholder="Enter your bid amount" value="<?php echo $current_price + $autionItem_details['increment_value']; ?>" disabled style="font-size: 150%; color: #43b055;" title="Can't Change Value">
 
                                     <!-- Hidden input to capture the bid value -->
                                     <input type="hidden" name="hiddenBidValue" value="<?php echo $bid_details['current_bid'] + $autionItem_details['increment_value']; ?>">

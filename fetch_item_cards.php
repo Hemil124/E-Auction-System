@@ -58,7 +58,6 @@ $status = isset($_GET['status']) ? $_GET['status'] : '';
 $bidder_id = 2;
 $sellerid = 1;
 //$status = "mybids";
-//Wrong Query Change the QUery
 if ($status == "Bidder") {
 //$sql = "SELECT * FROM tblauctionitem WHERE 1=1";
 //    include 'find_ID.php';
@@ -81,19 +80,7 @@ if ($status == "Bidder") {
     if (isset($sellerid)) {
         $sql = "SELECT tblauctionitem.*, tblitem.name, tblitem.seller_id, tblitem.category_id, tblitem.description, tblitem.starting_price FROM tblauctionitem INNER JOIN tblitem ON tblauctionitem.item_id = tblitem.id WHERE tblauctionitem.auction_status = 'active' AND tblitem.seller_id = $sellerid;";
     }
-} elseif ($status == "verified") {
-    if (isset($sellerid)) {
-        $sql = "SELECT 
-                tai.* 
-            FROM 
-                tblauctionitem tai
-            JOIN 
-                tblitem ti ON ti.id = tai.item_id
-            WHERE 
-                ti.seller_id = $sellerid
-                AND ti.verify_status = 'verified'";
-    }
-} elseif ($status == "rejected") {
+}  elseif ($status == "rejected") {
     if (isset($sellerid)) {
         $sql = "SELECT 
                 tai.* 
@@ -148,15 +135,15 @@ if ($result->num_rows > 0) {
         }
 
         // Fetch image
-//        $result_img = mysqli_query($conn, 'SELECT img FROM tblimg WHERE item_id=' . $row2['id']);
-//        $img = mysqli_fetch_assoc($result_img);
+        $result_img = mysqli_query($conn, 'SELECT img FROM tblimg WHERE item_id=' . $row2['id']);
+        $img = mysqli_fetch_assoc($result_img);
         // Convert BLOB to base64
-//        $imageSrc = isset($img) ? 'data:image/jpeg;base64,' . base64_encode($img['img']) : 'assets/images/product/default_product.png';
+        $imageSrc = isset($img) ? 'data:image/jpeg;base64,' . base64_encode($img['img']) : 'assets/images/product/default_product.png';
         // Fetch image array
-        $imageArray = json_decode($row2['image_id'], true);
+//        $imageArray = json_decode($row2['image_id'], true);
 
         // Get the first image
-        $firstImage = !empty($imageArray) ? $imageArray[0] : 'default_image.png';
+//        $firstImage = !empty($imageArray) ? $imageArray[0] : 'default_image.png';
         // Fetch bid details
         $result_bid = mysqli_query($conn, 'SELECT MAX(bid_value) AS current_bid, COUNT(*) AS bids FROM tblbid WHERE auction_item_id=' . $row['id']);
         $row3 = mysqli_fetch_assoc($result_bid);
@@ -173,7 +160,7 @@ if ($result->num_rows > 0) {
         echo '    <div class="auction-item-2" data-aos="zoom-out-up" data-aos-duration="1000">';
         echo '        <div class="auction-thumb">';
         echo '            <a href="product-details.php">';
-        echo '                <img src="uploads/' . htmlspecialchars($firstImage) . '" alt="product" class="img-fluid">';
+        echo '                <img src="' . htmlspecialchars($imageSrc) . '" alt="product" class="img-fluid">';
         echo '            </a>';
         if ($status == "Upcoming" || $status == "myfavorites") {
             // Check if the item is already in the favorites table
@@ -233,8 +220,7 @@ if ($result->num_rows > 0) {
             echo '                <a href="payscript.php?a=' . htmlspecialchars($row3['current_bid']) .
             '&auctionitem_id=' . htmlspecialchars($row['id']) .
             '" class="custom-button">Full Payment</a>';
-        }
-        elseif ($status == "verified") {
+        } elseif ($status == "verified") {
             echo '                <a href="add_auctionitem.php?item_id=' . htmlspecialchars($row['item_id']) . '" class="custom-button">Enter Auction Details</a>';
         }
         echo '            </div>';

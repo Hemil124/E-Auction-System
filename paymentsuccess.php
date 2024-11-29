@@ -156,7 +156,7 @@
                                 <h2 class="text-center">YOUR PAYMENT HAS BEEN RECEIVED</h2>
                                 <h3 class="text-center">Thank you for your payment, it’s processing</h3>
 
-                                <p class="text-center">Your bidder number is: <b> <?php echo 'ORDER' . $order_Id; ?> </b></p>
+                                <p class="text-center"> </b></p><br>
                                 <p class="text-center">You will receive an order confirmation email with details of your order and a link to track your process.</p>
                                 <center>
                                     <div class="btn-group" style="margin-top:50px;">

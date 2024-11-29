@@ -237,7 +237,7 @@
                                     $('#rejected-content').parent().removeClass('show active').addClass('fade');
 
                                     $.ajax({
-                                        url: 'fetch_item_cards.php', // PHP file to handle the request
+                                        url: 'fetch_varified_card.php', // PHP file to handle the request
                                         type: 'GET',
                                         data: {status: 'verified'}, // Send 'verified' as a parameter
                                         success: function (data) {
@@ -258,7 +258,7 @@
                                     $('#verified-content').parent().removeClass('show active').addClass('fade');
 
                                     $.ajax({
-                                        url: 'fetch_item_cards.php', // PHP file to handle the request
+                                        url: 'fetch_varified_card.php', // PHP file to handle the request
                                         type: 'GET',
                                         data: {status: 'rejected'}, // Send 'rejected' as a parameter
                                         success: function (data) {

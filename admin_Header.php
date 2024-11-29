@@ -68,7 +68,7 @@
                         </div>
                         <ul class="menu ml-auto">
                             <li>
-                                <a href="Admin_Deshboard.php">Home</a>
+                                <a href="admin_Dashboard.php">Home</a>
 <!--                                <ul class="submenu">
                                     <li>
                                         <a href="index.php">Home Page One</a>

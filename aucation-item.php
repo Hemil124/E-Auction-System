@@ -37,7 +37,6 @@
         exit();
     }
 
-    $conn->close(); // Close the database connection
     ?>
     <head>
         <meta charset="UTF-8">
@@ -225,26 +224,29 @@
                                         <td class="text-dark">
                                             <div class="image-container">
                                                 <?php
-                                                // Decode the JSON array of image filenames
-                                                $imageArray = json_decode($item['image_id'], true);
+// Retrieve images associated with the item_id
+                                                $result_img = mysqli_query($conn, "SELECT img FROM tblimg WHERE item_id=$itemId");
 
-                                                // Check if the array is not empty
-                                                if (!empty($imageArray)) {
-                                                    // Limit to the first three images
-                                                    $limitedImages = array_slice($imageArray, 0);
-                                                    foreach ($limitedImages as $image) {
-                                                        echo "<img src='uploads/" . htmlspecialchars($image) . "' alt='" . htmlspecialchars($item['name']) . "' class='img-fluid' style='margin-top: 5px; max-width: 200px;'>";
+// Check if images are available
+                                                if (mysqli_num_rows($result_img) > 0) {
+                                                    while ($row = mysqli_fetch_assoc($result_img)) {
+                                                        // Convert binary data to base64 format and set it as the image source
+                                                        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['img']);
+                                                        echo "<img src='$imageSrc' alt='Product Image' class='img-fluid' style='margin-top: 5px; max-width: 200px;'>";
                                                     }
                                                 } else {
-                                                    echo "No images available.";
+                                                    // Display a default placeholder image if no images are found
+                                                    echo "<img src='assets/images/product/default_product.png' alt='Default Product' class='img-fluid' style='margin-top: 5px; max-width: 200px;'>";
                                                 }
                                                 ?>
+
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Bill</td>
-                                        <td class="text-dark"><img src="billuploads/<?php echo htmlspecialchars($item['bill_id']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid" style="margin-top: 5px; max-width: 200px;"></td>
+                                        <?php $imageSrc = 'data:image/jpeg;base64,'. base64_encode($item['verification_certificate']);?>
+                                        <td class="text-dark"><img src="<?php echo $imageSrc; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid" style="margin-top: 5px; max-width: 200px;"></td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Item Rejection Reason</td>
@@ -309,7 +311,7 @@
                                                 location.replace('admin-item-list.php');
 
 //                                                alert(response);
-                                                
+
                                             } else {
                                                 alert("An error occurred. Please try again.");
                                             }

@@ -155,7 +155,7 @@ if (!isset($_SESSION['semail'])) {
                                 <div class="col-sm-4"></div>
                             </div>
                             <div class="form-group mb-0">
-                                <button type="submit" class="custom-button"  name="btnnext">Next ---></button>
+                                <button type="submit" class="custom-button"  name="btnnext">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -195,189 +195,129 @@ if (!isset($_SESSION['semail'])) {
         function itemSubmit() {
             if (isset($_FILES['txtimage']) && isset($_FILES['txtbill'])) {
                 include 'connection.php';
-//            if (isset($_POST['btnsubmit'])) {
                 include 'find_ID.php';
-//        $seller_id = find_sellerID($_SESSION['txtemail']);
-                $seller_id = find_sellerID("22bmiit117@gmail.com");
-                // tblitem fields
+
+                $seller_id = find_sellerID("22bmiit117@gmail.com"); // Replace with session-based email in production
+                // Gather form data
                 $item_name = $_POST['txtitemname'];
                 $category_id = $_POST['txtcategoryid'];
                 $description = $_POST['txtdescription'];
                 $starting_price = $_POST['txtstartingprice'];
-                $imageFiles = $_FILES['txtimage'];
                 $bill = $_FILES['txtbill'];
 
-                // tblauctionitem fields
-//                $start_datetime = $_POST['txtstart_datetime'];
-//                $end_datetime = $_POST['txtend_datetime'];
-//                $reserve_price = $_POST['txtreserve_price'];
-//                $emd_date = $_POST['txtemd_date'];
-//                $emd_amount = $_POST['txtemd_amount'];
-//                $minimum_bidders = $_POST['txtminimum_bidders'];
-//                $increment_value = $_POST['txtincrement_value'];
-                // Server-side validation for date
-//                if (strtotime($start_datetime) > strtotime($end_datetime)) {
-//                    echo '<script>alert("End date cannot be earlier than the start date.")</script>';
-//                    return; // Stop execution if validation fails
-//                }
-                // Image and bill upload logic (existing code)
-                $imageNames = [];
-                $target_dir_image = "uploads/";
-
-                for ($i = 0;
-                        $i < count($imageFiles['name']);
-                        $i++) {
-                    $imageFileType = strtolower(pathinfo($imageFiles["name"][$i], PATHINFO_EXTENSION));
-                    $random_filename_image = time() . rand(1000, 9999) . '.' . $imageFileType;
-                    $target_file_image = $target_dir_image . $random_filename_image;
-
-                    $check = getimagesize($imageFiles["tmp_name"][$i]);
-                    if ($check === false) {
-                        echo '<script>alert("File is not an image.")</script>';
-                        continue;
-                    }
-
-                    if (file_exists($target_file_image)) {
-                        echo '<script>alert("Sorry, image already exists.")</script>';
-                        continue;
-                    }
-
-                    if ($imageFiles["size"][$i] > 500000) {
-                        echo '<script>alert("Sorry, your image is too large.")</script>';
-                        continue;
-                    }
-
-                    if (!in_array($imageFileType, ['jpg', 'png', 'jpeg'])) {
-                        echo '<script>alert("Sorry, only JPG, JPEG, & PNG files are allowed.")</script>';
-                        continue;
-                    }
-
-                    if (move_uploaded_file($imageFiles["tmp_name"][$i], $target_file_image)) {
-                        $imageNames[] = $random_filename_image;
-                    } else {
-                        echo '<script>alert("Sorry, there was an error uploading your image.")</script>';
-                    }
-                }
-
+                // Handle bill upload
                 $target_dir_bill = "billuploads/";
                 $billFileType = strtolower(pathinfo($bill["name"], PATHINFO_EXTENSION));
                 $random_filename_bill = time() . rand(1000, 9999) . '.' . $billFileType;
                 $target_file_bill = $target_dir_bill . $random_filename_bill;
 
-                if (file_exists($target_file_bill)) {
-                    echo '<script>alert("Sorry, bill already exists.")</script>';
-                    return;
-                }
-
-                if ($bill["size"] > 500000) {
-                    echo '<script>alert("Sorry, your bill is too large.")</script>';
-                    return;
-                }
-
-                if (!in_array($billFileType, ['jpg', 'png', 'jpeg'])) {
-                    echo '<script>alert("Sorry, only JPG, JPEG, & PNG files are allowed.")</script>';
-                    return;
-                }
-
                 if (!move_uploaded_file($bill["tmp_name"], $target_file_bill)) {
-                    echo '<script>alert("Sorry, there was an error uploading your bill.")</script>';
+                    echo '<script>alert("Error uploading the bill.");</script>';
                     return;
                 }
 
-                $images_json = json_encode($imageNames);
+                // Insert into tblitem
+                $query_item = "INSERT INTO tblitem (name, seller_id, category_id, description, starting_price, verification_certificate) 
+                       VALUES (?, ?, ?, ?, ?, ?)";
+                $stmt_item = $conn->prepare($query_item);
+                $verification_certificate = null; // Placeholder for certificate
+                $stmt_item->bind_param("sissds", $item_name, $seller_id, $category_id, $description, $starting_price, $target_file_bill);
 
-                // Step 1: Insert into tblitem
-                include 'connection.php';
-                $query_item = "INSERT INTO tblitem (name, seller_id, category_id, description, starting_price, image_id, verification_certificate) 
-                       VALUES (?, ?, ?, ?, ?, ?, ?)";
-                $stmt_item = mysqli_prepare($conn, $query_item);
-                mysqli_stmt_bind_param($stmt_item, "sssssss", $item_name, $seller_id, $category_id, $description, $starting_price, $images_json, $random_filename_bill);
+                if ($stmt_item->execute()) {
+                    $item_id = $stmt_item->insert_id; // Get the inserted item ID
+                    // Handle image uploads
 
-//                if (mysqli_stmt_execute($stmt_item)) {
-//                    // Get the last inserted ID from tblitem
-//                    $item_id = mysqli_insert_id($conn);
-//echo '<script>alert(" sc".$item_id)</script>';                    
-//// Store item ID in session
-//                    $_SESSION['item_id'] = $item_id;
-//                    // Redirect to auction item page
-//                    header("Location: add_auctionitem.php");
-//                    exit();
-//                } else {
-//                    echo '<script>alert("Error adding item!")</script>';
-//                }
-                if (mysqli_stmt_execute($stmt_item)) {
-                    $item_id = mysqli_insert_id($conn);
-//                    $_SESSION['item_id'] = $item_id;
-                    echo '<script>alert("Item added successfully! ID: ")</script>';
-//                    // Redirect after successful insertion
-                    echo '<script "> 
-                    window.location.href = "index-2.php"; 
-                      </script>';
-//                    header("Location: add_auctionitem.php");
-                    exit();
+                    $imageFiles = $_FILES['txtimage'];
+                    for ($i = 0; $i < count($imageFiles['name']); $i++) {
+                        $imageFileType = strtolower(pathinfo($imageFiles["name"][$i], PATHINFO_EXTENSION));
+                        $random_filename_image = time() . rand(1000, 9999) . '.' . $imageFileType;
+
+                        // Get binary data of the image
+                        $imageData = file_get_contents($imageFiles["tmp_name"][$i]);
+
+                        // Escape binary data to safely insert into the database
+                        $imageDataEscaped = mysqli_real_escape_string($conn, $imageData);
+
+                        // Build the SQL query
+                        $query_image = "INSERT INTO tblimg (item_id, img) VALUES ('$item_id', '$imageDataEscaped')";
+
+                        // Execute the query
+                        if (mysqli_query($conn, $query_image)) {
+//                            echo '<script>alert("Image uploaded successfully.");</script>';
+                        } else {
+                            echo '<script>alert("Error uploading image: ' . mysqli_error($conn) . '");</script>';
+                        }
+                    }
+
+
+
+
+                    echo '<script>alert("Item added successfully!");</script>';
+                    echo '<script>window.location.href = "index-2.php";</script>';
                 } else {
-                    echo '<script>alert("Error adding item: ' . $conn->error . '")</script>';
+                    echo '<script>alert("Error adding item: ' . $conn->error . '");</script>';
                 }
 
+                $stmt_item->close();
                 $conn->close();
             } else {
-                echo '<script>alert("Please upload all required files.")</script>';
+                echo '<script>alert("Please upload all required files.");</script>';
             }
         }
-            ?>
-            <script>
-                function previewImages(event) {
-                    const imagePreviewContainer = document.getElementById('image-preview-container');
-                    imagePreviewContainer.innerHTML = '';
-                    const files = event.target.files;
+        ?>
+        <script>
+            function previewImages(event) {
+                const imagePreviewContainer = document.getElementById('image-preview-container');
+                imagePreviewContainer.innerHTML = '';
+                const files = event.target.files;
 
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            const imageContainer = document.createElement('div');
-                            imageContainer.style.position = 'relative';
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const imageContainer = document.createElement('div');
+                        imageContainer.style.position = 'relative';
 
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.style.width = '100%';
-                            img.style.height = 'auto';
-                            img.style.marginBottom = '10px';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '100%';
+                        img.style.height = 'auto';
+                        img.style.marginBottom = '10px';
 
-                            const removeButton = document.createElement('button');
-                            removeButton.innerHTML = '✖';
-                            removeButton.style.position = 'absolute';
-                            removeButton.style.top = '0px';
-                            removeButton.style.left = '0px';
-                            removeButton.style.background = 'red';
-                            removeButton.style.color = 'white';
-                            removeButton.style.border = 'none';
-                            removeButton.style.cursor = 'pointer';
-                            removeButton.style.zIndex = '5';
-                            removeButton.style.fontSize = '16px';
-                            removeButton.style.padding = '15';
-                            removeButton.style.width = 'auto';
-                            removeButton.style.height = 'auto';
-                            removeButton.style.lineHeight = 'normal';
+                        const removeButton = document.createElement('button');
+                        removeButton.innerHTML = '✖';
+                        removeButton.style.position = 'absolute';
+                        removeButton.style.top = '0px';
+                        removeButton.style.left = '0px';
+                        removeButton.style.background = 'red';
+                        removeButton.style.color = 'white';
+                        removeButton.style.border = 'none';
+                        removeButton.style.cursor = 'pointer';
+                        removeButton.style.zIndex = '5';
+                        removeButton.style.fontSize = '16px';
+                        removeButton.style.padding = '15';
+                        removeButton.style.width = 'auto';
+                        removeButton.style.height = 'auto';
+                        removeButton.style.lineHeight = 'normal';
 
-                            removeButton.addEventListener('click', function () {
-                                imagePreviewContainer.removeChild(imageContainer);
-                            });
+                        removeButton.addEventListener('click', function () {
+                            imagePreviewContainer.removeChild(imageContainer);
+                        });
 
-                            imageContainer.appendChild(removeButton);
-                            imageContainer.appendChild(img);
-                            imagePreviewContainer.appendChild(imageContainer);
-                        }
-                        reader.readAsDataURL(file);
+                        imageContainer.appendChild(removeButton);
+                        imageContainer.appendChild(img);
+                        imagePreviewContainer.appendChild(imageContainer);
                     }
+                    reader.readAsDataURL(file);
                 }
-            </script>
+            }
+        </script>
 
-            <!--============= Account Section Ends Here =============-->
-            <!--footer-->
-            <?php
-            include 'Footer.php';
-            ?>
+        <!--============= Account Section Ends Here =============-->
+        <!--footer-->
+        <?php
+        include 'Footer.php';
+        ?>
 
         <!--============= Footer Section Ends Here =============-->
 

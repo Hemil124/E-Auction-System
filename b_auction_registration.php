@@ -145,7 +145,7 @@ session_start();
                             <div class="form-group mb-30" id="a">
                                 <div class="col-sm-8" style="border: 2px dashed #007bff; border-radius: 10px; margin-left: 120px;">
                                     <lable>Upload Your Profile Img PDF, PNG, JPEG or JPG formats only
-                                        <input type="file" id="signup-photo" name="photo" accept=".jpg,.jpeg,.png" required style="border: 0px; margin: 0 auto;" onchange="validateFile()">
+                                        <input type="file" id="signup-photo" name="photo" accept=".jpg,.jpeg,.png" style="border: 0px; margin: 0 auto;" onchange="validateFile()">
                                     </lable>
                                 </div>
                                 <span id="file-error" style="color: red; display: none;"></span>
