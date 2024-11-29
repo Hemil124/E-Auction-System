@@ -239,10 +239,11 @@ if (!isset($_SESSION['semail'])) {
                     <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                         <?php
                         // Database connection
-                        
+                        if (isset($_GET['item_id'])) {
+                            $item_id = $_GET['item_id'];
+                        }
 
                         // Fetch images from tblimg for the current item_id
-                        $item_id = intval($item_details['item_id']); // Sanitize item_id
                         $query = "SELECT img FROM tblimg WHERE item_id = $item_id";
                         $result = $conn->query($query);
 
@@ -260,7 +261,14 @@ if (!isset($_SESSION['semail'])) {
                                 <?php
                             }
                         } else {
-                            echo "<p>No images available for this product.</p>";
+                            // Fallback to default image
+                            ?>
+                            <div class="slide-top-item">
+                                <div class="slide-inner">
+                                    <img src="assets/images/product/default_product.png" alt="default product">
+                                </div>
+                            </div>
+                            <?php
                         }
                         ?>
                     </div>
@@ -284,8 +292,16 @@ if (!isset($_SESSION['semail'])) {
                                 </div>
                                 <?php
                             }
+                        } else {
+                            // Fallback to default thumbnail
+                            ?>
+                            <div class="slide-top-item">
+                                <div class="slide-inner">
+                                    <img src="assets/images/product/default_product.png" alt="default product">
+                                </div>
+                            </div>
+                            <?php
                         }
-
                         ?>
                     </div>
 
@@ -297,9 +313,7 @@ if (!isset($_SESSION['semail'])) {
                         <i class="fas fa-angle-right"></i>
                     </span>
                 </div>
-
-
-
+                
                 <div class="row mt-40-60-80">
                     <div class="col-lg-8">
                         <div class="product-details-content">
@@ -319,16 +333,15 @@ if (!isset($_SESSION['semail'])) {
                                 </ul>
                             </div>
                             <?php
-                            
-                            //fetch AuctionItem table values
+//fetch AuctionItem table values
                             $result_auctionItem = mysqli_query($conn, 'SELECT * from tblauctionitem where item_id=' . $item_details['id'] . ';');
                             $autionItem_details = mysqli_fetch_assoc($result_auctionItem);
 
-                            //fetch tblbid table values
+//fetch tblbid table values
                             $result_bid = mysqli_query($conn, 'SELECT bid_value,MIN(bid_datetime) as first_bid,MAX(bid_value) as current_bid ,COUNT(*) as bids,COUNT(DISTINCT(bidder_id)) as active_bidders from tblbid where auction_item_id=' . $autionItem_details['id'] . ';');
                             $bid_details = mysqli_fetch_assoc($result_bid);
 
-                            //fetch No of Ragister User from tblbidderpayment table
+//fetch No of Ragister User from tblbidderpayment table
                             $result_ragisterUser = mysqli_query($conn, 'select count(*) as bidders from tblbidderpayment where auction_item_id=' . $autionItem_details['id'] . '');
                             $ragisterUsers = mysqli_fetch_assoc($result_ragisterUser);
                             ?>

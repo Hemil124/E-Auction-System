@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php
-session_start();
-include 'connection.php';
+    <?php
+    session_start();
+    include 'connection.php';
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $itemId = intval($_GET['id']);
+    if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+        $itemId = intval($_GET['id']);
 
-    $sql = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
+        $sql = "SELECT tblitem.*, tblsellers.firstname, tblcategory.name AS category_name 
             FROM tblitem 
             JOIN tblsellers ON tblitem.seller_id = tblsellers.id 
             JOIN tblcategory ON tblitem.category_id = tblcategory.id 
             WHERE tblitem.id = ?";
-    
-    // Prepare and execute the statement
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("i", $itemId); // Bind the parameter
-        $stmt->execute();
-        $result = $stmt->get_result();
 
-        // Fetch the item data
-        if ($result->num_rows > 0) {
-            $item = $result->fetch_assoc();
+        // Prepare and execute the statement
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("i", $itemId); // Bind the parameter
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // Fetch the item data
+            if ($result->num_rows > 0) {
+                $item = $result->fetch_assoc();
+            } else {
+                echo "No item found.";
+                exit();
+            }
+            $stmt->close();
         } else {
-            echo "No item found.";
+            echo "Database query failed.";
             exit();
         }
-        $stmt->close();
     } else {
-        echo "Database query failed.";
+        echo "Invalid item ID.";
         exit();
     }
-} else {
-    echo "Invalid item ID.";
-    exit();
-}
 
-$conn->close(); // Close the database connection
-?>
+    $conn->close(); // Close the database connection
+    ?>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,34 +56,35 @@ $conn->close(); // Close the database connection
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/aos.css">
         <link rel="stylesheet" href="assets/css/main.css">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
         <style>
             .image-container {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    max-width: 500px;
-}
+                display: flex;
+                overflow-x: auto;
+                white-space: nowrap;
+                max-width: 500px;
+            }
 
-.image-container img {
-    margin-right: 10px;
-    max-height: 200px;
-}
+            .image-container img {
+                margin-right: 10px;
+                max-height: 200px;
+            }
 
-.more-images {
-    margin-left: 10px;
-    font-weight: bold;
-    color: #007bff;
-    cursor: pointer;
-}
+            .more-images {
+                margin-left: 10px;
+                font-weight: bold;
+                color: #007bff;
+                cursor: pointer;
+            }
+
         </style>
     </head>
 
     <body>
         <!--============= ScrollToTop Section Starts Here =============-->
-        <div class="overlayer" id="overlayer">
-            <div class="loader">
+        <div class="overlayer" >
+            <div class="loader" id="overlayer">
                 <div class="loader-inner"></div>
             </div>
         </div>
@@ -190,7 +191,7 @@ $conn->close(); // Close the database connection
         <section class="dashboard-section padding-bottom mt--240 mt-lg--325 pos-rel">
             <div class="container">
                 <div class="row justify-content-center">
-                    
+
                     <div class="col-lg-8">
                         <div class="dashboard-widget mb-40">
                             <div class="dashboard-title mb-30">
@@ -226,7 +227,7 @@ $conn->close(); // Close the database connection
                                                 <?php
                                                 // Decode the JSON array of image filenames
                                                 $imageArray = json_decode($item['image_id'], true);
-                                                
+
                                                 // Check if the array is not empty
                                                 if (!empty($imageArray)) {
                                                     // Limit to the first three images
@@ -234,7 +235,6 @@ $conn->close(); // Close the database connection
                                                     foreach ($limitedImages as $image) {
                                                         echo "<img src='uploads/" . htmlspecialchars($image) . "' alt='" . htmlspecialchars($item['name']) . "' class='img-fluid' style='margin-top: 5px; max-width: 200px;'>";
                                                     }
-                                                    
                                                 } else {
                                                     echo "No images available.";
                                                 }
@@ -247,15 +247,80 @@ $conn->close(); // Close the database connection
                                         <td class="text-dark"><img src="billuploads/<?php echo htmlspecialchars($item['bill_id']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="img-fluid" style="margin-top: 5px; max-width: 200px;"></td>
                                     </tr>
                                     <tr>
+                                        <td class="text-muted">Item Rejection Reason</td>
+                                        <td class="text-dark">
+                                            <textarea id="rejectionReason" style="margin-top: 5px; max-width: 500px; border: 1px solid #ddd;" name="reason"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-muted">Verification</td>
                                         <td class="text-dark" colspan="2" style="display: flex; gap: 10px;">
-                                            <form method="POST" action="update_verification.php" style="display: flex; gap: 10px;">
+                                            <form id="verificationForm" method="POST" style="display: flex; gap: 10px;">
                                                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['id']); ?>">
-                                                <button type="submit" name="action" value="verify" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Verify</button>
-                                                <button type="submit" name="action" value="reject" class="btn btn-danger" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Reject</button>
+                                                <button type="button" name="action" value="verify" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;" onclick="submitForm('verify')">Verify</button>
+                                                <button type="button" name="action" value="reject" class="btn btn-danger" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;" onclick="submitForm('reject')">Reject</button>
                                             </form>
                                         </td>
                                     </tr>
+
+                                <script>
+                                    function submitForm(action) {
+                                        // Get the item ID and rejection reason
+                                        var itemId = document.querySelector('input[name="id"]').value;
+                                        var reason = document.getElementById("rejectionReason").value.trim();
+
+                                        // If action is reject, check if reason is provided
+                                        if (action === "reject" && reason === "") {
+                                            // If the reason is empty, change the border color to red
+                                            document.getElementById("rejectionReason").style.borderColor = "red";
+                                            return; // Prevent form submission
+                                        } else {
+                                            // Reset border color if the reason is provided
+                                            document.getElementById("rejectionReason").style.borderColor = "#ddd";
+                                        }
+
+                                        // Show the loader while the request is being processed
+                                        document.getElementById("overlayer").style.display = "block";
+
+                                        // Prepare data to be sent to the server
+                                        var data = {
+                                            action: action,
+                                            id: itemId,
+                                            reason: reason
+                                        };
+
+                                        // Send data via AJAX
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open("POST", "update_verification.php", true);
+                                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                                        // Prepare the data string
+                                        var params = "action=" + action + "&id=" + itemId + "&reason=" + encodeURIComponent(reason);
+
+                                        // Handle the response from the server
+                                        xhr.onload = function () {
+                                            // Hide the loader after the response is received
+                                            document.getElementById("overlayer").style.display = "none";
+
+                                            if (xhr.status === 200) {
+                                                var response = xhr.responseText;
+
+
+                                                location.replace('admin-item-list.php');
+
+//                                                alert(response);
+                                                
+                                            } else {
+                                                alert("An error occurred. Please try again.");
+                                            }
+                                        };
+
+                                        // Send the request with the parameters
+                                        xhr.send(params);
+                                    }
+                                </script>
+
+
                                 </tbody>
                             </table>
                         </div>

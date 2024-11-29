@@ -1,16 +1,15 @@
 <?php
-// Database connection
 include 'connection.php';
 
-if (isset($_POST['auction_id'])) {
+if (isset($_POST['auction_id']) && isset($_POST['status'])) {
     $auction_id = $_POST['auction_id'];
+    $status = $_POST['status'];
 
-    // Update the auction status to ACTIVE
-    $sql = "UPDATE tblauctionitem SET auction_status = 'ACTIVE' WHERE id = $auction_id";
-    if ($conn->query($sql) === TRUE) {
-        echo "Auction $auction_id status updated to ACTIVE.";
-    } else {
-        echo "Error updating auction status: " . $conn->error;
-    }
+    $sql = "UPDATE tblauctionitem SET auction_status = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("si", $status, $auction_id);
+    $stmt->execute();
+
+    echo "Auction ID $auction_id updated to $status.";
 }
 ?>
