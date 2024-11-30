@@ -73,7 +73,7 @@ if ($status == "Bidder") {
         tblbidderpayment tbp ON tai.id = tbp.auction_item_id
     WHERE 
         tbp.bidder_id = $bidder_id
-        AND tai.auction_status = 'ACTIVE';
+        AND tai.auction_status = 'ACTIVE'
     ";
     }
 } elseif ($status == "Seller") {

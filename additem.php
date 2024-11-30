@@ -252,7 +252,7 @@ if (!isset($_SESSION['semail'])) {
 
 
 
-                    echo '<script>alert("Item added successfully!");</script>';
+//                    echo '<script>alert("Item added successfully!");</script>';
                     echo '<script>window.location.href = "index-2.php";</script>';
                 } else {
                     echo '<script>alert("Error adding item: ' . $conn->error . '");</script>';

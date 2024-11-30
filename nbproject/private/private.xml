@@ -3,16 +3,38 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/additem.php</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/assets/css/main.css</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/seller_fetch_values.php</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/index-2.php</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/seller_live_Auction_items.php</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/seller_live_Auction.php</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/index.php</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/seller_dashbord.php</file>
-            <file>file:/C:/xampp/htdocs/E-Auction-System/index.html</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/sign-up-Seller.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/call_paynow.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/b_winning_items.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/Admin_Dashboard.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/bidder_Bid_placement.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/b_auction_registration.php</file>
             <file>file:/C:/xampp/htdocs/E-Auction-System/s_my-item.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/fetch_auction_data.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/Header.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/update_verification.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/seller_live_Auction.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/Find_winner_script.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/paymentsuccess.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/fetch_item_cards.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/s_my-item_fetch_cards.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/sendotp.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/admin-item-list.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/close_auction.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/additem.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/fetch_varified_card.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/call_paynow.js</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/assets/css/main.css</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/sign-in.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/bidder_Item_Details.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/admin_Header.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/seller_fetch_values.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/add_auctionitem.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/bidder_live_Auction_items.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/aucation-item.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/payscript.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/bidder_upcoming_auctions.php</file>
+            <file>file:/C:/xampp/htdocs/E-Auction-System/seller_dashbord.php</file>
         </group>
     </open-files>
 </project-private>

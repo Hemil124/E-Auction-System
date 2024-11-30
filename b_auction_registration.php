@@ -237,7 +237,7 @@ session_start();
                                         }
                                     </script>
                                     <div class="col">
-                                        <button type="submit" class="custom-button" name="btnsignup"  style="margin-right: 290px">Sign Up</button>
+                                        <button type="submit" class="custom-button" name="btnsignup"  style="margin-right: 290px">Pay Emd</button>
                                     </div>
                                 </div>
                             </div>
